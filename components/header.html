@@ -1,0 +1,44 @@
+<!-- ============================================================
+     FINANCEME — Header / Top Bar Component (header.html)
+     Loaded into every page via JS.
+     Shows greeting, date/time, search, and notifications.
+     ============================================================ -->
+
+<header class="top-bar" id="top-bar">
+
+  <!-- Left side: greeting + live date -->
+  <div class="top-bar__left">
+    <span class="top-bar__greeting" id="greeting-text">Good morning, User.</span>
+    <span class="top-bar__date" id="current-date">Loading date...</span>
+  </div>
+
+  <!-- Right side: search, notifications, user avatar -->
+  <div class="top-bar__right">
+
+    <!-- Search bar (hidden on mobile) -->
+    <div style="position: relative;">
+      <!-- Search icon inside the input -->
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+        style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none;">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" class="top-bar__search" id="global-search" placeholder="Search transactions, accounts..." aria-label="Search" />
+    </div>
+
+    <!-- Notification bell -->
+    <button class="top-bar__notification" id="notification-btn" aria-label="Notifications">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+      </svg>
+      <!-- Red dot — remove this element if no new notifications -->
+      <span class="top-bar__notification-dot" id="notification-dot"></span>
+    </button>
+
+    <!-- User avatar (small, in the top bar) -->
+    <div class="sidebar__avatar" id="topbar-avatar" style="cursor: pointer;">U</div>
+
+  </div>
+
+</header>

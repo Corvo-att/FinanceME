@@ -1,0 +1,613 @@
+/* ============================================================
+   FINANCEME — Layout Styles (layout.css)
+   App shell: sidebar, top bar, content area, footer,
+   12-column grid, and responsive breakpoints.
+   ============================================================ */
+
+
+/* ============================
+   APP SHELL — The main structure
+   Sidebar on the left, content on the right
+   ============================ */
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+
+/* ============================
+   SIDEBAR
+   ============================ */
+
+.sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  z-index: var(--z-sidebar);
+  transition: width var(--transition-panel);
+  overflow: hidden;
+}
+
+/* Logo area at the top of the sidebar */
+.sidebar__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.sidebar__logo-text {
+  font-family: var(--font-ui);
+  font-size: var(--text-section);
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+/* Gold accent on the "Me" part of FinanceMe */
+.sidebar__logo-accent {
+  color: var(--accent-gold);
+}
+
+/* Navigation area — scrollable if too many items */
+.sidebar__nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-md) 0;
+}
+
+/* Group labels above nav sections ("MAIN", "FINANCE", etc.) */
+.sidebar__group-label {
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: var(--space-md) var(--space-lg) var(--space-xs);
+  white-space: nowrap;
+}
+
+/* Individual nav link */
+.sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  height: 40px;
+  padding: 0 var(--space-lg);
+  color: var(--text-secondary);
+  font-size: var(--text-body);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  position: relative;
+  white-space: nowrap;
+}
+
+.sidebar__link:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+/* Active nav link — gold left border, highlighted bg */
+.sidebar__link.active {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.sidebar__link.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent-gold);
+  border-radius: 0 2px 2px 0;
+}
+
+/* Nav link icon */
+.sidebar__link-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  stroke-width: 1.5;
+}
+
+/* Text label in nav link (hidden when sidebar is collapsed) */
+.sidebar__link-text {
+  transition: opacity var(--transition-fast);
+}
+
+/* User area at the bottom of the sidebar */
+.sidebar__user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  border-top: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.sidebar__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: var(--text-caption);
+  font-weight: 600;
+}
+
+.sidebar__user-name {
+  font-size: var(--text-body);
+  color: var(--text-primary);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Collapse toggle button */
+.sidebar__toggle {
+  position: absolute;
+  top: var(--space-lg);
+  right: calc(-1 * var(--space-md));
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  transition: all var(--transition-fast);
+}
+
+.sidebar__toggle:hover {
+  background: var(--accent-gold-dim);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+/* ---- Collapsed sidebar state ---- */
+.sidebar.collapsed {
+  width: var(--sidebar-collapsed-width);
+}
+
+.sidebar.collapsed .sidebar__link-text,
+.sidebar.collapsed .sidebar__group-label,
+.sidebar.collapsed .sidebar__logo-text,
+.sidebar.collapsed .sidebar__user-name {
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .sidebar__link {
+  justify-content: center;
+  padding: 0;
+}
+
+.sidebar.collapsed .sidebar__logo {
+  justify-content: center;
+  padding: var(--space-lg) var(--space-sm);
+}
+
+.sidebar.collapsed .sidebar__user {
+  justify-content: center;
+}
+
+
+/* ============================
+   MAIN CONTENT AREA
+   ============================ */
+
+.main-content {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: margin-left var(--transition-panel);
+}
+
+/* When sidebar is collapsed, shift content to use the freed space */
+.sidebar.collapsed ~ .main-content {
+  margin-left: var(--sidebar-collapsed-width);
+}
+
+/* Content wrapper — centered, padded, max-width */
+.content-wrapper {
+  flex: 1;
+  max-width: var(--content-max-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--space-lg) var(--content-padding);
+}
+
+
+/* ============================
+   TOP BAR (Header)
+   ============================ */
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--content-padding);
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--border-subtle);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+}
+
+/* Left side: greeting & date */
+.top-bar__left {
+  display: flex;
+  flex-direction: column;
+}
+
+.top-bar__greeting {
+  font-size: var(--text-section);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.top-bar__date {
+  font-size: var(--text-caption);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+/* Right side: search, notifications, user */
+.top-bar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+/* Search input in the top bar */
+.top-bar__search {
+  width: 280px;
+  height: 36px;
+  padding: 0 var(--space-md) 0 36px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: var(--text-caption);
+  transition: border-color var(--transition-fast);
+}
+
+.top-bar__search:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+.top-bar__search::placeholder {
+  color: var(--text-muted);
+}
+
+/* Notification bell button */
+.top-bar__notification {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.top-bar__notification:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+/* Red dot on the notification bell */
+.top-bar__notification-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--negative);
+  border: 2px solid var(--bg-base);
+}
+
+
+/* ============================
+   FOOTER
+   ============================ */
+
+.footer {
+  padding: var(--space-lg) var(--content-padding);
+  border-top: 1px solid var(--border-subtle);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--text-caption);
+}
+
+.footer a {
+  color: var(--text-secondary);
+}
+
+.footer a:hover {
+  color: var(--accent-gold);
+}
+
+
+/* ============================
+   12-COLUMN GRID
+   Use classes like grid-cols-12, col-span-6, etc.
+   ============================ */
+
+.grid {
+  display: grid;
+  gap: var(--card-gap);
+}
+
+/* Full 12-column grid */
+.grid-cols-12 {
+  grid-template-columns: repeat(12, 1fr);
+}
+
+/* Quick column count grids */
+.grid-cols-1 { grid-template-columns: 1fr; }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* Column span utilities (for use with grid-cols-12) */
+.col-span-1  { grid-column: span 1; }
+.col-span-2  { grid-column: span 2; }
+.col-span-3  { grid-column: span 3; }  /* quarter width  */
+.col-span-4  { grid-column: span 4; }  /* third width    */
+.col-span-5  { grid-column: span 5; }
+.col-span-6  { grid-column: span 6; }  /* half width     */
+.col-span-7  { grid-column: span 7; }
+.col-span-8  { grid-column: span 8; }  /* two-thirds     */
+.col-span-9  { grid-column: span 9; }
+.col-span-10 { grid-column: span 10; }
+.col-span-11 { grid-column: span 11; }
+.col-span-12 { grid-column: span 12; } /* full width     */
+
+/* Page section spacing */
+.page-section {
+  margin-bottom: var(--section-gap);
+}
+
+
+/* ============================
+   MOBILE BOTTOM TAB BAR
+   Shows on mobile instead of the sidebar
+   ============================ */
+
+.mobile-tab-bar {
+  display: none; /* hidden by default, shown on mobile */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  z-index: var(--z-sidebar);
+  padding: 0 var(--space-xs);
+}
+
+.mobile-tab-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.mobile-tab-bar__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 500;
+  text-decoration: none;
+  padding: var(--space-xs);
+  transition: color var(--transition-fast);
+}
+
+.mobile-tab-bar__item.active,
+.mobile-tab-bar__item:hover {
+  color: var(--accent-gold);
+}
+
+.mobile-tab-bar__item svg {
+  width: 22px;
+  height: 22px;
+}
+
+
+/* ============================
+   MOBILE SIDEBAR OVERLAY
+   When sidebar opens on mobile, it slides over content
+   ============================ */
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: calc(var(--z-sidebar) - 1);
+}
+
+
+/* ============================
+   RESPONSIVE BREAKPOINTS
+   ============================ */
+
+/* ---- Tablet: 768px – 1024px ---- */
+/* Sidebar collapses to icons, 2-column grid */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: var(--sidebar-collapsed-width);
+  }
+
+  .sidebar .sidebar__link-text,
+  .sidebar .sidebar__group-label,
+  .sidebar .sidebar__logo-text,
+  .sidebar .sidebar__user-name {
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    overflow: hidden;
+  }
+
+  .sidebar .sidebar__link {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .sidebar .sidebar__logo {
+    justify-content: center;
+  }
+
+  .sidebar .sidebar__user {
+    justify-content: center;
+  }
+
+  .main-content {
+    margin-left: var(--sidebar-collapsed-width);
+  }
+
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .content-wrapper {
+    padding: var(--space-lg) var(--space-md);
+  }
+}
+
+
+/* ---- Mobile: under 768px ---- */
+/* Sidebar hidden, bottom tab bar shows, single column */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: var(--sidebar-width);
+  }
+
+  /* Show sidebar when toggled on mobile */
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .sidebar.mobile-open ~ .sidebar-overlay {
+    display: block;
+  }
+
+  /* Reset all the collapsed styles for the mobile sidebar */
+  .sidebar.mobile-open .sidebar__link-text,
+  .sidebar.mobile-open .sidebar__group-label,
+  .sidebar.mobile-open .sidebar__logo-text,
+  .sidebar.mobile-open .sidebar__user-name {
+    opacity: 1;
+    pointer-events: auto;
+    width: auto;
+  }
+
+  .sidebar.mobile-open .sidebar__link {
+    justify-content: flex-start;
+    padding: 0 var(--space-lg);
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  /* Show the bottom tab bar on mobile */
+  .mobile-tab-bar {
+    display: block;
+  }
+
+  /* Add bottom padding so content doesn't hide behind tab bar */
+  .content-wrapper {
+    padding: var(--space-md) var(--content-padding-mobile);
+    padding-bottom: 80px; /* space for the bottom tab bar */
+  }
+
+  /* All grids become single column on mobile */
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4,
+  .grid-cols-12 {
+    grid-template-columns: 1fr;
+  }
+
+  /* Column spans don't matter on mobile */
+  [class*="col-span-"] {
+    grid-column: span 1;
+  }
+
+  .top-bar {
+    padding: var(--space-sm) var(--content-padding-mobile);
+  }
+
+  .top-bar__search {
+    display: none; /* hide search on mobile, use a search page instead */
+  }
+
+  .top-bar__greeting {
+    font-size: var(--text-body);
+  }
+
+  .footer {
+    padding: var(--space-md) var(--content-padding-mobile);
+    padding-bottom: 80px;
+  }
+
+  /* Drawers go full width on mobile */
+  .drawer {
+    width: 100%;
+  }
+}
+
+
+/* ---- Desktop Small: 1024px – 1280px ---- */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---- Desktop Large: above 1280px ---- */
+/* Full sidebar, 4-column grids — this is the default, no overrides needed */

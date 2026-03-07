@@ -1,0 +1,225 @@
+/* ============================================================
+   FINANCEME — Base Styles (base.css)
+   Reset, fonts, typography, and global element defaults.
+   This gets loaded AFTER variables.css
+   ============================================================ */
+
+
+/* ---- Google Fonts ---- */
+/* Inter = UI text, Instrument Serif = fancy headings, JetBrains Mono = numbers */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+
+/* ---- Modern Reset ---- */
+/* Strip browser defaults so we start clean */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-base);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Make images behave */
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Remove list bullets by default */
+ul, ol {
+  list-style: none;
+}
+
+/* Clean up links */
+a {
+  color: var(--accent-blue);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--accent-blue-bright);
+}
+
+/* Focus ring for accessibility — gold ring so it's visible on dark bg */
+:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 2px;
+}
+
+
+/* ---- Typography ---- */
+
+/* Hero title — only for landing page big text */
+.text-hero {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+/* Page title — top of each page */
+h1, .text-page-title {
+  font-family: var(--font-ui);
+  font-size: var(--text-page);
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+
+/* Section header — within a page */
+h2, .text-section {
+  font-family: var(--font-ui);
+  font-size: var(--text-section);
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+/* Card title */
+h3, .text-card-title {
+  font-family: var(--font-ui);
+  font-size: var(--text-card);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+/* Smaller heading */
+h4 {
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* Body text */
+p, .text-body {
+  font-size: var(--text-body);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Caption / small label */
+.text-caption {
+  font-size: var(--text-caption);
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* Uppercase tracking label — used for section anchors, category tags */
+.text-label {
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* ---- Money / Data Typography ---- */
+/* Financial amounts ALWAYS use monospace. This is non-negotiable! */
+
+/* Big KPI number on dashboard */
+.data-figure-lg {
+  font-family: var(--font-mono);
+  font-size: var(--text-data-lg);
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+}
+
+/* Smaller data number in tables, lists */
+.data-figure-sm {
+  font-family: var(--font-mono);
+  font-size: var(--text-data-sm);
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+/* Positive amount — income, gains */
+.amount-positive {
+  color: var(--positive);
+}
+
+/* Negative amount — expenses, losses */
+.amount-negative {
+  color: var(--negative);
+}
+
+
+/* ---- Scrollbar Styling ---- */
+/* Thin, dark scrollbar that doesn't scream for attention */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+
+/* ---- Selection Color ---- */
+::selection {
+  background-color: var(--accent-gold-dim);
+  color: var(--text-primary);
+}
+
+
+/* ---- Utility Classes ---- */
+/* Handy helpers — use sparingly, prefer component classes */
+
+.sr-only {
+  /* Screen reader only — visually hidden but accessible */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.text-center { text-align: center; }
+.text-right  { text-align: right; }
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

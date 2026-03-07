@@ -1,0 +1,102 @@
+/* ============================================================
+   FINANCEME — Design Tokens (variables.css)
+   All colors, fonts, spacing, and transitions live here.
+   Never hard-code values in your pages — use these variables!
+   ============================================================ */
+
+:root {
+
+  /* ---- Background Colors ---- */
+  /* Deepest to lightest — use for layering surfaces */
+  --bg-base:     #0A0A0F;   /* page background, the darkest layer         */
+  --bg-surface:  #111118;   /* cards, panels, modals sit on this          */
+  --bg-elevated: #1A1A24;   /* hovers, dropdowns, anything "lifted"       */
+
+  /* ---- Border Colors ---- */
+  --border-subtle: rgba(255, 255, 255, 0.06);  /* hairline dividers       */
+  --border-strong: rgba(255, 255, 255, 0.10);  /* emphasized dividers     */
+
+  /* ---- Text Colors ---- */
+  --text-primary:   #F0F0F5;   /* headings & main content                 */
+  --text-secondary: #8888A0;   /* labels, captions, less important text    */
+  --text-muted:     #44445A;   /* placeholders, disabled stuff             */
+
+  /* ---- Gold Accent (Primary Brand) ---- */
+  /* Use gold for CTAs, key highlights, and the logo mark */
+  --accent-gold:        #C9A84C;
+  --accent-gold-bright: #E8C97A;           /* hover state for gold        */
+  --accent-gold-dim:    rgba(201, 168, 76, 0.13); /* tinted backgrounds   */
+
+  /* ---- Blue Accent (Data & Interactive) ---- */
+  /* Use blue for charts, links, active states, focus rings */
+  --accent-blue:        #4C8EF5;
+  --accent-blue-bright: #7AACFF;           /* chart highlights            */
+  --accent-blue-dim:    rgba(76, 142, 245, 0.06); /* tinted backgrounds   */
+
+  /* ---- Semantic Colors ---- */
+  /* These communicate meaning — income vs expense, warnings, etc. */
+  --positive: #2ECC8A;   /* income, gains, good things      */
+  --negative: #E05C5C;   /* expenses, losses, bad things    */
+  --warning:  #E8A83A;   /* approaching limits, heads up    */
+  --neutral:  #6B6B85;   /* unchanged, pending, meh         */
+
+  /* ---- Typography ---- */
+  /* Display = fancy serif for big titles only
+     UI      = Inter for everything else
+     Mono    = numbers & financial data ALWAYS use this */
+  --font-display: 'Instrument Serif', 'Playfair Display', Georgia, serif;
+  --font-ui:      'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:    'JetBrains Mono', 'IBM Plex Mono', 'Courier New', monospace;
+
+  /* ---- Font Sizes ---- */
+  --text-hero:      56px;   /* big hero titles only            */
+  --text-page:      28px;   /* page-level headings             */
+  --text-section:   18px;   /* section headers                 */
+  --text-card:      14px;   /* card titles                     */
+  --text-body:      14px;   /* default body text               */
+  --text-caption:   12px;   /* labels, captions                */
+  --text-label:     11px;   /* uppercase tracking labels        */
+  --text-data-lg:   32px;   /* big KPI numbers                 */
+  --text-data-sm:   14px;   /* smaller data figures             */
+
+  /* ---- Spacing Scale (8px base) ---- */
+  /* Stick to these! Don't invent random padding values */
+  --space-xxs: 4px;
+  --space-xs:  8px;
+  --space-sm:  12px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
+
+  /* ---- Border Radius ---- */
+  --radius-sm:   4px;   /* badges, small elements          */
+  --radius-md:   8px;   /* buttons, inputs                 */
+  --radius-lg:  12px;   /* cards                           */
+  --radius-xl:  16px;   /* modals                          */
+
+  /* ---- Transitions ---- */
+  /* Keep it snappy — no bouncy stuff */
+  --transition-fast:  150ms ease;                              /* hovers, focus */
+  --transition-panel: 280ms cubic-bezier(0.16, 1, 0.3, 1);    /* drawers/panels */
+  --transition-page:  200ms ease;                              /* page fades */
+
+  /* ---- Layout ---- */
+  --sidebar-width:          240px;
+  --sidebar-collapsed-width: 64px;
+  --content-max-width:      1400px;
+  --content-padding:        32px;
+  --content-padding-mobile: 16px;
+  --section-gap:            24px;
+  --card-gap:               16px;
+
+  /* ---- Z-Index Scale ---- */
+  /* So we don't end up with z-index: 99999 wars */
+  --z-sidebar:  100;
+  --z-header:   200;
+  --z-dropdown: 300;
+  --z-modal:    400;
+  --z-toast:    500;
+}

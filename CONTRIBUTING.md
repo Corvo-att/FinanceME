@@ -95,10 +95,10 @@ feature/page-name
 ### Examples:
 | Team Member | Working On | Branch Name |
 |-------------|-----------|-------------|
-| Ahmed | Dashboard page | `feature/dashboard` |
-| Sara | Transactions page | `feature/transactions` |
-| Omar | Budgets page | `feature/budgets` |
-| Nour | Goals page | `feature/goals` |
+| Raoof | Dashboard page | `feature/dashboard` |
+| Mohab | Transactions page | `feature/transactions` |
+| Yassa | Budgets page | `feature/budgets` |
+| Mohamed | Goals page | `feature/goals` |
 | Team | Shared bug fix | `fix/sidebar-bug` |
 
 ### Creating a Branch:

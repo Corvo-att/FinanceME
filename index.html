@@ -3,391 +3,625 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="FinanceME — Your personal finance dashboard. Track spending, budgets, and goals." />
+  <meta name="description" content="FinanceME — Take command of your finances. Track spending, set budgets, and grow your wealth with our stunning personal finance platform." />
+  <title>FinanceME — Take Command of Your Finances</title>
 
-  <title>Dashboard — FinanceME</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
-  <!-- ========== CSS ========== -->
-  <!-- Load in this order: tokens → base → components → layout -->
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/base.css" />
-  <link rel="stylesheet" href="css/components.css" />
-  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/landing.css" />
 </head>
 
-<body>
-  <!-- ==========================
-       APP SHELL
-       This structure is the same on every page.
-       Just change the content inside .content-wrapper
-       ========================== -->
-
-  <div class="app-container">
-
-    <!-- Sidebar gets loaded here by JS -->
-    <div id="sidebar-container"></div>
-
-    <!-- Overlay for mobile sidebar (click to close) -->
-    <div class="sidebar-overlay" id="sidebar-overlay"></div>
-
-    <!-- Main content area (everything to the right of the sidebar) -->
-    <div class="main-content">
-
-      <!-- Header / Top bar gets loaded here by JS -->
-      <div id="header-container"></div>
+<body class="landing-page">
 
 
-      <!-- =========================
-           PAGE CONTENT STARTS HERE
-           Replace everything inside .content-wrapper with your page content.
-           ========================= -->
-      <div class="content-wrapper">
+  <!-- ============================================================
+       NAVBAR — Floating glassmorphic navigation
+       ============================================================ -->
+  <nav class="landing-nav" id="landing-nav">
+    <a href="#" class="landing-nav__logo">
+      Finance<span>ME</span>
+    </a>
 
-        <!-- Mobile menu button (only shown on small screens) -->
-        <button class="btn-ghost btn-icon" id="mobile-menu-btn" aria-label="Open menu"
-          style="display: none; margin-bottom: var(--space-md);">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
+    <ul class="landing-nav__links" id="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+    </ul>
 
-
-        <!-- ---- KPI Stat Cards Row ---- -->
-        <section class="page-section">
-          <div class="grid grid-cols-4">
-
-            <!-- Stat Card 1: Net Worth -->
-            <div class="stat-card">
-              <span class="stat-card__label">Net Worth</span>
-              <span class="stat-card__value" id="kpi-net-worth">$0.00</span>
-              <span class="stat-card__delta stat-card__delta--positive">↑ +2.4%</span>
-            </div>
-
-            <!-- Stat Card 2: Monthly Income -->
-            <div class="stat-card">
-              <span class="stat-card__label">Monthly Income</span>
-              <span class="stat-card__value" id="kpi-income">$0.00</span>
-              <span class="stat-card__delta stat-card__delta--positive">↑ +5.1%</span>
-            </div>
-
-            <!-- Stat Card 3: Monthly Expenses -->
-            <div class="stat-card">
-              <span class="stat-card__label">Monthly Expenses</span>
-              <span class="stat-card__value" id="kpi-expenses">$0.00</span>
-              <span class="stat-card__delta stat-card__delta--negative">↓ −1.8%</span>
-            </div>
-
-            <!-- Stat Card 4: Savings Rate -->
-            <div class="stat-card">
-              <span class="stat-card__label">Savings Rate</span>
-              <span class="stat-card__value" id="kpi-savings" style="color: var(--positive);">0%</span>
-              <span class="stat-card__delta stat-card__delta--positive">↑ +3.2%</span>
-            </div>
-          </div>
-        </section>
-
-
-        <!-- ---- Charts Row (placeholder cards) ---- -->
-        <section class="page-section">
-          <div class="grid grid-cols-12">
-
-            <!-- Net Worth Chart — takes up 8 of 12 columns (two-thirds) -->
-            <div class="card col-span-8">
-              <div class="card-header">
-                <h3 class="text-card-title">Net Worth Over Time</h3>
-                <button class="btn-ghost btn-sm">Last 12 Months</button>
-              </div>
-              <!-- Chart goes here — use Recharts or Chart.js -->
-              <div style="height: 280px; display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
-                <p>Chart placeholder — integrate your chart library here</p>
-              </div>
-            </div>
-
-            <!-- Spending Donut — takes up 4 of 12 columns (one-third) -->
-            <div class="card col-span-4">
-              <div class="card-header">
-                <h3 class="text-card-title">Spending by Category</h3>
-                <button class="btn-ghost btn-sm">This Month</button>
-              </div>
-              <!-- Donut chart goes here -->
-              <div style="height: 280px; display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
-                <p>Donut chart placeholder</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-
-        <!-- ---- Transactions & Budgets Row ---- -->
-        <section class="page-section">
-          <div class="grid grid-cols-12">
-
-            <!-- Recent Transactions — two-thirds width -->
-            <div class="card col-span-8">
-              <div class="card-header card-header-divider">
-                <h3 class="text-card-title">Recent Transactions</h3>
-                <a href="pages/transactions.html" class="btn-ghost btn-sm">View All →</a>
-              </div>
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Description</th>
-                    <th>Category</th>
-                    <th>Date</th>
-                    <th class="col-amount">Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Sample rows — replace with real data -->
-                  <tr>
-                    <td>Grocery Store</td>
-                    <td><span class="category-dot" style="background: #2ECC8A;"></span>Food</td>
-                    <td class="text-caption">Mar 7, 2026</td>
-                    <td class="col-amount data-figure-sm amount-negative">−$85.40</td>
-                  </tr>
-                  <tr>
-                    <td>Monthly Salary</td>
-                    <td><span class="category-dot" style="background: #4C8EF5;"></span>Income</td>
-                    <td class="text-caption">Mar 1, 2026</td>
-                    <td class="col-amount data-figure-sm amount-positive">+$4,500.00</td>
-                  </tr>
-                  <tr>
-                    <td>Netflix Subscription</td>
-                    <td><span class="category-dot" style="background: #E8A83A;"></span>Entertainment</td>
-                    <td class="text-caption">Mar 1, 2026</td>
-                    <td class="col-amount data-figure-sm amount-negative">−$15.99</td>
-                  </tr>
-                  <tr>
-                    <td>Electric Bill</td>
-                    <td><span class="category-dot" style="background: #E05C5C;"></span>Utilities</td>
-                    <td class="text-caption">Feb 28, 2026</td>
-                    <td class="col-amount data-figure-sm amount-negative">−$120.00</td>
-                  </tr>
-                  <tr>
-                    <td>Freelance Payment</td>
-                    <td><span class="category-dot" style="background: #4C8EF5;"></span>Income</td>
-                    <td class="text-caption">Feb 25, 2026</td>
-                    <td class="col-amount data-figure-sm amount-positive">+$750.00</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Budget Progress — one-third width -->
-            <div class="card col-span-4">
-              <div class="card-header">
-                <h3 class="text-card-title">Budget Progress</h3>
-                <a href="pages/budgets.html" class="btn-ghost btn-sm">Manage →</a>
-              </div>
-
-              <!-- Budget item 1 -->
-              <div style="margin-bottom: var(--space-lg);">
-                <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-xs);">
-                  <span class="text-caption">Food & Dining</span>
-                  <span class="data-figure-sm">$420 / $500</span>
-                </div>
-                <div class="progress-bar">
-                  <div class="progress-bar__fill progress-bar__fill--warning" style="width: 84%;"></div>
-                </div>
-              </div>
-
-              <!-- Budget item 2 -->
-              <div style="margin-bottom: var(--space-lg);">
-                <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-xs);">
-                  <span class="text-caption">Transportation</span>
-                  <span class="data-figure-sm">$150 / $300</span>
-                </div>
-                <div class="progress-bar">
-                  <div class="progress-bar__fill progress-bar__fill--ok" style="width: 50%;"></div>
-                </div>
-              </div>
-
-              <!-- Budget item 3 -->
-              <div style="margin-bottom: var(--space-lg);">
-                <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-xs);">
-                  <span class="text-caption">Entertainment</span>
-                  <span class="data-figure-sm">$200 / $150</span>
-                </div>
-                <div class="progress-bar">
-                  <div class="progress-bar__fill progress-bar__fill--danger" style="width: 100%;"></div>
-                </div>
-              </div>
-
-              <!-- Budget item 4 -->
-              <div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-xs);">
-                  <span class="text-caption">Shopping</span>
-                  <span class="data-figure-sm">$80 / $200</span>
-                </div>
-                <div class="progress-bar">
-                  <div class="progress-bar__fill progress-bar__fill--ok" style="width: 40%;"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-
-        <!-- ---- Component Showcase (optional — delete this section on your pages) ---- -->
-        <section class="page-section">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="text-card-title">Component Reference</h3>
-              <span class="text-caption">Delete this section on real pages — it's just for testing</span>
-            </div>
-
-            <!-- Buttons -->
-            <div style="margin-bottom: var(--space-lg);">
-              <span class="text-label" style="display: block; margin-bottom: var(--space-sm);">Buttons</span>
-              <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap; align-items: center;">
-                <button class="btn btn-primary">Primary Action</button>
-                <button class="btn btn-secondary">Secondary</button>
-                <button class="btn btn-ghost">Ghost</button>
-                <button class="btn btn-destructive">Delete</button>
-                <button class="btn btn-primary btn-sm">Small</button>
-              </div>
-            </div>
-
-            <hr class="divider" />
-
-            <!-- Badges -->
-            <div style="margin-bottom: var(--space-lg);">
-              <span class="text-label" style="display: block; margin-bottom: var(--space-sm);">Badges</span>
-              <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap; align-items: center;">
-                <span class="badge badge-category">Food</span>
-                <span class="badge badge-positive">Completed</span>
-                <span class="badge badge-negative">Over Budget</span>
-                <span class="badge badge-warning">Pending</span>
-                <span class="badge badge-neutral">Draft</span>
-              </div>
-            </div>
-
-            <hr class="divider" />
-
-            <!-- Form Inputs -->
-            <div style="max-width: 400px;">
-              <span class="text-label" style="display: block; margin-bottom: var(--space-sm);">Form Inputs</span>
-              <div class="form-group">
-                <label class="form-label" for="demo-input">Transaction Name</label>
-                <input type="text" class="form-input" id="demo-input" placeholder="e.g. Grocery Store" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="demo-amount">Amount</label>
-                <div class="input-group">
-                  <span class="input-group__prefix">$</span>
-                  <input type="number" class="form-input" id="demo-amount" placeholder="0.00" />
-                  <span class="input-group__suffix">USD</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-      </div>
-      <!-- END .content-wrapper -->
-
-
-      <!-- Footer gets loaded here by JS -->
-      <div id="footer-container"></div>
-
+    <div class="landing-nav__actions">
+      <button class="btn-nav-login" onclick="window.location.href='pages/dashboard.html'">Log In</button>
+      <button class="btn-nav-cta" onclick="window.location.href='#pricing'">Get Started</button>
     </div>
-    <!-- END .main-content -->
 
-  </div>
-  <!-- END .app-container -->
-
-
-  <!-- ---- Mobile Bottom Tab Bar ---- -->
-  <!-- Only visible on screens under 768px -->
-  <nav class="mobile-tab-bar">
-    <div class="mobile-tab-bar__inner">
-      <a href="index.html" class="mobile-tab-bar__item active">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-          <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-        Home
-      </a>
-      <a href="pages/transactions.html" class="mobile-tab-bar__item">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-        </svg>
-        Transactions
-      </a>
-      <a href="pages/budgets.html" class="mobile-tab-bar__item">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
-          <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
-        </svg>
-        Budgets
-      </a>
-      <a href="pages/reports.html" class="mobile-tab-bar__item">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="20" x2="18" y2="10"></line>
-          <line x1="12" y1="20" x2="12" y2="4"></line>
-          <line x1="6" y1="20" x2="6" y2="14"></line>
-        </svg>
-        Reports
-      </a>
-      <a href="pages/settings.html" class="mobile-tab-bar__item">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"></circle>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-        </svg>
-        Settings
-      </a>
-    </div>
+    <!-- Hamburger (mobile only) -->
+    <button class="landing-nav__hamburger" id="nav-hamburger" aria-label="Open menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
   </nav>
 
 
+  <!-- ============================================================
+       HERO — Full-viewport intro with animated gradient
+       ============================================================ -->
+  <section class="hero" id="hero">
+    <div class="hero__inner">
+
+      <!-- Left: Copy & CTAs -->
+      <div class="hero__content">
+        <div class="hero__badge">✦ Now in Public Beta</div>
+        <h1 class="hero__title">
+          Take Command<br/>of Your <em>Finances</em>
+        </h1>
+        <p class="hero__subtitle">
+          Track every dollar, crush your budgets, and watch your wealth grow — all in one beautifully designed dashboard built for people who take money seriously.
+        </p>
+        <div class="hero__ctas">
+          <button class="btn-hero-primary" onclick="window.location.href='#pricing'">
+            Start for Free →
+          </button>
+          <button class="btn-hero-secondary" onclick="window.location.href='#features'">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"></polygon>
+            </svg>
+            See How It Works
+          </button>
+        </div>
+      </div>
+
+      <!-- Right: Floating dashboard mockup -->
+      <div class="hero__visual">
+        <div class="hero__mockup">
+          <!-- Mock browser chrome -->
+          <div class="hero__mockup-header">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--yellow"></span>
+            <span class="dot dot--green"></span>
+          </div>
+          <!-- Mock dashboard content -->
+          <div class="hero__mockup-body">
+            <div class="mock-stat">
+              <span class="mock-stat__label">Net Worth</span>
+              <span class="mock-stat__value mock-stat__value--gold">$48,750</span>
+            </div>
+            <div class="mock-stat">
+              <span class="mock-stat__label">Income</span>
+              <span class="mock-stat__value mock-stat__value--positive">+$5,250</span>
+            </div>
+            <div class="mock-stat">
+              <span class="mock-stat__label">Savings</span>
+              <span class="mock-stat__value">39.4%</span>
+            </div>
+            <!-- Mini chart area -->
+            <div class="mock-chart">
+              <span class="mock-chart__label">Net Worth — 12 Months</span>
+              <svg viewBox="0 0 400 100" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.3" />
+                    <stop offset="100%" stop-color="#C9A84C" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <path d="M0,80 C30,75 60,70 100,60 C140,50 170,55 200,45 C230,35 260,40 300,25 C340,15 370,10 400,5 L400,100 L0,100 Z" fill="url(#chartGrad)" />
+                <path d="M0,80 C30,75 60,70 100,60 C140,50 170,55 200,45 C230,35 260,40 300,25 C340,15 370,10 400,5" fill="none" stroke="#C9A84C" stroke-width="2" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       TRUSTED-BY — Logo marquee strip
+       ============================================================ -->
+  <div class="trusted-strip">
+    <p class="trusted-strip__label">Trusted by professionals worldwide</p>
+    <div class="trusted-strip__track">
+      <!-- Duplicate logos for seamless loop -->
+      <span class="trusted-strip__logo">◆ QuantumPay</span>
+      <span class="trusted-strip__logo">◇ NovaBanking</span>
+      <span class="trusted-strip__logo">◆ Vertex Capital</span>
+      <span class="trusted-strip__logo">◇ StellarFund</span>
+      <span class="trusted-strip__logo">◆ CrestWealth</span>
+      <span class="trusted-strip__logo">◇ AlphaInsight</span>
+      <span class="trusted-strip__logo">◆ AureliaFi</span>
+      <span class="trusted-strip__logo">◇ PrimeEdge</span>
+      <!-- Duplicated for seamless scroll -->
+      <span class="trusted-strip__logo">◆ QuantumPay</span>
+      <span class="trusted-strip__logo">◇ NovaBanking</span>
+      <span class="trusted-strip__logo">◆ Vertex Capital</span>
+      <span class="trusted-strip__logo">◇ StellarFund</span>
+      <span class="trusted-strip__logo">◆ CrestWealth</span>
+      <span class="trusted-strip__logo">◇ AlphaInsight</span>
+      <span class="trusted-strip__logo">◆ AureliaFi</span>
+      <span class="trusted-strip__logo">◇ PrimeEdge</span>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       FEATURES — Three-column card grid
+       ============================================================ -->
+  <section class="landing-section section-center" id="features">
+    <span class="section-label reveal">Features</span>
+    <h2 class="section-title reveal reveal-delay-1">Everything You Need to<br/>Master Your Money</h2>
+    <p class="section-subtitle reveal reveal-delay-2">
+      From real-time tracking to intelligent insights — FinanceME gives you the tools to make every financial decision with confidence.
+    </p>
+
+    <div class="features-grid">
+
+      <!-- Feature 1: Smart Tracking -->
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+        </div>
+        <h3 class="feature-card__title">Smart Tracking</h3>
+        <p class="feature-card__desc">
+          Automatically categorize and track every transaction across all your accounts. Link your bank or add manually — we'll handle the rest.
+        </p>
+      </div>
+
+      <!-- Feature 2: Budget Mastery -->
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+            <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+          </svg>
+        </div>
+        <h3 class="feature-card__title">Budget Mastery</h3>
+        <p class="feature-card__desc">
+          Set intelligent budgets that adapt to your spending patterns. Get early warnings before you overshoot, not after.
+        </p>
+      </div>
+
+      <!-- Feature 3: Reports & Insights -->
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+        </div>
+        <h3 class="feature-card__title">Reports & Insights</h3>
+        <p class="feature-card__desc">
+          Beautiful, data-rich reports that reveal where your money goes, income trends, and net worth growth over any time period.
+        </p>
+      </div>
+
+      <!-- Feature 4: Goal Setting -->
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
+        </div>
+        <h3 class="feature-card__title">Goal Setting</h3>
+        <p class="feature-card__desc">
+          Define your financial goals — emergency fund, vacation, or retirement. Track progress with beautiful ring charts and projections.
+        </p>
+      </div>
+
+      <!-- Feature 5: Bill Calendar -->
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </div>
+        <h3 class="feature-card__title">Bill Calendar</h3>
+        <p class="feature-card__desc">
+          Never miss a payment. See all upcoming bills, subscriptions, and scheduled transactions in a unified calendar view.
+        </p>
+      </div>
+
+      <!-- Feature 6: Bank-Level Security -->
+      <div class="feature-card reveal reveal-delay-4">
+        <div class="feature-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <h3 class="feature-card__title">Bank-Level Security</h3>
+        <p class="feature-card__desc">
+          256-bit encryption, two-factor authentication, and read-only bank connections. Your financial data is locked down tight.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       STATS — Animated KPI counters
+       ============================================================ -->
+  <section class="stats-section" id="stats">
+    <div class="stats-inner">
+      <div class="stat-item reveal">
+        <span class="stat-item__number" data-count-target="50000" data-count-suffix="+">0</span>
+        <span class="stat-item__label">Active Users</span>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <span class="stat-item__number" data-count-target="2500000" data-count-suffix="+">0</span>
+        <span class="stat-item__label">Transactions Tracked</span>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <span class="stat-item__number" data-count-target="340" data-count-suffix="M+">0</span>
+        <span class="stat-item__label">Money Managed</span>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <span class="stat-item__number" data-count-target="99.9" data-count-suffix="%">0</span>
+        <span class="stat-item__label">Uptime SLA</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       HOW IT WORKS — Three-step visual flow
+       ============================================================ -->
+  <section class="landing-section section-center" id="how-it-works">
+    <span class="section-label reveal">How It Works</span>
+    <h2 class="section-title reveal reveal-delay-1">Up and Running in<br/>Three Simple Steps</h2>
+    <p class="section-subtitle reveal reveal-delay-2">
+      No complicated setup. No spreadsheet gymnastics. Just connect, configure, and conquer your financial life.
+    </p>
+
+    <div class="steps-grid">
+
+      <!-- Step 1 -->
+      <div class="step-card reveal reveal-delay-1">
+        <div class="step-card__number">01</div>
+        <div class="step-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="8.5" cy="7" r="4"></circle>
+            <line x1="20" y1="8" x2="20" y2="14"></line>
+            <line x1="23" y1="11" x2="17" y2="11"></line>
+          </svg>
+        </div>
+        <h3 class="step-card__title">Create Your Account</h3>
+        <p class="step-card__desc">Sign up in seconds with email or Google. No credit card required for the free plan.</p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step-card reveal reveal-delay-2">
+        <div class="step-card__number">02</div>
+        <div class="step-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+            <line x1="1" y1="10" x2="23" y2="10"></line>
+          </svg>
+        </div>
+        <h3 class="step-card__title">Link Your Accounts</h3>
+        <p class="step-card__desc">Securely connect your bank accounts, credit cards, and investment portfolios via Plaid.</p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-card reveal reveal-delay-3">
+        <div class="step-card__number">03</div>
+        <div class="step-card__icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+        </div>
+        <h3 class="step-card__title">Watch It Work</h3>
+        <p class="step-card__desc">Your dashboard populates instantly. Set budgets, track goals, and get insights from day one.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       PRICING — Three-tier cards
+       ============================================================ -->
+  <section class="landing-section section-center" id="pricing">
+    <span class="section-label reveal">Pricing</span>
+    <h2 class="section-title reveal reveal-delay-1">Simple, Transparent Pricing</h2>
+    <p class="section-subtitle reveal reveal-delay-2">
+      Start free and scale when you're ready. No hidden fees, no surprises — just clean financial tools at fair prices.
+    </p>
+
+    <div class="pricing-grid">
+
+      <!-- Free Plan -->
+      <div class="pricing-card reveal reveal-delay-1">
+        <h3 class="pricing-card__name">Starter</h3>
+        <p class="pricing-card__price">
+          <span class="currency">$</span><span class="amount">0</span>
+          <span class="period">/ month</span>
+        </p>
+        <p class="pricing-card__desc">Perfect for getting started with personal finance tracking.</p>
+        <ul class="pricing-card__features">
+          <li>
+            <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Up to 2 linked accounts
+          </li>
+          <li>
+            <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Basic transaction tracking
+          </li>
+          <li>
+            <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            3 budget categories
+          </li>
+          <li>
+            <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Monthly spending report
+          </li>
+        </ul>
+        <button class="btn-pricing btn-pricing--outline">Get Started Free</button>
+      </div>
+
+      <!-- Pro Plan (Featured) -->
+      <div class="pricing-card pricing-card--featured reveal reveal-delay-2">
+        <div class="pricing-card__badge">Most Popular</div>
+        <h3 class="pricing-card__name">Pro</h3>
+        <p class="pricing-card__price">
+          <span class="currency">$</span><span class="amount">12</span>
+          <span class="period">/ month</span>
+        </p>
+        <p class="pricing-card__desc">For serious budgeters who want full control and deep insights.</p>
+        <ul class="pricing-card__features">
+          <li>
+            <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Unlimited linked accounts
+          </li>
+          <li>
+            <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Auto-categorization AI
+          </li>
+          <li>
+            <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Unlimited budgets & goals
+          </li>
+          <li>
+            <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Advanced reports & CSV export
+          </li>
+          <li>
+            <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Bill calendar & reminders
+          </li>
+        </ul>
+        <button class="btn-pricing btn-pricing--gold">Upgrade to Pro →</button>
+      </div>
+
+      <!-- Enterprise Plan -->
+      <div class="pricing-card reveal reveal-delay-3">
+        <h3 class="pricing-card__name">Enterprise</h3>
+        <p class="pricing-card__price">
+          <span class="currency">$</span><span class="amount">49</span>
+          <span class="period">/ month</span>
+        </p>
+        <p class="pricing-card__desc">For teams, advisors, and businesses managing multiple portfolios.</p>
+        <ul class="pricing-card__features">
+          <li>
+            <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Everything in Pro
+          </li>
+          <li>
+            <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Multi-user team access
+          </li>
+          <li>
+            <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Priority support & SLA
+          </li>
+          <li>
+            <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Custom integrations & API
+          </li>
+          <li>
+            <svg class="check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Dedicated account manager
+          </li>
+        </ul>
+        <button class="btn-pricing btn-pricing--outline">Contact Sales</button>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       TESTIMONIALS — User quotes grid
+       ============================================================ -->
+  <section class="landing-section section-center" id="testimonials">
+    <span class="section-label reveal">Testimonials</span>
+    <h2 class="section-title reveal reveal-delay-1">Loved by People Who<br/>Love Their Money</h2>
+    <p class="section-subtitle reveal reveal-delay-2">
+      Join thousands of users who transformed their financial life with FinanceME.
+    </p>
+
+    <div class="testimonials-grid">
+
+      <!-- Testimonial 1 -->
+      <div class="testimonial-card reveal reveal-delay-1">
+        <div class="testimonial-card__stars">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </div>
+        <p class="testimonial-card__text">
+          "I went from checking my bank balance with anxiety to actually enjoying it. The dashboard is so clean and the budget alerts saved me from overspending every month."
+        </p>
+        <div class="testimonial-card__author">
+          <div class="testimonial-card__avatar">SM</div>
+          <div>
+            <div class="testimonial-card__name">Sarah Mitchell</div>
+            <div class="testimonial-card__role">Product Designer</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="testimonial-card reveal reveal-delay-2">
+        <div class="testimonial-card__stars">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </div>
+        <p class="testimonial-card__text">
+          "As a freelancer with irregular income, this tool is a lifesaver. The cash flow forecasting and goal tracking helped me save for my first home down payment."
+        </p>
+        <div class="testimonial-card__author">
+          <div class="testimonial-card__avatar">JR</div>
+          <div>
+            <div class="testimonial-card__name">James Rivera</div>
+            <div class="testimonial-card__role">Freelance Developer</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="testimonial-card reveal reveal-delay-3">
+        <div class="testimonial-card__stars">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </div>
+        <p class="testimonial-card__text">
+          "The design is absolutely stunning — it feels like using a premium Bloomberg terminal but for personal finance. I've tried every budgeting app and this is the one that stuck."
+        </p>
+        <div class="testimonial-card__author">
+          <div class="testimonial-card__avatar">AL</div>
+          <div>
+            <div class="testimonial-card__name">Aisha Larsen</div>
+            <div class="testimonial-card__role">Financial Analyst</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       CTA — Final call-to-action
+       ============================================================ -->
+  <section class="cta-section" id="cta">
+    <div class="cta-section__inner reveal">
+      <h2 class="cta-section__title">Ready to Take Control?</h2>
+      <p class="cta-section__subtitle">
+        Join 50,000+ users who decided that their money deserves better. Start free — upgrade when you're ready.
+      </p>
+      <div class="cta-section__buttons">
+        <button class="btn-hero-primary" onclick="window.location.href='#pricing'">Create Free Account →</button>
+        <button class="btn-hero-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          Talk to Sales
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="landing-footer">
+    <div class="landing-footer__inner">
+
+      <!-- Brand column -->
+      <div class="landing-footer__brand">
+        <a href="#" class="landing-nav__logo" style="font-size: 22px;">Finance<span>ME</span></a>
+        <p>Your all-in-one personal finance dashboard. Track, budget, and grow your wealth with confidence.</p>
+      </div>
+
+      <!-- Product -->
+      <div class="landing-footer__col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#">Integrations</a></li>
+          <li><a href="#">Changelog</a></li>
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div class="landing-footer__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div class="landing-footer__col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Security</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="landing-footer__bottom">
+      <span class="landing-footer__copyright">© 2026 FinanceME. All rights reserved.</span>
+      <div class="landing-footer__socials">
+        <!-- Twitter/X -->
+        <a href="#" aria-label="Twitter">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <!-- GitHub -->
+        <a href="#" aria-label="GitHub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        </a>
+        <!-- LinkedIn -->
+        <a href="#" aria-label="LinkedIn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+
   <!-- ========== JavaScript ========== -->
-  <!-- Load in this order: utils first (shared helpers), then sidebar & header -->
-  <script src="js/utils.js"></script>
-  <script src="js/sidebar.js"></script>
-  <script src="js/header.js"></script>
+  <script src="js/landing.js"></script>
 
-  <!-- Page-specific config (set these BEFORE the JS files run, or use window globals) -->
-  <script>
-    // Set the active page for sidebar highlighting
-    window.ACTIVE_PAGE = 'index';
-
-    // Set the user's name for the greeting
-    window.USER_NAME = 'User';
-
-    // ---- Demo: animate the KPI numbers on load ----
-    // In a real app, you'd fetch these from your API
-    window.addEventListener('DOMContentLoaded', function () {
-      // Wait a moment for components to load, then animate
-      setTimeout(function () {
-        animateCounter(document.getElementById('kpi-net-worth'), 48750.82, 800, '$');
-        animateCounter(document.getElementById('kpi-income'), 5250.00, 800, '$');
-        animateCounter(document.getElementById('kpi-expenses'), 3180.50, 800, '$');
-
-        // Savings rate is a percentage, not a dollar amount
-        const savingsEl = document.getElementById('kpi-savings');
-        if (savingsEl) {
-          animateCounter(savingsEl, 39.4, 800, '', 1);
-          // Add the % sign after animation
-          setTimeout(() => { savingsEl.textContent += '%'; }, 850);
-        }
-      }, 500);
-    });
-  </script>
-
-  <!-- Show mobile menu button only on small screens -->
-  <script>
-    // Simple responsive check for the hamburger menu button
-    function checkMobileMenu() {
-      const btn = document.getElementById('mobile-menu-btn');
-      if (btn) {
-        btn.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
-      }
-    }
-    window.addEventListener('resize', checkMobileMenu);
-    window.addEventListener('DOMContentLoaded', checkMobileMenu);
-  </script>
 
 </body>
 </html>

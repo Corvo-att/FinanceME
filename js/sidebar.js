@@ -56,7 +56,7 @@ function highlightActivePage(activePage) {
   // If no activePage was passed, try to figure it out from the URL
   if (!activePage) {
     const path = window.location.pathname;
-    const filename = path.split('/').pop().replace('.html', '') || 'index';
+    const filename = path.split('/').pop().replace('.html', '') || 'dashboard';
     activePage = filename;
   }
 
@@ -159,7 +159,7 @@ function setupMobileSidebar() {
 /**
  * Fix navigation link paths when in a subfolder.
  * If we're in /pages/, links to 'pages/accounts.html' need to be 'accounts.html'
- * and 'index.html' needs to be '../index.html'.
+ * and 'pages/dashboard.html' also becomes just 'dashboard.html'.
  */
 function fixNavPaths() {
   const links = document.querySelectorAll('.sidebar__link');
@@ -171,9 +171,6 @@ function fixNavPaths() {
     if (href.startsWith('pages/')) {
       // We're already in pages/, so just use the filename
       link.setAttribute('href', href.replace('pages/', ''));
-    } else if (href === 'index.html') {
-      // Go up one level to get back to root
-      link.setAttribute('href', '../index.html');
     }
   });
 

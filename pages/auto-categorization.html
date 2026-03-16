@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FinanceME — Auto-Categorization Rules." />
+
+    <title>Categorization Rules — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <!-- ========== CSS ========== -->
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/transactions.css" />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <header class="page-header">
+            <div>
+              <h1
+                class="text-display"
+                style="font-size: 32px; margin-bottom: 8px"
+              >
+                Auto-Categorization
+              </h1>
+              <p style="color: var(--text-secondary)">
+                Set rules to automatically sort transactions when imported or
+                synced.
+              </p>
+            </div>
+            <button class="btn btn-primary">Create Rule</button>
+          </header>
+
+          <div class="ai-banner">
+            <div class="ai-banner-text">
+              <h3>AI Auto-Categorization</h3>
+              <p>
+                When enabled, FinanceME uses machine learning to automatically
+                match uncategorized transactions to your existing spending
+                habits.
+              </p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="rules-container">
+            <div class="card rule-card">
+              <div class="rule-logic">
+                <span class="logic-text">If description contains</span>
+                <span class="logic-chip">UBER EATS</span>
+                <span class="logic-text">or</span>
+                <span class="logic-chip">DOORDASH</span>
+                <span class="logic-text">then set category to</span>
+                <span class="category-chip">Food & Dining</span>
+              </div>
+              <div class="rule-actions">
+                <button class="btn btn-ghost btn-sm">Edit</button>
+                <button
+                  class="btn btn-ghost btn-sm"
+                  style="color: var(--accent-red)"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+
+            <div class="card rule-card">
+              <div class="rule-logic">
+                <span class="logic-text">If description contains</span>
+                <span class="logic-chip">SHELL</span>
+                <span class="logic-text">or</span>
+                <span class="logic-chip">EXXON</span>
+                <span class="logic-text">then set category to</span>
+                <span class="category-chip">Transportation</span>
+              </div>
+              <div class="rule-actions">
+                <button class="btn btn-ghost btn-sm">Edit</button>
+                <button
+                  class="btn btn-ghost btn-sm"
+                  style="color: var(--accent-red)"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+
+            <div class="card rule-card">
+              <div class="rule-logic">
+                <span class="logic-text">If amount is greater than</span>
+                <span class="logic-chip">$2,000.00</span>
+                <span class="logic-text">and account is</span>
+                <span class="logic-chip">Checking</span>
+                <span class="logic-text">then flag for</span>
+                <span
+                  class="category-chip"
+                  style="
+                    background: rgba(220, 38, 38, 0.1);
+                    color: var(--accent-red);
+                    border-color: rgba(220, 38, 38, 0.2);
+                  "
+                  >Review Required</span
+                >
+              </div>
+              <div class="rule-actions">
+                <button class="btn btn-ghost btn-sm">Edit</button>
+                <button
+                  class="btn btn-ghost btn-sm"
+                  style="color: var(--accent-red)"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/transactions.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        initSidebar("transactions"); // Associated with settings/transactions
+        initHeader();
+        if (typeof loadComponent === "function") {
+          loadComponent("../components/footer.html", "footer-container");
+        }
+      });
+    </script>
+  </body>
+</html>
+
+

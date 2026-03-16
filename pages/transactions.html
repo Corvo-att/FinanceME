@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME — Transactions. Manage and view your full transaction history."
+    />
+
+    <title>Transactions — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <!-- ========== CSS ========== -->
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <!-- Specific styles for transactions if needed -->
+    <link rel="stylesheet" href="../css/transactions.css" />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <!-- Sidebar gets loaded here by JS -->
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <!-- Main content area -->
+      <div class="main-content">
+        <!-- Header / Top bar gets loaded here by JS -->
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <button
+            class="btn btn-ghost btn-icon"
+            id="mobile-menu-btn"
+            aria-label="Open menu"
+            style="display: none; margin-bottom: var(--space-md)"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <!-- Page Header -->
+          <header class="transactions-header">
+            <div>
+              <h1
+                class="text-display"
+                style="font-size: 28px; font-family: var(--font-ui)"
+              >
+                Transactions
+              </h1>
+              <p
+                style="
+                  color: var(--text-secondary);
+                  margin-top: var(--space-xs);
+                "
+              >
+                View and manage all your historical spending and income.
+              </p>
+            </div>
+            <div class="transactions-actions">
+              <a href="import-transactions.html" class="btn btn-ghost">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="margin-right: 6px"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                Import
+              </a>
+              <a
+                href="add-transaction.html"
+                class="btn btn-primary"
+                style="display: inline-flex; align-items: center"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#0A0A0F"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="margin-right: 6px"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Add Transaction
+              </a>
+            </div>
+          </header>
+
+          <!-- Filter Bar -->
+          <div class="filter-bar">
+            <div class="input-group">
+              <label for="filter-search">Search</label>
+              <input
+                type="text"
+                id="filter-search"
+                placeholder="Merchant, category..."
+              />
+            </div>
+            <div class="input-group">
+              <label for="filter-account">Account</label>
+              <select id="filter-account">
+                <option value="all">All Accounts</option>
+                <option value="checking">Chase Checking</option>
+                <option value="savings">Chase Savings</option>
+                <option value="credit">Amex Sapphire</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="filter-date">Date Range</label>
+              <select id="filter-date">
+                <option value="this-month">This Month</option>
+                <option value="last-month">Last Month</option>
+                <option value="last-90-days">Last 90 Days</option>
+                <option value="this-year">This Year</option>
+                <option value="custom">Custom Range...</option>
+              </select>
+            </div>
+            <div
+              class="input-group"
+              style="margin-left: auto; justify-content: flex-end"
+            >
+              <button class="btn btn-ghost" style="height: 36px">
+                Reset Filters
+              </button>
+            </div>
+          </div>
+
+          <!-- Transactions Table -->
+          <div class="card">
+            <table class="data-table" style="width: 100%">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Account</th>
+                  <th>Category</th>
+                  <th class="col-amount" style="text-align: right">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  onclick="
+                    window.location.href = 'transaction-detail.html?id=1'
+                  "
+                >
+                  <td class="text-caption">Mar 10, 2026</td>
+                  <td style="font-weight: 500">Netflix Subscription</td>
+                  <td class="text-secondary">Amex Sapphire</td>
+                  <td>
+                    <span
+                      class="category-dot"
+                      style="background: var(--accent-blue)"
+                    ></span
+                    >Entertainment
+                  </td>
+                  <td
+                    class="col-amount data-figure-sm amount-negative"
+                    style="text-align: right"
+                  >
+                    −$15.99
+                  </td>
+                </tr>
+                <tr
+                  onclick="
+                    window.location.href = 'transaction-detail.html?id=2'
+                  "
+                >
+                  <td class="text-caption">Mar 09, 2026</td>
+                  <td style="font-weight: 500">Whole Foods Market</td>
+                  <td class="text-secondary">Chase Checking</td>
+                  <td>
+                    <span
+                      class="category-dot"
+                      style="background: #2ecc8a"
+                    ></span
+                    >Groceries
+                  </td>
+                  <td
+                    class="col-amount data-figure-sm amount-negative"
+                    style="text-align: right"
+                  >
+                    −$142.50
+                  </td>
+                </tr>
+                <tr
+                  onclick="
+                    window.location.href = 'transaction-detail.html?id=3'
+                  "
+                >
+                  <td class="text-caption">Mar 08, 2026</td>
+                  <td style="font-weight: 500">Acme Corp Salary</td>
+                  <td class="text-secondary">Chase Checking</td>
+                  <td>
+                    <span
+                      class="category-dot"
+                      style="background: #2ecc8a"
+                    ></span
+                    >Income
+                  </td>
+                  <td
+                    class="col-amount data-figure-sm amount-positive"
+                    style="text-align: right"
+                  >
+                    +$4,200.00
+                  </td>
+                </tr>
+                <tr
+                  onclick="
+                    window.location.href = 'transaction-detail.html?id=4'
+                  "
+                >
+                  <td class="text-caption">Mar 05, 2026</td>
+                  <td style="font-weight: 500">Uber Rides</td>
+                  <td class="text-secondary">Amex Sapphire</td>
+                  <td>
+                    <span
+                      class="category-dot"
+                      style="background: #e8a83a"
+                    ></span
+                    >Transport
+                  </td>
+                  <td
+                    class="col-amount data-figure-sm amount-negative"
+                    style="text-align: right"
+                  >
+                    −$24.90
+                  </td>
+                </tr>
+                <tr
+                  onclick="
+                    window.location.href = 'transaction-detail.html?id=5'
+                  "
+                >
+                  <td class="text-caption">Mar 02, 2026</td>
+                  <td style="font-weight: 500">ConEdison Electric</td>
+                  <td class="text-secondary">Chase Checking</td>
+                  <td>
+                    <span
+                      class="category-dot"
+                      style="background: #e05c5c"
+                    ></span
+                    >Utilities
+                  </td>
+                  <td
+                    class="col-amount data-figure-sm amount-negative"
+                    style="text-align: right"
+                  >
+                    −$135.00
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination">
+            <div class="pagination-info">Showing 1 to 5 of 124 entries</div>
+            <div class="pagination-controls">
+              <button class="btn btn-ghost btn-sm" disabled>Previous</button>
+              <button
+                class="btn btn-ghost btn-sm"
+                style="
+                  background: var(--bg-elevated);
+                  color: var(--text-primary);
+                "
+              >
+                1
+              </button>
+              <button class="btn btn-ghost btn-sm">2</button>
+              <button class="btn btn-ghost btn-sm">3</button>
+              <span
+                style="
+                  color: var(--text-secondary);
+                  padding: 0 var(--space-xs);
+                  line-height: 32px;
+                "
+                >...</span
+              >
+              <button class="btn btn-ghost btn-sm">25</button>
+              <button class="btn btn-ghost btn-sm">Next</button>
+            </div>
+          </div>
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Footer gets loaded here by JS -->
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/transactions.js"></script>
+    <script>
+
+        initSidebar("transactions");
+        initHeader();
+
+        if (typeof loadComponent === "function") {
+          loadComponent("../components/footer.html", "footer-container");
+        }
+    </script>
+  </body>
+</html>
+

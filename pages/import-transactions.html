@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FinanceME — Import Transactions." />
+
+    <title>Import Transactions — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <!-- ========== CSS ========== -->
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/transactions.css" />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <div class="form-container">
+            <header class="page-header">
+              <a
+                href="transactions.html"
+                class="btn btn-ghost btn-sm"
+                style="
+                  display: inline-flex;
+                  align-items: center;
+                  margin-bottom: var(--space-md);
+                  margin-left: -8px;
+                "
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="margin-right: 4px"
+                >
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to Transactions
+              </a>
+              <h1 class="text-display" style="font-size: 28px">
+                Import Transactions
+              </h1>
+            </header>
+
+            <form
+              class="card"
+              style="padding: var(--space-xl)"
+              onsubmit="
+                event.preventDefault();
+                window.location.href = 'transactions.html';
+              "
+            >
+              <div class="form-group" style="margin-bottom: var(--space-lg)">
+                <label for="account" class="form-label"
+                  >Destination Account</label
+                >
+                <select id="account" class="form-input" required>
+                  <option value="" disabled selected>Select Account</option>
+                  <option value="checking">Chase Checking (....1234)</option>
+                  <option value="credit">Amex Sapphire (....5678)</option>
+                  <option value="savings">Marcus Savings (....9012)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Upload File</label>
+                <div class="drop-zone" id="drop-zone">
+                  <svg
+                    class="drop-zone__icon"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                  <div class="drop-zone__title">Drag & drop your file here</div>
+                  <div class="drop-zone__subtitle">
+                    or click to browse from your computer
+                  </div>
+                  <div class="file-support">
+                    <span class="file-badge">CSV</span>
+                    <span class="file-badge">OFX</span>
+                    <span class="file-badge">QFX</span>
+                  </div>
+                  <input
+                    type="file"
+                    id="file-input"
+                    class="hidden-input"
+                    accept=".csv,.ofx,.qfx"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Options</label>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    gap: var(--space-sm);
+                    margin-top: var(--space-xs);
+                  "
+                >
+                  <label
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      color: var(--text-primary);
+                      cursor: pointer;
+                      font-size: 14px;
+                    "
+                  >
+                    <input
+                      type="checkbox"
+                      checked
+                      style="
+                        accent-color: var(--accent-gold);
+                        width: 16px;
+                        height: 16px;
+                      "
+                    />
+                    Automatically categorize transactions (AI)
+                  </label>
+                  <label
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      color: var(--text-primary);
+                      cursor: pointer;
+                      font-size: 14px;
+                    "
+                  >
+                    <input
+                      type="checkbox"
+                      checked
+                      style="
+                        accent-color: var(--accent-gold);
+                        width: 16px;
+                        height: 16px;
+                      "
+                    />
+                    Skip duplicates
+                  </label>
+                  <label
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                      color: var(--text-primary);
+                      cursor: pointer;
+                      font-size: 14px;
+                    "
+                  >
+                    <input
+                      type="checkbox"
+                      style="
+                        accent-color: var(--accent-gold);
+                        width: 16px;
+                        height: 16px;
+                      "
+                    />
+                    Reverse positive/negative amounts (for some credit cards)
+                  </label>
+                </div>
+              </div>
+
+              <div class="btn-row">
+                <button
+                  type="button"
+                  class="btn btn-ghost"
+                  onclick="window.location.href = 'transactions.html'"
+                >
+                  Cancel
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  Import File
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/transactions.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        initSidebar("transactions");
+        initHeader();
+        if (typeof loadComponent === "function") {
+          loadComponent("../components/footer.html", "footer-container");
+        }
+      });
+    </script>
+  </body>
+</html>

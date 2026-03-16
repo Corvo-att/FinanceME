@@ -1,281 +1,551 @@
-/* ============================================================
-   FINANCEME — Landing Page JavaScript (landing.js)
-   Handles scroll animations, parallax effects, navbar behavior,
-   counter animations, scroll progress bar, and mobile menu.
-   ============================================================ */
+/**
+ * FinanceME – Landing Page Interactions
+ * Handles Anime.js scroll reveals, navbar state, pricing toggle,
+ * mobile menu, hero title animation, and section orchestrations.
+ */
 
-(function () {
-  'use strict';
+document.addEventListener('DOMContentLoaded', () => {
 
-  // ---- Check if user prefers reduced motion ----
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ═══════════════════════════════════════════
+     UTILITY: one-shot IntersectionObserver
+     ═══════════════════════════════════════════ */
+  function onReveal(selector, callback, options = {}) {
+    const el = typeof selector === 'string'
+      ? document.querySelector(selector)
+      : selector;
+    if (!el) return;
+    if (!('IntersectionObserver' in window)) { callback(el); return; }
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          obs.unobserve(entry.target);
+          callback(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px', ...options });
+    obs.observe(el);
+  }
 
-
-  // ---- Scroll Progress Bar ----
-  // Creates a thin gradient bar at the top showing scroll position
-  var progressBar = document.createElement('div');
-  progressBar.classList.add('scroll-progress');
-  document.body.appendChild(progressBar);
-
-  function updateScrollProgress() {
-    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    var scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    progressBar.style.width = scrollPercent + '%';
+  function onRevealAll(selector, callback, options = {}) {
+    const els = document.querySelectorAll(selector);
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(el => callback(el));
+      return;
+    }
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          obs.unobserve(entry.target);
+          callback(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px', ...options });
+    els.forEach(el => obs.observe(el));
   }
 
 
-  // ---- Navbar scroll effect ----
-  // Make the navbar opaque + add shadow when scrolled past 60px
-  var nav = document.querySelector('.landing-nav');
-  if (nav) {
-    window.addEventListener('scroll', function () {
-      if (window.scrollY > 60) {
-        nav.classList.add('scrolled');
-      } else {
-        nav.classList.remove('scrolled');
-      }
-      updateScrollProgress();
-    }, { passive: true });
+  /* ═══════════════════════════════════════════
+     1. SPLIT-TEXT HERO TITLE
+     ═══════════════════════════════════════════ */
+  const heroTitle = document.querySelector('.hero__title');
+  if (heroTitle) {
+    const wrapTextNodes = (node) => {
+      node.childNodes.forEach(child => {
+        if (child.nodeType === Node.TEXT_NODE && child.textContent.trim()) {
+          const words = child.textContent.split(/(\s+)/);
+          const fragment = document.createDocumentFragment();
+          words.forEach(w => {
+            if (/^\s+$/.test(w) || w === '') {
+              fragment.appendChild(document.createTextNode(w));
+            } else {
+              const span = document.createElement('span');
+              span.className = 'word';
+              span.textContent = w;
+              fragment.appendChild(span);
+            }
+          });
+          child.replaceWith(fragment);
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          wrapTextNodes(child);
+        }
+      });
+    };
+    wrapTextNodes(heroTitle);
   }
 
 
-  // ---- Smooth scroll for anchor links ----
-  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      var target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        // Close mobile menu if open
-        var mobileMenu = document.querySelector('.landing-nav__links');
-        if (mobileMenu) mobileMenu.classList.remove('open');
+  /* ═══════════════════════════════════════════
+     2. HERO ENTRANCE TIMELINE (plays on load)
+     ═══════════════════════════════════════════ */
+  const heroTL = anime.timeline({
+    easing: 'easeOutExpo',
+    duration: 900,
+  });
 
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Badge drops in
+  if (document.querySelector('.hero__badge')) {
+    heroTL.add({
+      targets: '.hero__badge',
+      opacity: [0, 1],
+      translateY: [-20, 0],
+      scale: [0.85, 1],
+      duration: 600,
+    });
+  }
+
+  // Words stagger reveal
+  if (document.querySelectorAll('.hero__title .word').length) {
+    heroTL.add({
+      targets: '.hero__title .word',
+      opacity: [0, 1],
+      translateY: [24, 0],
+      duration: 700,
+      delay: anime.stagger(70),
+      easing: 'easeOutCubic',
+    }, '-=400');
+  }
+
+  // Subtitle fades up
+  if (document.querySelector('.hero__subtitle')) {
+    heroTL.add({
+      targets: '.hero__subtitle',
+      opacity: [0, 1],
+      translateY: [20, 0],
+      duration: 700,
+    }, '-=400');
+  }
+
+  // CTA buttons slide up
+  if (document.querySelector('.hero__ctas')) {
+    heroTL.add({
+      targets: '.hero__ctas',
+      opacity: [0, 1],
+      translateY: [30, 0],
+      duration: 700,
+    }, '-=450');
+  }
+
+  // Trust line
+  if (document.querySelector('.hero__trust')) {
+    heroTL.add({
+      targets: '.hero__trust',
+      opacity: [0, 1],
+      translateY: [15, 0],
+      duration: 600,
+    }, '-=400');
+  }
+
+
+  /* ═══════════════════════════════════════════
+     3. HERO MOCKUP ENTRANCE
+     ═══════════════════════════════════════════ */
+  const mockup = document.querySelector('.hero__mockup');
+  if (mockup) {
+    const mockTL = anime.timeline({
+      easing: 'easeOutExpo',
+      duration: 800,
+    });
+
+    // Main mockup scales in
+    mockTL.add({
+      targets: '.hero__mockup',
+      opacity: [0, 1],
+      scale: [0.9, 1],
+      translateY: [40, 0],
+      duration: 1000,
+      delay: 400,
+    });
+
+    // Floating stat badges
+    const mockStats = document.querySelectorAll('.mock-stat');
+    if (mockStats.length) {
+      mockTL.add({
+        targets: '.mock-stat',
+        opacity: [0, 1],
+        translateY: [20, 0],
+        scale: [0.8, 1],
+        duration: 600,
+        delay: anime.stagger(120),
+        easing: 'spring(1, 80, 10, 0)',
+      }, '-=500');
+    }
+
+    // Transaction rows
+    const mockTx = document.querySelectorAll('.mock-tx');
+    if (mockTx.length) {
+      mockTL.add({
+        targets: '.mock-tx',
+        opacity: [0, 1],
+        translateX: [-30, 0],
+        duration: 500,
+        delay: anime.stagger(80),
+      }, '-=300');
+    }
+
+    // SVG chart line draw
+    const chartPath = document.querySelector('.mock-chart path:last-child');
+    if (chartPath) {
+      const length = chartPath.getTotalLength ? chartPath.getTotalLength() : 300;
+      chartPath.style.strokeDasharray = length;
+      chartPath.style.strokeDashoffset = length;
+      mockTL.add({
+        targets: chartPath,
+        strokeDashoffset: [length, 0],
+        duration: 1200,
+        easing: 'easeInOutQuad',
+      }, '-=600');
+    }
+  }
+
+
+  /* ═══════════════════════════════════════════
+     4. FEATURE CARDS – staggered grid
+     ═══════════════════════════════════════════ */
+  onReveal('.features', (section) => {
+    // Section heading
+    const heading = section.querySelector('.section-heading');
+    if (heading) {
+      anime({
+        targets: heading.children,
+        opacity: [0, 1],
+        translateY: [30, 0],
+        duration: 700,
+        easing: 'easeOutCubic',
+        delay: anime.stagger(100),
+      });
+    }
+    // Cards
+    anime({
+      targets: section.querySelectorAll('.feature-card'),
+      opacity: [0, 1],
+      translateY: [50, 0],
+      scale: [0.95, 1],
+      duration: 800,
+      delay: anime.stagger(100, { start: 200 }),
+      easing: 'spring(1, 80, 10, 0)',
+    });
+  });
+
+
+  /* ═══════════════════════════════════════════
+     5. STEPS SECTION – sequential
+     ═══════════════════════════════════════════ */
+  onReveal('.steps', (section) => {
+    const heading = section.querySelector('.section-heading');
+    if (heading) {
+      anime({
+        targets: heading.children,
+        opacity: [0, 1],
+        translateY: [30, 0],
+        duration: 700,
+        easing: 'easeOutCubic',
+        delay: anime.stagger(100),
+      });
+    }
+
+    const stepTL = anime.timeline({
+      easing: 'easeOutExpo',
+    });
+
+    const cards = section.querySelectorAll('.step-card');
+    cards.forEach((card, i) => {
+      stepTL.add({
+        targets: card,
+        opacity: [0, 1],
+        translateY: [40, 0],
+        translateX: [i % 2 === 0 ? -20 : 20, 0],
+        duration: 700,
+      }, i === 0 ? '+=200' : '-=400');
+
+      // Connector after each card (except last)
+      const connector = card.nextElementSibling;
+      if (connector && connector.classList.contains('step-connector')) {
+        stepTL.add({
+          targets: connector,
+          opacity: [0, 1],
+          scaleY: [0, 1],
+          duration: 400,
+          easing: 'easeOutCubic',
+        }, '-=300');
       }
     });
   });
 
 
-  // ---- Mobile hamburger menu toggle ----
-  var hamburger = document.getElementById('nav-hamburger');
-  var navLinks = document.querySelector('.landing-nav__links');
-  if (hamburger && navLinks) {
-    hamburger.addEventListener('click', function () {
-      navLinks.classList.toggle('open');
-      // Toggle icon between hamburger and X
-      var isOpen = navLinks.classList.contains('open');
-      hamburger.innerHTML = isOpen
-        ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>'
-        : '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
-    });
-  }
-
-
-  // ---- Auto-assign animation variants to specific sections ----
-  // This adds variety without touching the HTML — elements get different
-  // scroll animation styles based on their context and position
-  function assignAnimationVariants() {
-    // Feature cards alternate slide-left / slide-right by row
-    var featureCards = document.querySelectorAll('.feature-card.reveal');
-    featureCards.forEach(function (card, i) {
-      // First row: left, middle: scale, right: right (then repeat)
-      var pattern = i % 3;
-      if (pattern === 0)      card.classList.add('reveal--left');
-      else if (pattern === 1) card.classList.add('reveal--scale');
-      else                    card.classList.add('reveal--right');
+  /* ═══════════════════════════════════════════
+     6. STATS – counter animation
+     ═══════════════════════════════════════════ */
+  onReveal('.stats-section', (section) => {
+    // Animate bar items into view
+    anime({
+      targets: section.querySelectorAll('.stat-item'),
+      opacity: [0, 1],
+      translateY: [30, 0],
+      duration: 700,
+      delay: anime.stagger(120),
+      easing: 'easeOutCubic',
+      begin: () => {
+        section.querySelectorAll('.stat-item').forEach(el => el.classList.add('visible'));
+      },
     });
 
-    // Step cards use blur entrance for a premium feel
-    var stepCards = document.querySelectorAll('.step-card.reveal');
-    stepCards.forEach(function (card) {
-      card.classList.add('reveal--blur');
-    });
+    // Animate numbers using data-count-target and data-count-suffix
+    section.querySelectorAll('.stat-item__number').forEach(numEl => {
+      const target = parseFloat(numEl.getAttribute('data-count-target'));
+      const suffix = numEl.getAttribute('data-count-suffix') || '';
+      if (isNaN(target)) return;
+      const isDecimal = target % 1 !== 0;
+      const obj = { val: 0 };
 
-    // Pricing cards use scale variant
-    var pricingCards = document.querySelectorAll('.pricing-card.reveal');
-    pricingCards.forEach(function (card) {
-      card.classList.add('reveal--scale');
-    });
-
-    // Testimonial cards slide from alternating sides
-    var testimonialCards = document.querySelectorAll('.testimonial-card.reveal');
-    testimonialCards.forEach(function (card, i) {
-      card.classList.add(i % 2 === 0 ? 'reveal--left' : 'reveal--right');
-    });
-
-    // CTA section uses blur variant
-    var ctaInner = document.querySelector('.cta-section__inner.reveal');
-    if (ctaInner) ctaInner.classList.add('reveal--blur');
-
-    // Stat items use a slight rotate entrance
-    var statItems = document.querySelectorAll('.stat-item.reveal');
-    statItems.forEach(function (item) {
-      item.classList.add('reveal--rotate');
-    });
-
-    // Section titles use blur
-    var sectionTitles = document.querySelectorAll('.section-title.reveal');
-    sectionTitles.forEach(function (title) {
-      title.classList.add('reveal--blur');
-    });
-  }
-
-
-  // ---- Intersection Observer for reveal-on-scroll ----
-  // Elements with class "reveal" will animate in when they enter the viewport
-  var revealElements = document.querySelectorAll('.reveal');
-  if (revealElements.length > 0 && 'IntersectionObserver' in window) {
-    // Assign animation variants before observing
-    assignAnimationVariants();
-
-    var revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target); // only animate once
-        }
+      anime({
+        targets: obj,
+        val: target,
+        duration: 1200,
+        easing: 'easeOutExpo',
+        delay: 200,
+        update: () => {
+          numEl.textContent = (isDecimal ? obj.val.toFixed(1) : Math.round(obj.val)) + suffix;
+        },
       });
-    }, {
-      threshold: 0.15,
-      rootMargin: '0px 0px -60px 0px'
+    });
+  });
+
+
+  /* ═══════════════════════════════════════════
+     7. PRICING CARDS – scale up
+     ═══════════════════════════════════════════ */
+  onReveal('.pricing', (section) => {
+    const heading = section.querySelector('.section-heading');
+    if (heading) {
+      anime({
+        targets: heading.children,
+        opacity: [0, 1],
+        translateY: [30, 0],
+        duration: 700,
+        easing: 'easeOutCubic',
+        delay: anime.stagger(100),
+      });
+    }
+
+    // Toggle
+    const toggle = section.querySelector('.pricing-toggle');
+    if (toggle) {
+      anime({
+        targets: toggle,
+        opacity: [0, 1],
+        duration: 500,
+        delay: 200,
+        easing: 'easeOutCubic',
+      });
+    }
+
+    // Cards
+    anime({
+      targets: section.querySelectorAll('.pricing-card'),
+      opacity: [0, 1],
+      scale: [0.9, 1],
+      translateY: [40, 0],
+      duration: 800,
+      delay: anime.stagger(120, { start: 300 }),
+      easing: 'spring(1, 80, 10, 0)',
+    });
+  });
+
+
+  /* ═══════════════════════════════════════════
+     8. TESTIMONIALS – slide from sides
+     ═══════════════════════════════════════════ */
+  onReveal('.testimonials', (section) => {
+    const heading = section.querySelector('.section-heading');
+    if (heading) {
+      anime({
+        targets: heading.children,
+        opacity: [0, 1],
+        translateY: [30, 0],
+        duration: 700,
+        easing: 'easeOutCubic',
+        delay: anime.stagger(100),
+      });
+    }
+
+    const cards = section.querySelectorAll('.testimonial-card');
+    anime({
+      targets: cards,
+      opacity: [0, 1],
+      translateX: (el, i) => [i % 2 === 0 ? -40 : 40, 0],
+      duration: 800,
+      delay: anime.stagger(120, { start: 200 }),
+      easing: 'easeOutCubic',
+    });
+  });
+
+
+  /* ═══════════════════════════════════════════
+     9. FINAL CTA – spring entrance
+     ═══════════════════════════════════════════ */
+  onReveal('.cta-section', (section) => {
+    const inner = section.querySelector('.cta-section__inner');
+    if (!inner) return;
+
+    const ctaTL = anime.timeline({
+      easing: 'easeOutExpo',
     });
 
-    revealElements.forEach(function (el) {
-      revealObserver.observe(el);
+    ctaTL.add({
+      targets: inner,
+      opacity: [0, 1],
+      scale: [0.95, 1],
+      duration: 700,
     });
-  } else {
-    // Fallback: just show everything if IntersectionObserver isn't supported
-    revealElements.forEach(function (el) {
-      el.classList.add('visible');
+
+    // Children stagger
+    const kids = inner.children;
+    if (kids.length) {
+      ctaTL.add({
+        targets: Array.from(kids),
+        opacity: [0, 1],
+        translateY: [25, 0],
+        duration: 600,
+        delay: anime.stagger(90),
+        easing: 'spring(1, 80, 10, 0)',
+      }, '-=500');
+    }
+  });
+
+
+  /* ═══════════════════════════════════════════
+     10. FOOTER – staggered columns
+     ═══════════════════════════════════════════ */
+  onReveal('.landing-footer', (section) => {
+    const cols = section.querySelectorAll('.landing-footer__col, .landing-footer__brand');
+    if (cols.length) {
+      anime({
+        targets: cols,
+        opacity: [0, 1],
+        translateY: [30, 0],
+        duration: 700,
+        delay: anime.stagger(80),
+        easing: 'easeOutCubic',
+      });
+    }
+  });
+
+
+  /* ═══════════════════════════════════════════
+     11. GENERIC .reveal FALLBACK
+     Catch any remaining .reveal elements not
+     handled by section-specific animations
+     ═══════════════════════════════════════════ */
+  onRevealAll('.reveal', (el) => {
+    if (el.classList.contains('visible')) return; // already animated
+    anime({
+      targets: el,
+      opacity: [0, 1],
+      translateY: [40, 0],
+      duration: 700,
+      easing: 'easeOutCubic',
+      complete: () => el.classList.add('visible'),
+    });
+  });
+
+
+  /* ═══════════════════════════════════════════
+     NAVBAR SCROLL STATE
+     ═══════════════════════════════════════════ */
+  const nav = document.querySelector('.landing-nav');
+  if (nav) {
+    const onScroll = () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+
+  /* ═══════════════════════════════════════════
+     MOBILE HAMBURGER
+     ═══════════════════════════════════════════ */
+  const hamburger = document.querySelector('.landing-nav__hamburger');
+  const mobileMenu = document.querySelector('.landing-nav__links');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      const isOpen = mobileMenu.classList.contains('open');
+      hamburger.setAttribute('aria-expanded', isOpen);
+      hamburger.innerHTML = isOpen
+        ? '<svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="4" x2="18" y2="18"/><line x1="18" y1="4" x2="4" y2="18"/></svg>'
+        : '<svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="19" y2="6"/><line x1="3" y1="11" x2="19" y2="11"/><line x1="3" y1="16" x2="19" y2="16"/></svg>';
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        hamburger.innerHTML = '<svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="19" y2="6"/><line x1="3" y1="11" x2="19" y2="11"/><line x1="3" y1="16" x2="19" y2="16"/></svg>';
+      });
     });
   }
 
 
-  // ---- Parallax on scroll ----
-  // Elements with the "parallax" class or specific sections will
-  // move at a different rate than the scroll for a depth effect
-  function setupParallax() {
-    if (prefersReducedMotion) return; // respect accessibility
+  /* ═══════════════════════════════════════════
+     PRICING TOGGLE
+     ═══════════════════════════════════════════ */
+  const toggleSwitch = document.querySelector('.pricing-toggle__switch');
+  if (toggleSwitch) {
+    const monthlyLabel = document.querySelector('[data-toggle="monthly"]');
+    const yearlyLabel  = document.querySelector('[data-toggle="yearly"]');
+    const amountEls = document.querySelectorAll('.amount[data-price-monthly]');
 
-    // Add parallax class to the hero mockup & hero gradient
-    var heroVisual = document.querySelector('.hero__visual');
-    if (heroVisual) heroVisual.classList.add('parallax');
+    const setPricing = (isYearly) => {
+      toggleSwitch.setAttribute('aria-pressed', isYearly);
+      if (monthlyLabel) monthlyLabel.classList.toggle('active', !isYearly);
+      if (yearlyLabel) yearlyLabel.classList.toggle('active', isYearly);
 
-    var trustedStrip = document.querySelector('.trusted-strip');
-    if (trustedStrip) trustedStrip.classList.add('parallax');
-
-    var parallaxElements = document.querySelectorAll('.parallax');
-    if (parallaxElements.length === 0) return;
-
-    // Speed multiplier — higher = more parallax movement
-    var speeds = {
-      'hero__visual': 0.12,
-      'trusted-strip': 0.05
+      amountEls.forEach(amount => {
+        // Animate price change with Anime.js
+        anime({
+          targets: amount,
+          opacity: [1, 0],
+          translateY: [0, -8],
+          duration: 200,
+          easing: 'easeInQuad',
+          complete: () => {
+            amount.textContent = isYearly
+              ? amount.getAttribute('data-price-yearly')
+              : amount.getAttribute('data-price-monthly');
+            anime({
+              targets: amount,
+              opacity: [0, 1],
+              translateY: [8, 0],
+              duration: 300,
+              easing: 'easeOutCubic',
+            });
+          },
+        });
+      });
     };
 
-    function onScroll() {
-      var scrollTop = window.pageYOffset;
+    toggleSwitch.addEventListener('click', () => {
+      const isCurrentlyYearly = toggleSwitch.getAttribute('aria-pressed') === 'true';
+      setPricing(!isCurrentlyYearly);
+    });
 
-      parallaxElements.forEach(function (el) {
-        var rect = el.getBoundingClientRect();
-        var elementCenter = rect.top + rect.height / 2;
-        var windowCenter = window.innerHeight / 2;
-        var distFromCenter = elementCenter - windowCenter;
-
-        // Determine speed from className or use default
-        var speed = 0.08;
-        for (var key in speeds) {
-          if (el.classList.contains(key)) {
-            speed = speeds[key];
-            break;
-          }
-        }
-
-        var yOffset = distFromCenter * speed;
-        el.style.transform = 'translateY(' + yOffset + 'px)';
-      });
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll(); // initial position
+    if (monthlyLabel) monthlyLabel.addEventListener('click', () => setPricing(false));
+    if (yearlyLabel)  yearlyLabel.addEventListener('click', () => setPricing(true));
   }
-  setupParallax();
 
 
-  // ---- Animated number counters ----
-  // Counts up from 0 to the target value when the element enters viewport
-  function animateCount(element, target, suffix, duration) {
-    suffix = suffix || '';
-    duration = duration || 1500;
-    var start = 0;
-    var startTime = null;
-
-    // Determine if we should use decimals
-    var hasDecimal = target % 1 !== 0;
-
-    function step(timestamp) {
-      if (!startTime) startTime = timestamp;
-      var progress = Math.min((timestamp - startTime) / duration, 1);
-
-      // Ease-out quad
-      progress = 1 - (1 - progress) * (1 - progress);
-
-      var current = Math.floor(progress * target);
-      if (hasDecimal) {
-        current = (progress * target).toFixed(1);
+  /* ═══════════════════════════════════════════
+     SMOOTH SCROLL FOR ANCHOR LINKS
+     ═══════════════════════════════════════════ */
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      const target = document.querySelector(anchor.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-
-      // Format with commas for thousands
-      var formatted = Number(current).toLocaleString('en-US');
-      element.textContent = formatted + suffix;
-
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      }
-    }
-
-    requestAnimationFrame(step);
-  }
-
-  // Observe stat counters
-  var statNumbers = document.querySelectorAll('[data-count-target]');
-  if (statNumbers.length > 0 && 'IntersectionObserver' in window) {
-    var countObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          var el = entry.target;
-          var target = parseFloat(el.getAttribute('data-count-target'));
-          var suffix = el.getAttribute('data-count-suffix') || '';
-          animateCount(el, target, suffix, 2000);
-          countObserver.unobserve(el);
-        }
-      });
-    }, { threshold: 0.3 });
-
-    statNumbers.forEach(function (el) {
-      countObserver.observe(el);
     });
-  }
+  });
 
-
-  // ---- Tilt effect on hero mockup (mouse-driven) ----
-  // Adds a subtle 3D tilt when hovering the dashboard preview
-  var heroMockup = document.querySelector('.hero__mockup');
-  if (heroMockup && !prefersReducedMotion) {
-    var heroVisualEl = document.querySelector('.hero__visual');
-
-    heroVisualEl.addEventListener('mousemove', function (e) {
-      var rect = heroVisualEl.getBoundingClientRect();
-      var x = (e.clientX - rect.left) / rect.width - 0.5;  // -0.5 to 0.5
-      var y = (e.clientY - rect.top) / rect.height - 0.5;
-
-      heroMockup.style.transform =
-        'rotateY(' + (x * 8) + 'deg) rotateX(' + (-y * 6) + 'deg)';
-    });
-
-    heroVisualEl.addEventListener('mouseleave', function () {
-      heroMockup.style.transform = 'rotateY(-4deg) rotateX(2deg)';
-    });
-  }
-
-})();
+});

@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FinanceME — Recurring Transactions." />
+
+    <title>Recurring Transactions — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <!-- ========== CSS ========== -->
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/transactions.css" />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <header class="page-header">
+            <div>
+              <h1
+                class="text-display"
+                style="font-size: 32px; margin-bottom: 8px"
+              >
+                Recurring Transactions
+              </h1>
+              <p style="color: var(--text-secondary)">
+                Manage subscriptions, bills, and expected income.
+              </p>
+            </div>
+            <a href="add-transaction.html" class="btn btn-primary">Add Recurring</a>
+          </header>
+
+          <div class="metrics-grid">
+            <div class="card metric-card">
+              <span class="metric-label">Monthly Fixed Expenses</span>
+              <span class="metric-value negative">$2,450.00</span>
+            </div>
+            <div class="card metric-card">
+              <span class="metric-label">Monthly Expected Income</span>
+              <span class="metric-value positive">$5,200.00</span>
+            </div>
+            <div class="card metric-card">
+              <span class="metric-label">Active Subscriptions</span>
+              <span class="metric-value" style="color: var(--accent-gold)"
+                >8</span
+              >
+            </div>
+          </div>
+
+          <h2 class="section-title">Upcoming This Week</h2>
+          <div class="recurring-list">
+            <div class="recurring-item">
+              <div class="recurring-info">
+                <div class="recurring-icon icon-netflix">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                </div>
+                <div class="recurring-details">
+                  <span class="recurring-title">Netflix Subscription</span>
+                  <span class="recurring-meta">Tomorrow • Auto-pay</span>
+                </div>
+              </div>
+              <div class="recurring-amount">
+                <span class="amount-value negative">-$15.99</span>
+                <span class="frequency-badge">Monthly</span>
+              </div>
+            </div>
+
+            <div class="recurring-item">
+              <div class="recurring-info">
+                <div class="recurring-icon icon-salary">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect
+                      x="2"
+                      y="7"
+                      width="20"
+                      height="14"
+                      rx="2"
+                      ry="2"
+                    ></rect>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                  </svg>
+                </div>
+                <div class="recurring-details">
+                  <span class="recurring-title">Tech Corp Salary</span>
+                  <span class="recurring-meta">Nov 15 • Direct Deposit</span>
+                </div>
+              </div>
+              <div class="recurring-amount">
+                <span class="amount-value positive">+$2,600.00</span>
+                <span class="frequency-badge">Bi-weekly</span>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="section-title">All Active</h2>
+          <div class="recurring-list">
+            <div class="recurring-item">
+              <div class="recurring-info">
+                <div class="recurring-icon icon-rent">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                    ></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                  </svg>
+                </div>
+                <div class="recurring-details">
+                  <span class="recurring-title">Apartment Rent</span>
+                  <span class="recurring-meta"
+                    >1st of month • Bank Transfer</span
+                  >
+                </div>
+              </div>
+              <div class="recurring-amount">
+                <span class="amount-value negative">-$1,800.00</span>
+                <span class="frequency-badge">Monthly</span>
+              </div>
+            </div>
+
+            <div class="recurring-item">
+              <div class="recurring-info">
+                <div class="recurring-icon icon-spotify">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                    <path d="M12 13c-4.51 4-6.19 1-8.5 1"></path>
+                    <path d="M15 8c-4.51 6-7.88 2-10 2"></path>
+                  </svg>
+                </div>
+                <div class="recurring-details">
+                  <span class="recurring-title">Spotify Premium</span>
+                  <span class="recurring-meta"
+                    >12th of month • Credit Card</span
+                  >
+                </div>
+              </div>
+              <div class="recurring-amount">
+                <span class="amount-value negative">-$10.99</span>
+                <span class="frequency-badge">Monthly</span>
+              </div>
+            </div>
+
+            <div class="recurring-item" style="opacity: 0.5">
+              <div class="recurring-info">
+                <div
+                  class="recurring-icon"
+                  style="
+                    background: var(--bg-base);
+                    border: 1px dashed var(--border-strong);
+                  "
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"
+                    ></path>
+                    <polyline points="21 3 21 8 16 8"></polyline>
+                  </svg>
+                </div>
+                <div class="recurring-details">
+                  <span class="recurring-title">Gym Membership</span>
+                  <span class="recurring-meta">Paused until Jan 2025</span>
+                </div>
+              </div>
+              <div class="recurring-amount">
+                <span class="amount-value text-secondary">-$45.00</span>
+                <span class="frequency-badge">Monthly</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/transactions.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        initSidebar("transactions"); // Treating as part of transactions hub
+        initHeader();
+        if (typeof loadComponent === "function") {
+          loadComponent("../components/footer.html", "footer-container");
+        }
+      });
+    </script>
+  </body>
+</html>
+
+

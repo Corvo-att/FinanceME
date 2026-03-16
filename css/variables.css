@@ -99,4 +99,10 @@
   --z-dropdown: 300;
   --z-modal:    400;
   --z-toast:    500;
+
+  /* ---- Convenience Aliases ---- */
+  /* Used across the landing page for readability */
+  --bg-primary:    var(--bg-base);
+  --bg-secondary:  var(--bg-surface);
+  --bg-card:       var(--bg-surface);
 }

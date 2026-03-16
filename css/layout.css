@@ -470,52 +470,7 @@
    RESPONSIVE BREAKPOINTS
    ============================ */
 
-/* ---- Tablet: 768px – 1024px ---- */
-/* Sidebar collapses to icons, 2-column grid */
-@media (max-width: 1024px) {
-  .sidebar {
-    width: var(--sidebar-collapsed-width);
-  }
 
-  .sidebar .sidebar__link-text,
-  .sidebar .sidebar__group-label,
-  .sidebar .sidebar__logo-text,
-  .sidebar .sidebar__user-name {
-    opacity: 0;
-    pointer-events: none;
-    width: 0;
-    overflow: hidden;
-  }
-
-  .sidebar .sidebar__link {
-    justify-content: center;
-    padding: 0;
-  }
-
-  .sidebar .sidebar__logo {
-    justify-content: center;
-  }
-
-  .sidebar .sidebar__user {
-    justify-content: center;
-  }
-
-  .main-content {
-    margin-left: var(--sidebar-collapsed-width);
-  }
-
-  .grid-cols-4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .grid-cols-3 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .content-wrapper {
-    padding: var(--space-lg) var(--space-md);
-  }
-}
 
 
 /* ---- Mobile: under 768px ---- */
@@ -611,3 +566,4 @@
 
 /* ---- Desktop Large: above 1280px ---- */
 /* Full sidebar, 4-column grids — this is the default, no overrides needed */
+

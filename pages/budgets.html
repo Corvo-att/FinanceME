@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FinanceME — Budgets Overview." />
+
+    <title>Budgets — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <!-- ========== CSS ========== -->
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+
+    <link rel="stylesheet" href="../css/budgets.css" />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <button
+            class="btn btn-ghost btn-icon"
+            id="mobile-menu-btn"
+            aria-label="Open menu"
+            style="display: none; margin-bottom: var(--space-md)"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <header class="page-header">
+            <div>
+              <h1
+                class="text-display"
+                style="font-size: 32px; margin-bottom: 8px"
+              >
+                Budgets
+              </h1>
+              <p style="color: var(--text-secondary)">
+                Manage monthly limits and monitor spending goals.
+              </p>
+            </div>
+            <a href="add-budget.html" class="btn btn-primary">Create Budget</a>
+          </header>
+
+          <!-- Top Total Metrics -->
+          <div class="metrics-grid">
+            <div class="card stat-card">
+              <span class="stat-card__label">Total Budget</span>
+              <span class="stat-card__value">$4,200.00</span>
+              <div style="margin-top: 8px">
+                <span
+                  class="stat-card__delta"
+                  style="
+                    background: var(--bg-elevated);
+                    color: var(--text-secondary);
+                  "
+                  >March 2026</span
+                >
+              </div>
+            </div>
+
+            <div class="card stat-card">
+              <span class="stat-card__label">Total Spent</span>
+              <span class="stat-card__value" style="color: var(--warning)"
+                >$3,150.00</span
+              >
+              <div style="margin-top: 8px">
+                <span class="stat-card__delta stat-card__delta--negative"
+                  >75% Used</span
+                >
+              </div>
+            </div>
+
+            <div class="card stat-card">
+              <span class="stat-card__label">Remaining</span>
+              <span class="stat-card__value" style="color: var(--positive)"
+                >$1,050.00</span
+              >
+              <div style="margin-top: 8px">
+                <span class="stat-card__delta stat-card__delta--positive"
+                  >On Track</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Section Title -->
+          <h2
+            class="text-display"
+            style="
+              font-size: 20px;
+              margin-bottom: var(--space-md);
+              border-bottom: 1px solid var(--border-subtle);
+              padding-bottom: var(--space-xs);
+            "
+          >
+            Active Budgets
+          </h2>
+
+          <div class="budgets-grid">
+            <!-- Safe Budget -->
+            <a href="budget-detail.html" class="card budget-card">
+              <div class="budget-header">
+                <div>
+                  <div
+                    class="budget-icon"
+                    style="
+                      background: rgba(76, 142, 245, 0.1);
+                      color: var(--accent-blue);
+                    "
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                      ></path>
+                      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                  </div>
+                  <h3 class="budget-title">Housing</h3>
+                </div>
+                <div class="budget-amount-display">
+                  <span class="budget-amount-spent">$1,800.00</span>
+                  <span class="budget-amount-total">of $1,800.00</span>
+                </div>
+              </div>
+              <div class="progress-container">
+                <div class="progress-meta">
+                  <span class="text-safe">100% used</span>
+                  <span>$0 left</span>
+                </div>
+                <div class="progress-track">
+                  <div
+                    class="progress-fill fill-safe"
+                    style="width: 100%"
+                  ></div>
+                </div>
+              </div>
+            </a>
+
+            <!-- Warning Budget -->
+            <a href="budget-detail.html" class="card budget-card">
+              <div class="budget-header">
+                <div>
+                  <div
+                    class="budget-icon"
+                    style="
+                      background: rgba(232, 168, 58, 0.1);
+                      color: var(--warning);
+                    "
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                      <path
+                        d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"
+                      ></path>
+                      <line x1="6" y1="1" x2="6" y2="4"></line>
+                      <line x1="10" y1="1" x2="10" y2="4"></line>
+                      <line x1="14" y1="1" x2="14" y2="4"></line>
+                    </svg>
+                  </div>
+                  <h3 class="budget-title">Food & Dining</h3>
+                </div>
+                <div class="budget-amount-display">
+                  <span class="budget-amount-spent">$420.50</span>
+                  <span class="budget-amount-total">of $500.00</span>
+                </div>
+              </div>
+              <div class="progress-container">
+                <div class="progress-meta">
+                  <span class="text-warning">84% used</span>
+                  <span>$79.50 left</span>
+                </div>
+                <div class="progress-track">
+                  <div
+                    class="progress-fill fill-warning"
+                    style="width: 84%"
+                  ></div>
+                </div>
+              </div>
+            </a>
+
+            <!-- Danger Budget -->
+            <a href="budget-detail.html" class="card budget-card">
+              <div class="budget-header">
+                <div>
+                  <div
+                    class="budget-icon"
+                    style="
+                      background: rgba(224, 92, 92, 0.1);
+                      color: var(--negative);
+                    "
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect
+                        x="2"
+                        y="7"
+                        width="20"
+                        height="14"
+                        rx="2"
+                        ry="2"
+                      ></rect>
+                      <path
+                        d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"
+                      ></path>
+                    </svg>
+                  </div>
+                  <h3 class="budget-title">Shopping</h3>
+                </div>
+                <div class="budget-amount-display">
+                  <span class="budget-amount-spent text-danger">$350.00</span>
+                  <span class="budget-amount-total">of $300.00</span>
+                </div>
+              </div>
+              <div class="progress-container">
+                <div class="progress-meta">
+                  <span class="text-danger">116% used</span>
+                  <span class="text-danger">-$50.00 over</span>
+                </div>
+                <div class="progress-track">
+                  <div
+                    class="progress-fill fill-danger"
+                    style="width: 100%"
+                  ></div>
+                </div>
+              </div>
+            </a>
+
+            <!-- Good Budget -->
+            <a href="budget-detail.html" class="card budget-card">
+              <div class="budget-header">
+                <div>
+                  <div
+                    class="budget-icon"
+                    style="
+                      background: rgba(46, 204, 138, 0.1);
+                      color: var(--positive);
+                    "
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect
+                        x="3"
+                        y="11"
+                        width="18"
+                        height="11"
+                        rx="2"
+                        ry="2"
+                      ></rect>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                  </div>
+                  <h3 class="budget-title">Utilities</h3>
+                </div>
+                <div class="budget-amount-display">
+                  <span class="budget-amount-spent">$150.00</span>
+                  <span class="budget-amount-total">of $300.00</span>
+                </div>
+              </div>
+              <div class="progress-container">
+                <div class="progress-meta">
+                  <span class="text-safe">50% used</span>
+                  <span>$150.00 left</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill fill-safe" style="width: 50%"></div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+      window.ACTIVE_PAGE = "budgets";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/budgets.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        initHeader();
+        if (typeof loadComponent === "function") {
+          loadComponent("../components/footer.html", "footer-container");
+        }
+      });
+    </script>
+  </body>
+</html>
+
+

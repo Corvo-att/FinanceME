@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accounts Overview — FinanceME</title>
+
+  <!-- CSS (note the ../ since we're in pages/) -->
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/AccOver.css">
+<script src="https://kit.fontawesome.com/b9a020078f.js" crossorigin="anonymous"></script>
+  <!-- <link rel="stylesheet" href="../css/your-page.css" /> -->
+</head>
+<body>
+
+  <div class="app-container">
+    <div id="sidebar-container"></div>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="main-content">
+      <div id="header-container"></div>
+
+      <div class="content-wrapper">
+
+
+<!-- <div>
+     <i class="fa-regular fa-circle-user"></i>
+     </div>  -->
+     
+
+      <div class="grid grid-cols-12 page-section accounts-overview-header">
+        <h1 id="Manage-Balance" class="text-page-title col-span-6">Manage Your Payments</h1>
+        <div class="card accounts-balance-card col-span-6">
+          <div class="card-header">
+            <div class="accounts-balance-display">
+              <span class="text-label">Balance</span>
+              <span class="data-figure-lg" id="balance">0.00$</span>
+            </div>
+            <button type="button" class="btn btn-secondary">Manage</button>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="Transactions page-section">
+        <h1 class="text-page-title">Transactions <span>(0)</span></h1>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="text-card-title">Past transactions</span>
+          </div>
+          <div class="past-transactions-list">
+            
+            <p class="text-caption">No past transactions yet.</p>
+          </div>
+        </div>
+
+        
+      </div>
+
+ 
+
+
+       <input type="checkbox" id="payment-toggle" style="display: none;"> 
+
+       <div class="payment-background"></div>
+
+
+      <div id = "payment-area" class="payment-methods page-section">
+        <h1 class="text-page-title">Payment methods</h1>
+   <label for="payment-toggle" class="btn btn-primary payment-methods-add-btn">
+    <div id="btn-txt" class="text-label">
+     <span id = "plus">+</span> Add payment method
+    </div>
+    </label>
+      </div>
+
+
+      <div id = "paymentprompt" class="card">
+
+<div class="accept-cards">
+  <span class="text-label">We accept the following cards</span>
+  <div class="visa-pics">
+    <img src="../pictures/AccountsOverview/images.png" alt="Visa">
+    <img src="../pictures/AccountsOverview/vinnytsia-ukraine-september-04-2023-600nw-2357100277.webp" alt="Mastercard">
+  </div>
+</div>
+
+        <label for="payment-toggle" class="close-btn">&times;</label>
+
+        <div id="payment-content">
+
+        <div id="Regions">
+
+        <div>
+        <label class="text-label" for="country-select">For purchases in:</label>
+        </div>
+
+<select name="countries" id="country-select" class="btn btn-secondary" name = "countries">
+  <option value="" disabled selected>Select your country...</option>
+ 
+  <option id = "choice" value="us">United States</option>
+  <option id = "choice" value="canada">Canada</option>
+  <option id = "choice" value="mexico">Mexico</option>
+
+  <option id = "choice" value="saudi-arabia">Saudi Arabia</option>
+  <option id = "choice" value="egypt">Egypt</option>
+  <option id = "choice" value="uae">UAE</option>
+  <option id = "choice" value="qatar">Qatar</option>
+  <option id = "choice" value="bahrain">Bahrain</option>
+  <option id = "choice" value="iraq">Iraq</option>
+  <option id = "choice" value="iran">Iran</option>
+  <option id = "choice" value="morocco">Morocco</option>
+  <option id = "choice" value="algeria">Algeria</option>
+
+  <option id = "choice" value="germany">Germany</option>
+  <option id = "choice" value="france">France</option>
+  <option id = "choice" value="belgium">Belgium</option>
+
+  <option id = "choice" value="japan">Japan</option>
+  <option id = "choice" value="china">China</option>
+  <option id = "choice" value="south-korea">South Korea</option>
+ 
+  
+</select>
+</div>
+
+
+ <input type="checkbox" id="cardchoice-toggle" style="display: none;"> 
+
+
+<div>
+     <label for="cardchoice-toggle" id = "paybtn"class="btn btn-secondary">
+        Credit card or Debit card <i class="fa-regular fa-credit-card"></i>
+    </label>
+</div>
+
+
+
+
+
+<div id="cardprompt" class="card">
+  <form id="formcard">
+    <div id="firstsection">
+      <div>
+        <label for="cardholder">Cardholder name <span class="star">*</span></label>
+        <input type="text" id="cardholder" class="form-input" name="cardholder" autocomplete="cc-name" required>
+      </div>
+
+      <div>
+        <label for="cardnumber">Card number <span class="star">*</span></label>
+        <input type="text" id="cardnumber" class="form-input" name="cardnumber" inputmode="numeric" pattern="[0-9]{13,19}" autocomplete="cc-number" placeholder="1234 5678 9012 3456" required>
+      </div>
+    </div>
+
+    <div id="secondsection">
+      <div class="exp-group">
+        <label for="expmonth">Exp. Month <span class="star">*</span></label>
+        <select id="expmonth" class="form-input" name="expmonth" autocomplete="cc-exp-month" required>
+          <option value="">MM</option>
+          <option value="01">01</option>
+          <option value="02">02</option>
+          <option value="03">03</option>
+          <option value="04">04</option>
+          <option value="05">05</option>
+          <option value="06">06</option>
+          <option value="07">07</option>
+          <option value="08">08</option>
+          <option value="09">09</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+        </select>
+      </div>
+
+      <div class="exp-group">
+        <label for="expyear">Exp. Year <span class="star">*</span></label>
+        <select id="expyear" class="form-input" name="expyear" autocomplete="cc-exp-year" required>
+          <option value="">YY</option>
+          <option>2024</option>
+          <option>2025</option>
+          <option>2026</option>
+          <option>2027</option>
+          <option>2028</option>
+          <option>2029</option>
+        </select>
+      </div>
+    </div>
+
+    <div id = "cvv">
+      <label for="cvv">CVV <span class="star">*</span></label>
+      <input type="password" id="cvv" class="form-input" name="cvv" inputmode="numeric" pattern="[0-9]{3,4}" autocomplete="cc-csc" maxlength="4" required>
+    </div>
+
+    <div>
+      <label for="address1">Address line 1 <span class="star">*</span></label>
+      <input type="text" id="address1" class="form-input" name="address1"  autocomplete="address-line1" required>
+    </div>
+
+    <div>
+      <label for="address2">Address line 2 (Optional)</label>
+      <input type="text" id="address2" class="form-input" name="address2" autocomplete="address-line2">
+    </div>
+
+    <div>
+      <label for="city">City <span class="star">*</span></label>
+      <input type="text" id="city" class="form-input" name="city" placeholder = "Nasr City" autocomplete="address-level2" required>
+    </div>
+
+   <div id="cardfooter">
+      <div>
+        <label for="postalcode">Postal Code <span class="star">*</span></label>
+        <input type="text" id="postalcode" class="form-input"  name="postalcode" placeholder = "82393" inputmode="numeric" autocomplete="postal-code" required>
+      </div>
+      
+      <div id="footerbtn">
+        <button type="submit" class="btn btn-secondary" >Save</button>
+
+        <label for="cardchoice-toggle" class="btn btn-secondary">
+      Back
+    </label>
+
+      </div>
+
+    </div>
+
+  </form>
+</div>
+
+      </div>
+
+</div>
+
+
+
+      </div>
+
+      <div id="footer-container"></div>
+    </div>
+  </div>
+
+  <!-- Mobile tab bar (copy from index.html, fix paths) -->
+
+  <!-- JS (note the ../) -->
+  <script src="../js/utils.js"></script>
+  <script src="../js/sidebar.js"></script>
+  <script src="../js/header.js"></script>
+  <script>
+    // Set which nav link to highlight
+    window.ACTIVE_PAGE = 'your-page-name';
+    window.USER_NAME = 'User';
+  </script>
+
+</body>
+</html>

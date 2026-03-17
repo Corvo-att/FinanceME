@@ -59,7 +59,7 @@
 
 * **Alerts & Notifications Page** — List of all triggered alerts (low balance, budget exceeded, large transaction).  
 * **Manage Alert Rules** — Create/edit custom alert conditions (e.g., "notify me if spending exceeds $500 in dining").  
-* **Subscriptions** —
+* **Subscriptions** — For long-unused and forgotten subscriptions that drain the user’s money
 
 ⚙️ Settings & Configuration
 

@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME - Notifications and Alerts overview."
+    />
+
+    <title>Notifications - FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/notifications.css" />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <button
+            class="btn btn-ghost btn-icon"
+            id="mobile-menu-btn"
+            aria-label="Open menu"
+            style="display: none; margin-bottom: var(--space-md)"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <header class="notifications-header">
+            <div>
+              <h1 class="text-display" style="font-size: 28px">
+                Notifications & Alerts
+              </h1>
+              <p class="notifications-subtitle">
+                Review triggered alerts, mark them as read, and track rule
+                activity.
+              </p>
+            </div>
+            <div class="notifications-actions">
+              <a href="manage-alert-rules.html" class="btn btn-primary"
+                >Manage Alert Rules</a
+              >
+              <a href="subscriptions.html" class="btn btn-ghost"
+                >Subscriptions</a
+              >
+            </div>
+          </header>
+
+          <div
+            id="interaction-live-region"
+            class="sr-only"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          ></div>
+
+          <section class="notification-filter-bar">
+            <div class="filter-block">
+              <label class="filter-label">Type</label>
+              <div
+                class="filter-chip-group"
+                role="group"
+                aria-label="Filter by type"
+              >
+                <button
+                  type="button"
+                  class="filter-chip active"
+                  data-filter="all"
+                  aria-pressed="true"
+                >
+                  All
+                </button>
+                <button
+                  type="button"
+                  class="filter-chip"
+                  data-filter="critical"
+                  aria-pressed="false"
+                >
+                  Critical
+                </button>
+                <button
+                  type="button"
+                  class="filter-chip"
+                  data-filter="warning"
+                  aria-pressed="false"
+                >
+                  Warning
+                </button>
+                <button
+                  type="button"
+                  class="filter-chip"
+                  data-filter="info"
+                  aria-pressed="false"
+                >
+                  Info
+                </button>
+              </div>
+            </div>
+
+            <div class="filter-block">
+              <label class="filter-label">Status</label>
+              <div
+                class="filter-chip-group"
+                role="group"
+                aria-label="Filter by status"
+              >
+                <button
+                  type="button"
+                  class="filter-chip active"
+                  data-status="all"
+                  aria-pressed="true"
+                >
+                  All
+                </button>
+                <button
+                  type="button"
+                  class="filter-chip"
+                  data-status="unread"
+                  aria-pressed="false"
+                >
+                  Unread
+                </button>
+                <button
+                  type="button"
+                  class="filter-chip"
+                  data-status="read"
+                  aria-pressed="false"
+                >
+                  Read
+                </button>
+              </div>
+            </div>
+
+            <div class="filter-summary" aria-live="polite">
+              <span class="badge badge-neutral" id="alerts-visible-count"
+                >8 visible</span
+              >
+              <button
+                type="button"
+                class="btn btn-ghost btn-sm"
+                id="mark-all-read-btn"
+              >
+                Mark all unread as read
+              </button>
+            </div>
+          </section>
+
+          <section class="card alerts-panel">
+            <div class="card-header card-header-divider">
+              <h2 class="text-display" style="font-size: 20px">
+                Triggered Alerts
+              </h2>
+              <span class="text-secondary" style="font-size: 13px"
+                >Updated just now</span
+              >
+            </div>
+
+            <div class="alerts-list" id="alerts-list">
+              <article
+                class="alert-card unread"
+                data-alert-id="a1"
+                data-type="critical"
+                data-status="unread"
+              >
+                <div class="alert-main">
+                  <span class="alert-indicator critical"></span>
+                  <div>
+                    <div class="alert-title-row">
+                      <h3>Low Account Balance</h3>
+                      <span class="badge badge-negative">Critical</span>
+                    </div>
+                    <p>
+                      Chequing account dropped below the threshold. Current
+                      balance is $342.50.
+                    </p>
+                    <div class="alert-meta">
+                      <span>2 hours ago</span>
+                      <span>Chequing Account</span>
+                      <span>Rule: Low Balance &lt; $500</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="alert-actions">
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm mark-read-btn"
+                  >
+                    Mark read
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm dismiss-alert-btn"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </article>
+
+              <article
+                class="alert-card unread"
+                data-alert-id="a2"
+                data-type="critical"
+                data-status="unread"
+              >
+                <div class="alert-main">
+                  <span class="alert-indicator critical"></span>
+                  <div>
+                    <div class="alert-title-row">
+                      <h3>Budget Exceeded</h3>
+                      <span class="badge badge-negative">Critical</span>
+                    </div>
+                    <p>
+                      Dining and entertainment exceeded budget by $127.43 this
+                      cycle.
+                    </p>
+                    <div class="alert-meta">
+                      <span>5 hours ago</span>
+                      <span>Dining & Entertainment</span>
+                      <span>Rule: Budget Exceeded</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="alert-actions">
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm mark-read-btn"
+                  >
+                    Mark read
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm dismiss-alert-btn"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </article>
+
+              <article
+                class="alert-card"
+                data-alert-id="a3"
+                data-type="warning"
+                data-status="read"
+              >
+                <div class="alert-main">
+                  <span class="alert-indicator warning"></span>
+                  <div>
+                    <div class="alert-title-row">
+                      <h3>Large Transaction Detected</h3>
+                      <span class="badge badge-warning">Warning</span>
+                    </div>
+                    <p>
+                      A $425.00 transaction at Best Electronics Store is above
+                      your normal range.
+                    </p>
+                    <div class="alert-meta">
+                      <span>Yesterday, 3:45 PM</span>
+                      <span>Electronics</span>
+                      <span>Rule: Large Transaction &gt; $400</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="alert-actions">
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm mark-read-btn"
+                  >
+                    Mark unread
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm dismiss-alert-btn"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </article>
+
+              <article
+                class="alert-card"
+                data-alert-id="a4"
+                data-type="warning"
+                data-status="read"
+              >
+                <div class="alert-main">
+                  <span class="alert-indicator warning"></span>
+                  <div>
+                    <div class="alert-title-row">
+                      <h3>Budget Near Limit</h3>
+                      <span class="badge badge-warning">Warning</span>
+                    </div>
+                    <p>Groceries budget reached 85% of its monthly limit.</p>
+                    <div class="alert-meta">
+                      <span>Yesterday, 1:20 PM</span>
+                      <span>Groceries</span>
+                      <span>Rule: Budget at 80%</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="alert-actions">
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm mark-read-btn"
+                  >
+                    Mark unread
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm dismiss-alert-btn"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </article>
+
+              <article
+                class="alert-card"
+                data-alert-id="a5"
+                data-type="info"
+                data-status="read"
+              >
+                <div class="alert-main">
+                  <span class="alert-indicator info"></span>
+                  <div>
+                    <div class="alert-title-row">
+                      <h3>Goal Milestone Reached</h3>
+                      <span class="badge badge-positive">Info</span>
+                    </div>
+                    <p>
+                      Vacation Fund reached 50% progress ($2,500 of $5,000).
+                    </p>
+                    <div class="alert-meta">
+                      <span>2 days ago</span>
+                      <span>Vacation Fund</span>
+                      <span>Rule: Goal Milestones</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="alert-actions">
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm mark-read-btn"
+                  >
+                    Mark unread
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm dismiss-alert-btn"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </article>
+
+              <article
+                class="alert-card"
+                data-alert-id="a6"
+                data-type="warning"
+                data-status="read"
+              >
+                <div class="alert-main">
+                  <span class="alert-indicator warning"></span>
+                  <div>
+                    <div class="alert-title-row">
+                      <h3>Unused Subscription</h3>
+                      <span class="badge badge-warning">Warning</span>
+                    </div>
+                    <p>
+                      Streaming Pro ($14.99/mo) has no usage activity for 45
+                      days.
+                    </p>
+                    <div class="alert-meta">
+                      <span>3 days ago</span>
+                      <span>Subscriptions</span>
+                      <span>Rule: Inactivity > 30 days</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="alert-actions">
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm mark-read-btn"
+                  >
+                    Mark unread
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm dismiss-alert-btn"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </article>
+
+              <article
+                class="alert-card"
+                data-alert-id="a7"
+                data-type="info"
+                data-status="read"
+              >
+                <div class="alert-main">
+                  <span class="alert-indicator info"></span>
+                  <div>
+                    <div class="alert-title-row">
+                      <h3>Income Posted</h3>
+                      <span class="badge badge-positive">Info</span>
+                    </div>
+                    <p>
+                      Salary deposit of $3,500.00 has posted to your chequing
+                      account.
+                    </p>
+                    <div class="alert-meta">
+                      <span>5 days ago</span>
+                      <span>Income</span>
+                      <span>Rule: Incoming Deposits</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="alert-actions">
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm mark-read-btn"
+                  >
+                    Mark unread
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm dismiss-alert-btn"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </article>
+
+              <article
+                class="alert-card"
+                data-alert-id="a8"
+                data-type="info"
+                data-status="read"
+              >
+                <div class="alert-main">
+                  <span class="alert-indicator info"></span>
+                  <div>
+                    <div class="alert-title-row">
+                      <h3>Recurring Payment Reminder</h3>
+                      <span class="badge badge-positive">Info</span>
+                    </div>
+                    <p>Internet bill ($89.99) is scheduled in 3 days.</p>
+                    <div class="alert-meta">
+                      <span>1 week ago</span>
+                      <span>Bills</span>
+                      <span>Rule: Bill Due in 3 Days</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="alert-actions">
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm mark-read-btn"
+                  >
+                    Mark unread
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm dismiss-alert-btn"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </article>
+            </div>
+
+            <div class="alerts-empty" id="alerts-empty-state" hidden>
+              <h3>No alerts match this filter</h3>
+              <p>Try another filter combination or reset to view all alerts.</p>
+            </div>
+          </section>
+
+          <section class="card rules-overview-card">
+            <div class="card-header card-header-divider">
+              <h2 class="text-display" style="font-size: 20px">
+                Active Rule Snapshot
+              </h2>
+              <a href="manage-alert-rules.html" class="btn btn-secondary btn-sm"
+                >Open Rule Manager</a
+              >
+            </div>
+
+            <div class="rule-badge-list">
+              <span class="rule-pill">
+                <strong>Low Balance &lt; $500</strong>
+                <span class="badge badge-positive">Enabled</span>
+              </span>
+              <span class="rule-pill">
+                <strong>Budget Exceeded</strong>
+                <span class="badge badge-positive">Enabled</span>
+              </span>
+              <span class="rule-pill">
+                <strong>Large Transaction &gt; $400</strong>
+                <span class="badge badge-positive">Enabled</span>
+              </span>
+              <span class="rule-pill">
+                <strong>Bill Reminder</strong>
+                <span class="badge badge-neutral">Disabled</span>
+              </span>
+            </div>
+          </section>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/notifications.js"></script>
+  </body>
+</html>

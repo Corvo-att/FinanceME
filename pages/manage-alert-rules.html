@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME - Create and manage custom alert rules."
+    />
+
+    <title>Manage Alert Rules - FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/notifications.css" />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <button
+            class="btn btn-ghost btn-icon"
+            id="mobile-menu-btn"
+            aria-label="Open menu"
+            style="display: none; margin-bottom: var(--space-md)"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <header class="notifications-header">
+            <div>
+              <a
+                href="notifications.html"
+                class="btn btn-ghost btn-sm"
+                style="margin-bottom: var(--space-sm)"
+              >
+                Back to Notifications
+              </a>
+              <h1 class="text-display" style="font-size: 28px">
+                Manage Alert Rules
+              </h1>
+              <p class="notifications-subtitle">
+                Create custom conditions for low balances, budget thresholds,
+                large transactions, and subscription inactivity.
+              </p>
+            </div>
+            <div class="notifications-actions">
+              <a href="subscriptions.html" class="btn btn-ghost"
+                >Subscriptions</a
+              >
+              <a href="notifications.html" class="btn btn-secondary"
+                >Alert Center</a
+              >
+            </div>
+          </header>
+
+          <div
+            id="interaction-live-region"
+            class="sr-only"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          ></div>
+
+          <section class="rules-grid">
+            <article class="card">
+              <div class="card-header card-header-divider">
+                <h2 class="text-display" style="font-size: 20px">
+                  Create Rule
+                </h2>
+              </div>
+
+              <form id="alert-rule-form" class="rule-form" novalidate>
+                <div class="rule-form-grid">
+                  <div class="form-group">
+                    <label for="rule-name" class="form-label">Rule Name</label>
+                    <input
+                      id="rule-name"
+                      class="form-input"
+                      type="text"
+                      placeholder="e.g. Dining Spend Limit"
+                      aria-describedby="rule-name-error"
+                      required
+                    />
+                    <div class="form-error-msg" id="rule-name-error" hidden>
+                      Rule name is required.
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="rule-type" class="form-label">Alert Type</label>
+                    <select id="rule-type" class="form-input" required>
+                      <option value="">Select type</option>
+                      <option value="low-balance">Low Balance</option>
+                      <option value="budget-threshold">Budget Threshold</option>
+                      <option value="large-transaction">
+                        Large Transaction
+                      </option>
+                      <option value="subscription-inactivity">
+                        Subscription Inactivity
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="rule-scope" class="form-label">Scope</label>
+                    <select id="rule-scope" class="form-input" required>
+                      <option value="">Select scope</option>
+                      <option value="all-accounts">All Accounts</option>
+                      <option value="chequing">Chequing Account</option>
+                      <option value="credit-card">Credit Card</option>
+                      <option value="groceries">Groceries Category</option>
+                      <option value="dining">Dining Category</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="rule-threshold" class="form-label"
+                      >Threshold Amount (USD)</label
+                    >
+                    <input
+                      id="rule-threshold"
+                      class="form-input"
+                      type="number"
+                      min="1"
+                      step="0.01"
+                      placeholder="500"
+                      required
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="rule-priority" class="form-label"
+                      >Priority</label
+                    >
+                    <select id="rule-priority" class="form-input" required>
+                      <option value="critical">Critical</option>
+                      <option value="warning" selected>Warning</option>
+                      <option value="info">Info</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">Notification Channels</label>
+                    <div class="channel-list">
+                      <label class="channel-option">
+                        <input
+                          type="checkbox"
+                          name="rule-channel"
+                          value="In-app"
+                          checked
+                        />
+                        <span>In-app</span>
+                      </label>
+                      <label class="channel-option">
+                        <input
+                          type="checkbox"
+                          name="rule-channel"
+                          value="Email"
+                          checked
+                        />
+                        <span>Email</span>
+                      </label>
+                      <label class="channel-option">
+                        <input
+                          type="checkbox"
+                          name="rule-channel"
+                          value="SMS"
+                        />
+                        <span>SMS</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rule-switch-row">
+                  <label class="channel-option">
+                    <input id="rule-enabled" type="checkbox" checked />
+                    <span>Enable this rule immediately</span>
+                  </label>
+                </div>
+
+                <div class="btn-row">
+                  <button type="reset" class="btn btn-ghost">Reset</button>
+                  <button type="submit" class="btn btn-primary">
+                    Save Rule
+                  </button>
+                </div>
+              </form>
+            </article>
+
+            <aside class="card rule-tips-card">
+              <div class="card-header card-header-divider">
+                <h2 class="text-display" style="font-size: 20px">Rule Tips</h2>
+              </div>
+
+              <ul class="rule-tips-list">
+                <li>Use critical priority for urgent account protection.</li>
+                <li>Set warning alerts around 75% to 85% budget usage.</li>
+                <li>
+                  Use subscription inactivity to catch forgotten renewals.
+                </li>
+                <li>Keep thresholds realistic to avoid alert fatigue.</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section class="card rules-table-card">
+            <div class="card-header card-header-divider">
+              <h2 class="text-display" style="font-size: 20px">
+                Existing Rules
+              </h2>
+              <span class="text-secondary" style="font-size: 13px"
+                >Click Edit to load values into the form</span
+              >
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table" id="rules-table">
+                <thead>
+                  <tr>
+                    <th>Rule</th>
+                    <th>Trigger</th>
+                    <th>Channels</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="rules-tbody">
+                  <tr
+                    data-rule-name="Low Balance Alert"
+                    data-rule-type="low-balance"
+                    data-rule-scope="chequing"
+                    data-rule-threshold="500"
+                    data-rule-priority="critical"
+                    data-rule-channels="In-app,Email"
+                    data-rule-enabled="true"
+                  >
+                    <td>Low Balance Alert</td>
+                    <td>Chequing below $500</td>
+                    <td>In-app, Email</td>
+                    <td><span class="badge badge-negative">Critical</span></td>
+                    <td>
+                      <span class="badge badge-positive rule-status-badge"
+                        >Enabled</span
+                      >
+                    </td>
+                    <td class="rule-actions-cell">
+                      <button
+                        type="button"
+                        class="btn btn-ghost btn-sm edit-rule-btn"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-ghost btn-sm toggle-rule-btn"
+                      >
+                        Disable
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-ghost btn-sm delete-rule-btn"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr
+                    data-rule-name="Dining Budget Warning"
+                    data-rule-type="budget-threshold"
+                    data-rule-scope="dining"
+                    data-rule-threshold="350"
+                    data-rule-priority="warning"
+                    data-rule-channels="In-app"
+                    data-rule-enabled="true"
+                  >
+                    <td>Dining Budget Warning</td>
+                    <td>Dining above $350</td>
+                    <td>In-app</td>
+                    <td><span class="badge badge-warning">Warning</span></td>
+                    <td>
+                      <span class="badge badge-positive rule-status-badge"
+                        >Enabled</span
+                      >
+                    </td>
+                    <td class="rule-actions-cell">
+                      <button
+                        type="button"
+                        class="btn btn-ghost btn-sm edit-rule-btn"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-ghost btn-sm toggle-rule-btn"
+                      >
+                        Disable
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-ghost btn-sm delete-rule-btn"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr
+                    data-rule-name="Unused Subscription"
+                    data-rule-type="subscription-inactivity"
+                    data-rule-scope="all-accounts"
+                    data-rule-threshold="30"
+                    data-rule-priority="warning"
+                    data-rule-channels="In-app,Email"
+                    data-rule-enabled="false"
+                  >
+                    <td>Unused Subscription</td>
+                    <td>Inactivity above 30 days</td>
+                    <td>In-app, Email</td>
+                    <td><span class="badge badge-warning">Warning</span></td>
+                    <td>
+                      <span class="badge badge-neutral rule-status-badge"
+                        >Disabled</span
+                      >
+                    </td>
+                    <td class="rule-actions-cell">
+                      <button
+                        type="button"
+                        class="btn btn-ghost btn-sm edit-rule-btn"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-ghost btn-sm toggle-rule-btn"
+                      >
+                        Enable
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-ghost btn-sm delete-rule-btn"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <script>
+      window.ACTIVE_PAGE = "notifications";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/notifications.js"></script>
+  </body>
+</html>

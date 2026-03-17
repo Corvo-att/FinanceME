@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME - Subscription monitoring for forgotten and long-unused services."
+    />
+
+    <title>Subscriptions - FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/notifications.css" />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <button
+            class="btn btn-ghost btn-icon"
+            id="mobile-menu-btn"
+            aria-label="Open menu"
+            style="display: none; margin-bottom: var(--space-md)"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <header class="notifications-header">
+            <div>
+              <a
+                href="notifications.html"
+                class="btn btn-ghost btn-sm"
+                style="margin-bottom: var(--space-sm)"
+              >
+                Back to Notifications
+              </a>
+              <h1 class="text-display" style="font-size: 28px">
+                Subscriptions
+              </h1>
+              <p class="notifications-subtitle">
+                Detect long-unused and forgotten subscriptions that keep
+                draining your budget each month.
+              </p>
+            </div>
+            <div class="notifications-actions">
+              <a href="manage-alert-rules.html" class="btn btn-primary"
+                >Create Inactivity Rule</a
+              >
+              <a href="notifications.html" class="btn btn-secondary"
+                >Alert Center</a
+              >
+            </div>
+          </header>
+
+          <div
+            id="interaction-live-region"
+            class="sr-only"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          ></div>
+
+          <section class="subscriptions-summary-grid">
+            <article class="card stat-card">
+              <span class="stat-card__label">Tracked Subscriptions</span>
+              <span class="stat-card__value" id="sub-total-count">8</span>
+              <span class="stat-card__delta">Across all accounts</span>
+            </article>
+
+            <article class="card stat-card">
+              <span class="stat-card__label">Monthly Recurring Cost</span>
+              <span class="stat-card__value" id="sub-monthly-total"
+                >$141.39</span
+              >
+              <span class="stat-card__delta stat-card__delta--negative"
+                >Potential savings available</span
+              >
+            </article>
+
+            <article class="card stat-card">
+              <span class="stat-card__label">Unused (30+ days)</span>
+              <span class="stat-card__value" id="sub-unused-count">3</span>
+              <span class="stat-card__delta stat-card__delta--warning"
+                >Needs review</span
+              >
+            </article>
+          </section>
+
+          <section class="card subscriptions-panel">
+            <div class="card-header card-header-divider">
+              <h2 class="text-display" style="font-size: 20px">
+                Subscription Review
+              </h2>
+              <span class="badge badge-neutral" id="sub-visible-count"
+                >8 visible</span
+              >
+            </div>
+
+            <div class="subscriptions-filter-bar">
+              <div class="sub-filter-group">
+                <button
+                  type="button"
+                  class="sub-filter-chip active"
+                  data-sub-filter="all"
+                  aria-pressed="true"
+                >
+                  All
+                </button>
+                <button
+                  type="button"
+                  class="sub-filter-chip"
+                  data-sub-filter="unused"
+                  aria-pressed="false"
+                >
+                  Unused
+                </button>
+                <button
+                  type="button"
+                  class="sub-filter-chip"
+                  data-sub-filter="active"
+                  aria-pressed="false"
+                >
+                  Active
+                </button>
+                <button
+                  type="button"
+                  class="sub-filter-chip"
+                  data-sub-filter="cancelled"
+                  aria-pressed="false"
+                >
+                  Cancelled
+                </button>
+                <button
+                  type="button"
+                  class="sub-filter-chip"
+                  data-sub-filter="high-cost"
+                  aria-pressed="false"
+                >
+                  High Cost
+                </button>
+              </div>
+            </div>
+
+            <div class="subscriptions-list" id="subscriptions-list">
+              <article
+                class="subscription-card"
+                data-sub-status="unused"
+                data-monthly="14.99"
+              >
+                <div class="subscription-main">
+                  <h3>Streaming Pro</h3>
+                  <p>No usage in 45 days. Last session detected on Jan 31.</p>
+                  <div class="subscription-meta">
+                    <span>Category: Entertainment</span>
+                    <span>Next charge: Mar 21</span>
+                    <span>$14.99/mo</span>
+                  </div>
+                </div>
+                <div class="subscription-side">
+                  <span class="badge badge-warning sub-status-badge"
+                    >Unused</span
+                  >
+                  <div class="subscription-actions">
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm keep-sub-btn"
+                    >
+                      Keep
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm cancel-sub-btn"
+                    >
+                      Cancel
+                    </button>
+                    <a
+                      href="manage-alert-rules.html"
+                      class="btn btn-ghost btn-sm"
+                      >Alert Rule</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article
+                class="subscription-card"
+                data-sub-status="unused"
+                data-monthly="22.99"
+              >
+                <div class="subscription-main">
+                  <h3>Cloud Storage Plus</h3>
+                  <p>
+                    No upload activity in 62 days. Consider downgrading plan.
+                  </p>
+                  <div class="subscription-meta">
+                    <span>Category: Productivity</span>
+                    <span>Next charge: Mar 28</span>
+                    <span>$22.99/mo</span>
+                  </div>
+                </div>
+                <div class="subscription-side">
+                  <span class="badge badge-warning sub-status-badge"
+                    >Unused</span
+                  >
+                  <div class="subscription-actions">
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm keep-sub-btn"
+                    >
+                      Keep
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm cancel-sub-btn"
+                    >
+                      Cancel
+                    </button>
+                    <a
+                      href="manage-alert-rules.html"
+                      class="btn btn-ghost btn-sm"
+                      >Alert Rule</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article
+                class="subscription-card"
+                data-sub-status="active"
+                data-monthly="10.99"
+              >
+                <div class="subscription-main">
+                  <h3>Music Unlimited</h3>
+                  <p>
+                    Regular weekly activity detected. Subscription looks
+                    healthy.
+                  </p>
+                  <div class="subscription-meta">
+                    <span>Category: Entertainment</span>
+                    <span>Next charge: Mar 19</span>
+                    <span>$10.99/mo</span>
+                  </div>
+                </div>
+                <div class="subscription-side">
+                  <span class="badge badge-positive sub-status-badge"
+                    >Active</span
+                  >
+                  <div class="subscription-actions">
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm keep-sub-btn"
+                    >
+                      Keep
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm cancel-sub-btn"
+                    >
+                      Cancel
+                    </button>
+                    <a
+                      href="manage-alert-rules.html"
+                      class="btn btn-ghost btn-sm"
+                      >Alert Rule</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article
+                class="subscription-card"
+                data-sub-status="unused"
+                data-monthly="39.99"
+              >
+                <div class="subscription-main">
+                  <h3>Learning Masterclass</h3>
+                  <p>
+                    No watch activity in 37 days. Highest monthly cost in your
+                    list.
+                  </p>
+                  <div class="subscription-meta">
+                    <span>Category: Learning</span>
+                    <span>Next charge: Mar 25</span>
+                    <span>$39.99/mo</span>
+                  </div>
+                </div>
+                <div class="subscription-side">
+                  <span class="badge badge-warning sub-status-badge"
+                    >Unused</span
+                  >
+                  <div class="subscription-actions">
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm keep-sub-btn"
+                    >
+                      Keep
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm cancel-sub-btn"
+                    >
+                      Cancel
+                    </button>
+                    <a
+                      href="manage-alert-rules.html"
+                      class="btn btn-ghost btn-sm"
+                      >Alert Rule</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article
+                class="subscription-card"
+                data-sub-status="active"
+                data-monthly="11.00"
+              >
+                <div class="subscription-main">
+                  <h3>Premium News</h3>
+                  <p>Read activity detected this week.</p>
+                  <div class="subscription-meta">
+                    <span>Category: News</span>
+                    <span>Next charge: Mar 30</span>
+                    <span>$11.00/mo</span>
+                  </div>
+                </div>
+                <div class="subscription-side">
+                  <span class="badge badge-positive sub-status-badge"
+                    >Active</span
+                  >
+                  <div class="subscription-actions">
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm keep-sub-btn"
+                    >
+                      Keep
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm cancel-sub-btn"
+                    >
+                      Cancel
+                    </button>
+                    <a
+                      href="manage-alert-rules.html"
+                      class="btn btn-ghost btn-sm"
+                      >Alert Rule</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article
+                class="subscription-card"
+                data-sub-status="active"
+                data-monthly="8.49"
+              >
+                <div class="subscription-main">
+                  <h3>Fitness App Pro</h3>
+                  <p>Workout sessions detected 3 times in the last 7 days.</p>
+                  <div class="subscription-meta">
+                    <span>Category: Health</span>
+                    <span>Next charge: Mar 24</span>
+                    <span>$8.49/mo</span>
+                  </div>
+                </div>
+                <div class="subscription-side">
+                  <span class="badge badge-positive sub-status-badge"
+                    >Active</span
+                  >
+                  <div class="subscription-actions">
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm keep-sub-btn"
+                    >
+                      Keep
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm cancel-sub-btn"
+                    >
+                      Cancel
+                    </button>
+                    <a
+                      href="manage-alert-rules.html"
+                      class="btn btn-ghost btn-sm"
+                      >Alert Rule</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article
+                class="subscription-card"
+                data-sub-status="cancelled"
+                data-monthly="17.99"
+              >
+                <div class="subscription-main">
+                  <h3>Game Pass Ultimate</h3>
+                  <p>Cancellation queued. Service ends on Apr 02.</p>
+                  <div class="subscription-meta">
+                    <span>Category: Gaming</span>
+                    <span>Final charge settled</span>
+                    <span>$17.99/mo</span>
+                  </div>
+                </div>
+                <div class="subscription-side">
+                  <span class="badge badge-neutral sub-status-badge"
+                    >Cancelled</span
+                  >
+                  <div class="subscription-actions">
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm keep-sub-btn"
+                    >
+                      Reactivate
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm cancel-sub-btn"
+                      disabled
+                    >
+                      Cancelled
+                    </button>
+                    <a
+                      href="manage-alert-rules.html"
+                      class="btn btn-ghost btn-sm"
+                      >Alert Rule</a
+                    >
+                  </div>
+                </div>
+              </article>
+
+              <article
+                class="subscription-card"
+                data-sub-status="active"
+                data-monthly="15.95"
+              >
+                <div class="subscription-main">
+                  <h3>Design Toolkit</h3>
+                  <p>Template downloads and edits detected this week.</p>
+                  <div class="subscription-meta">
+                    <span>Category: Design</span>
+                    <span>Next charge: Apr 01</span>
+                    <span>$15.95/mo</span>
+                  </div>
+                </div>
+                <div class="subscription-side">
+                  <span class="badge badge-positive sub-status-badge"
+                    >Active</span
+                  >
+                  <div class="subscription-actions">
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm keep-sub-btn"
+                    >
+                      Keep
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-ghost btn-sm cancel-sub-btn"
+                    >
+                      Cancel
+                    </button>
+                    <a
+                      href="manage-alert-rules.html"
+                      class="btn btn-ghost btn-sm"
+                      >Alert Rule</a
+                    >
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="alerts-empty" id="subscriptions-empty-state" hidden>
+              <h3>No subscriptions match this filter</h3>
+              <p>Try another filter to continue reviewing recurring charges.</p>
+            </div>
+          </section>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <script>
+      window.ACTIVE_PAGE = "notifications";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/notifications.js"></script>
+  </body>
+</html>

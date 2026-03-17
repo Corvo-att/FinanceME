@@ -4,7 +4,6 @@
    12-column grid, and responsive breakpoints.
    ============================================================ */
 
-
 /* ============================
    APP SHELL — The main structure
    Sidebar on the left, content on the right
@@ -14,7 +13,6 @@
   display: flex;
   min-height: 100vh;
 }
-
 
 /* ============================
    SIDEBAR
@@ -104,7 +102,7 @@
 }
 
 .sidebar__link.active::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -212,7 +210,6 @@
   justify-content: center;
 }
 
-
 /* ============================
    MAIN CONTENT AREA
    ============================ */
@@ -240,6 +237,71 @@
   padding: var(--space-lg) var(--content-padding);
 }
 
+/* ============================
+   PAGE TRANSITIONS
+   Smooth cross-page motion, matching planning-page polish
+   ============================ */
+
+@media (prefers-reduced-motion: no-preference) {
+  .top-bar {
+    animation: page-header-enter 280ms ease-out both;
+  }
+
+  .content-wrapper {
+    animation: page-content-enter 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  body.page-transition-leave .top-bar {
+    animation: page-header-leave 160ms ease-in forwards;
+  }
+
+  body.page-transition-leave .content-wrapper {
+    pointer-events: none;
+    animation: page-content-leave 200ms ease-in forwards;
+  }
+}
+
+@keyframes page-header-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes page-content-enter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes page-header-leave {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.35;
+  }
+}
+
+@keyframes page-content-leave {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
 
 /* ============================
    TOP BAR (Header)
@@ -338,7 +400,6 @@
   border: 2px solid var(--bg-base);
 }
 
-
 /* ============================
    FOOTER
    ============================ */
@@ -359,7 +420,6 @@
   color: var(--accent-gold);
 }
 
-
 /* ============================
    12-COLUMN GRID
    Use classes like grid-cols-12, col-span-6, etc.
@@ -376,30 +436,61 @@
 }
 
 /* Quick column count grids */
-.grid-cols-1 { grid-template-columns: 1fr; }
-.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-cols-1 {
+  grid-template-columns: 1fr;
+}
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
 
 /* Column span utilities (for use with grid-cols-12) */
-.col-span-1  { grid-column: span 1; }
-.col-span-2  { grid-column: span 2; }
-.col-span-3  { grid-column: span 3; }  /* quarter width  */
-.col-span-4  { grid-column: span 4; }  /* third width    */
-.col-span-5  { grid-column: span 5; }
-.col-span-6  { grid-column: span 6; }  /* half width     */
-.col-span-7  { grid-column: span 7; }
-.col-span-8  { grid-column: span 8; }  /* two-thirds     */
-.col-span-9  { grid-column: span 9; }
-.col-span-10 { grid-column: span 10; }
-.col-span-11 { grid-column: span 11; }
-.col-span-12 { grid-column: span 12; } /* full width     */
+.col-span-1 {
+  grid-column: span 1;
+}
+.col-span-2 {
+  grid-column: span 2;
+}
+.col-span-3 {
+  grid-column: span 3;
+} /* quarter width  */
+.col-span-4 {
+  grid-column: span 4;
+} /* third width    */
+.col-span-5 {
+  grid-column: span 5;
+}
+.col-span-6 {
+  grid-column: span 6;
+} /* half width     */
+.col-span-7 {
+  grid-column: span 7;
+}
+.col-span-8 {
+  grid-column: span 8;
+} /* two-thirds     */
+.col-span-9 {
+  grid-column: span 9;
+}
+.col-span-10 {
+  grid-column: span 10;
+}
+.col-span-11 {
+  grid-column: span 11;
+}
+.col-span-12 {
+  grid-column: span 12;
+} /* full width     */
 
 /* Page section spacing */
 .page-section {
   margin-bottom: var(--section-gap);
 }
-
 
 /* ============================
    MOBILE BOTTOM TAB BAR
@@ -451,7 +542,6 @@
   height: 22px;
 }
 
-
 /* ============================
    MOBILE SIDEBAR OVERLAY
    When sidebar opens on mobile, it slides over content
@@ -465,13 +555,9 @@
   z-index: calc(var(--z-sidebar) - 1);
 }
 
-
 /* ============================
    RESPONSIVE BREAKPOINTS
    ============================ */
-
-
-
 
 /* ---- Mobile: under 768px ---- */
 /* Sidebar hidden, bottom tab bar shows, single column */
@@ -556,7 +642,6 @@
   }
 }
 
-
 /* ---- Desktop Small: 1024px – 1280px ---- */
 @media (min-width: 1025px) and (max-width: 1280px) {
   .grid-cols-4 {
@@ -566,4 +651,3 @@
 
 /* ---- Desktop Large: above 1280px ---- */
 /* Full sidebar, 4-column grids — this is the default, no overrides needed */
-

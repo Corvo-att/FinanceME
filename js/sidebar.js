@@ -146,13 +146,59 @@ function setupMobileSidebar() {
   // Close sidebar when a nav link is clicked (on mobile, navigate away)
   const links = document.querySelectorAll('.sidebar__link');
   links.forEach(link => {
-    link.addEventListener('click', function () {
+    link.addEventListener('click', function (event) {
       // Only auto-close on mobile
       if (window.innerWidth <= 768) {
         sidebar.classList.remove('mobile-open');
       }
+
+      handleSidebarNavigation(event, link.getAttribute('href'));
     });
   });
+}
+
+
+/**
+ * Determine whether the click should bypass scripted navigation.
+ * Keep default browser behavior for new-tab, middle-click, etc.
+ */
+function isModifiedClick(event) {
+  return event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0;
+}
+
+
+/**
+ * Apply a short page-leave transition before navigating from sidebar links.
+ * This gives cross-page navigation the same smoothness as animated planning pages.
+ */
+function handleSidebarNavigation(event, href) {
+  if (!href || event.defaultPrevented || isModifiedClick(event)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (href.startsWith('#') || href.toLowerCase().startsWith('javascript:')) return;
+
+  let targetUrl;
+  try {
+    targetUrl = new URL(href, window.location.href);
+  } catch (_error) {
+    return;
+  }
+
+  const isSameDestination =
+    targetUrl.pathname === window.location.pathname &&
+    targetUrl.search === window.location.search &&
+    targetUrl.hash === window.location.hash;
+
+  if (isSameDestination) return;
+
+  event.preventDefault();
+
+  if (document.body.classList.contains('page-transition-leave')) return;
+
+  document.body.classList.add('page-transition-leave');
+
+  window.setTimeout(function () {
+    window.location.href = targetUrl.href;
+  }, 180);
 }
 
 

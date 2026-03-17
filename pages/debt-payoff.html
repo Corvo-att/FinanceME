@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME — Debt Payoff Planner. Compare snowball and avalanche strategies."
+    />
+
+    <title>Debt Payoff Planner — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/planning.css" />
+  </head>
+
+  <body class="planning-page">
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <button
+            class="btn btn-ghost btn-icon"
+            id="mobile-menu-btn"
+            aria-label="Open menu"
+            style="display: none; margin-bottom: var(--space-md)"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <section class="planning-hero reveal-up">
+            <div class="planning-hero__content">
+              <span class="planning-hero__label">
+                <span class="planning-hero__dot"></span>
+                Planning and Forecasting
+              </span>
+              <h1 class="planning-hero__title">Debt Payoff Planner</h1>
+              <p class="planning-hero__subtitle">
+                Build a debt elimination sequence with strategy-level control.
+                Compare snowball and avalanche methods, model extra payments,
+                and estimate payoff timeline and total interest cost.
+              </p>
+
+              <div class="planning-hero__rail" aria-hidden="true">
+                <span class="planning-hero__rail-item">Capture debts</span>
+                <span class="planning-hero__rail-item">Set minimums</span>
+                <span class="planning-hero__rail-item is-active">Simulate</span>
+                <span class="planning-hero__rail-item">Prioritize</span>
+                <span class="planning-hero__rail-item">Execute</span>
+                <span class="planning-hero__rail-item">Review</span>
+                <span class="planning-hero__rail-item">Close</span>
+              </div>
+
+              <nav class="planning-nav" aria-label="Planning pages">
+                <a class="planning-nav__link" href="bills.html"
+                  >Bill Calendar</a
+                >
+                <a class="planning-nav__link" href="forecast.html"
+                  >Cash Flow Forecast</a
+                >
+                <a class="planning-nav__link is-active" href="debt-payoff.html"
+                  >Debt Payoff</a
+                >
+                <a class="planning-nav__link" href="investment-projector.html"
+                  >Investment Projector</a
+                >
+              </nav>
+            </div>
+          </section>
+
+          <section class="planning-grid-12 reveal-up delay-1">
+            <article class="planning-card col-span-8">
+              <header class="planning-card__header">
+                <h2 class="planning-card__title">Debt inventory</h2>
+                <span class="planning-card__hint"
+                  >Balances, rates, and minimums</span
+                >
+              </header>
+
+              <div class="debt-actions">
+                <button
+                  class="method-chip is-active"
+                  data-method="snowball"
+                  type="button"
+                >
+                  Snowball
+                </button>
+                <button
+                  class="method-chip"
+                  data-method="avalanche"
+                  type="button"
+                >
+                  Avalanche
+                </button>
+                <button
+                  class="btn btn-secondary btn-sm"
+                  id="add-debt-row"
+                  type="button"
+                >
+                  Add Debt
+                </button>
+              </div>
+
+              <div class="debt-table-wrap">
+                <table class="debt-table">
+                  <thead>
+                    <tr>
+                      <th>Debt</th>
+                      <th>Balance</th>
+                      <th>APR (%)</th>
+                      <th>Min Payment</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="debt-rows"></tbody>
+                </table>
+              </div>
+
+              <div
+                style="
+                  display: flex;
+                  gap: var(--space-md);
+                  margin-top: var(--space-md);
+                  flex-wrap: wrap;
+                "
+              >
+                <div class="form-group" style="margin: 0; min-width: 220px">
+                  <label class="form-label" for="extra-payment"
+                    >Extra monthly payment</label
+                  >
+                  <input
+                    class="form-input"
+                    id="extra-payment"
+                    type="number"
+                    min="0"
+                    step="1"
+                    value="250"
+                  />
+                </div>
+
+                <div style="display: flex; align-items: end">
+                  <button
+                    class="btn btn-primary"
+                    id="calculate-payoff"
+                    type="button"
+                  >
+                    Calculate Payoff
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <article class="planning-card col-span-4">
+              <header class="planning-card__header">
+                <h2 class="planning-card__title">Projected payoff</h2>
+                <span class="planning-card__hint">Current strategy output</span>
+              </header>
+
+              <div class="payoff-metrics">
+                <div class="payoff-metric">
+                  <div class="payoff-metric__label">Timeline</div>
+                  <div class="payoff-metric__value" id="payoff-months">
+                    0 mo
+                  </div>
+                </div>
+                <div class="payoff-metric">
+                  <div class="payoff-metric__label">Interest</div>
+                  <div class="payoff-metric__value" id="payoff-interest">
+                    $0.00
+                  </div>
+                </div>
+                <div class="payoff-metric">
+                  <div class="payoff-metric__label">Debt free by</div>
+                  <div class="payoff-metric__value" id="payoff-finish">-</div>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="text-caption" style="color: var(--text-secondary)">
+                Snowball prioritizes momentum by paying smallest balances first.
+                Avalanche minimizes cost by targeting highest APR first.
+              </div>
+            </article>
+          </section>
+
+          <section class="planning-grid-12 reveal-up delay-2">
+            <article class="planning-card col-span-12">
+              <header class="planning-card__header">
+                <h2 class="planning-card__title">Payoff sequence</h2>
+                <span class="planning-card__hint"
+                  >Order generated from current strategy</span
+                >
+              </header>
+
+              <div id="payoff-plan" class="payoff-plan"></div>
+            </article>
+          </section>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <script>
+      window.ACTIVE_PAGE = "debt-payoff";
+      window.USER_NAME = "James";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/planning.js"></script>
+  </body>
+</html>

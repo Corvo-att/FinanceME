@@ -1,0 +1,342 @@
+/* ============================================================
+   FINANCEME — Reports & Analytics Styles (reports.css)
+   ============================================================ */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.page-header > :first-child {
+  flex: 1 1 480px;
+}
+
+.text-section-title {
+  font-family: var(--font-ui);
+  font-size: var(--text-section);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+}
+
+.btn-outline:hover {
+  background: var(--bg-elevated);
+  border-color: var(--accent-gold);
+}
+
+/* Tabs Navigation for Reports */
+.tabs-container {
+  display: flex;
+  gap: var(--space-lg);
+  border-bottom: 1px solid var(--border-subtle);
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 2px;
+}
+
+.tab-link {
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: var(--space-sm) 0;
+  border-bottom: 2px solid transparent;
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.tab-link:hover {
+  color: var(--text-primary);
+}
+
+.tab-link.active {
+  color: var(--accent-gold);
+  border-bottom-color: var(--accent-gold);
+}
+
+/* Header specific tweaks for exports */
+.header-actions {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.header-actions .form-input {
+  min-width: 168px;
+}
+
+/* Enhancements for charts */
+.chart-container {
+  width: 100%;
+  padding-top: var(--space-md);
+}
+
+/* Amounts */
+.amount-positive {
+  color: var(--positive);
+}
+
+.amount-negative {
+  color: var(--negative);
+}
+
+.data-figure-sm {
+  font-family: var(--font-mono);
+  font-size: var(--text-data-sm);
+  text-align: right;
+  display: block;
+}
+
+/* Shared layout rules for report detail pages */
+.report-detail-page .content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.report-detail-page .page-header {
+  align-items: flex-end;
+  padding: var(--space-lg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(
+      760px 240px at -8% -30%,
+      rgba(201, 168, 76, 0.12),
+      transparent 74%
+    ),
+    var(--bg-surface);
+}
+
+.report-detail-page .page-header .text-secondary {
+  margin-top: var(--space-sm);
+  max-width: 68ch;
+}
+
+.report-subtabs {
+  margin-bottom: 0;
+}
+
+.report-toolbar {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.report-toolbar .form-input {
+  min-width: 160px;
+}
+
+.report-kpi-grid,
+.report-section-grid {
+  margin: 0;
+}
+
+/* Reports & Analytics landing page */
+.reports-page .content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.reports-page .page-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  margin-bottom: 0;
+}
+
+.reports-hero {
+  align-items: flex-end;
+  padding: var(--space-xl);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(
+      850px 280px at -10% -20%,
+      rgba(201, 168, 76, 0.16),
+      transparent 72%
+    ),
+    radial-gradient(
+      760px 260px at 110% 5%,
+      rgba(76, 142, 245, 0.14),
+      transparent 70%
+    ),
+    var(--bg-surface);
+}
+
+.reports-hero__copy {
+  margin-top: var(--space-sm);
+  max-width: 62ch;
+}
+
+.reports-tabs {
+  margin-bottom: 0;
+}
+
+.reports-section-heading {
+  margin: 0;
+}
+
+.reports-kpi-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.reports-main-grid,
+.reports-detail-grid {
+  align-items: stretch;
+}
+
+.reports-panel {
+  height: 100%;
+}
+
+.reports-panel .card-header {
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.reports-chart {
+  position: relative;
+  width: 100%;
+}
+
+.reports-chart--feature {
+  height: 320px;
+}
+
+.reports-chart--tall {
+  height: 360px;
+}
+
+.reports-chart--donut {
+  display: flex;
+  justify-content: center;
+}
+
+.reports-mini-summary {
+  display: grid;
+  gap: 0;
+  margin-top: var(--space-sm);
+}
+
+.reports-mini-summary__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.reports-mini-summary__row:last-child {
+  border-bottom: 0;
+}
+
+.reports-mini-summary__row .data-figure-sm {
+  text-align: right;
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .reports-page .reports-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .report-detail-page .report-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .reports-page .reports-main-grid,
+  .reports-page .reports-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reports-page .reports-main-grid > [class*="col-span-"],
+  .reports-page .reports-detail-grid > [class*="col-span-"] {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .reports-page .content-wrapper,
+  .reports-page .page-section {
+    gap: var(--space-lg);
+  }
+
+  .report-detail-page .content-wrapper {
+    gap: var(--space-lg);
+  }
+
+  .report-detail-page .page-header {
+    align-items: stretch;
+    padding: var(--space-md);
+  }
+
+  .reports-hero {
+    align-items: stretch;
+    padding: var(--space-lg);
+  }
+
+  .reports-page .reports-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reports-tabs {
+    gap: var(--space-md);
+  }
+
+  .report-toolbar {
+    align-items: stretch;
+  }
+
+  .report-toolbar .form-input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .report-detail-page .report-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header-actions {
+    width: 100%;
+  }
+
+  .header-actions .form-input,
+  .header-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .reports-chart--feature {
+    height: 280px;
+  }
+
+  .reports-chart--tall {
+    height: 300px;
+  }
+
+  .reports-mini-summary__row {
+    flex-direction: column;
+    gap: var(--space-xxs);
+  }
+
+  .reports-mini-summary__row .data-figure-sm {
+    text-align: left;
+  }
+}

@@ -1,0 +1,865 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FinanceME — Savings Goals Tracker" />
+
+    <title>Savings Goals — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <!-- ========== CSS ========== -->
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/reports.css" />
+
+    <!-- Chart.js for rendering graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body class="report-detail-page">
+    <div class="app-container">
+      <!-- Sidebar -->
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <!-- Main content -->
+      <div class="main-content">
+        <!-- Header -->
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <!-- Page Header -->
+          <div class="page-header">
+            <div>
+              <h1 class="text-page-title">Savings Goals</h1>
+              <p class="text-secondary" style="margin-top: var(--space-xs)">
+                Track and manage your savings targets. Stay motivated toward
+                your financial goals.
+              </p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-primary">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Add Goal
+              </button>
+            </div>
+          </div>
+
+          <!-- Goals Summary Section -->
+          <!-- Secondary Navigation / Tabs -->
+          <div class="tabs-container reports-tabs report-subtabs">
+            <a href="reports.html" class="tab-link">Overview</a>
+            <a href="spending-analysis.html" class="tab-link"
+              >Spending Analysis</a
+            >
+            <a href="cash-flow-report.html" class="tab-link">Cash Flow</a>
+            <a href="net-worth-trends.html" class="tab-link">Net Worth</a>
+            <a href="tax-summary.html" class="tab-link">Tax Summary</a>
+          </div>
+
+          <!-- Goals Summary Section -->
+          <div class="grid grid-cols-4 report-kpi-grid">
+            <div class="stat-card">
+              <span class="stat-card__label">Total Savings</span>
+              <span class="stat-card__value">$18,750</span>
+              <span class="stat-card__delta stat-card__delta--positive"
+                >↑ +$2,150 (3mo)</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Total Goal Target</span>
+              <span class="stat-card__value">$35,000</span>
+              <span class="stat-card__delta stat-card__delta--neutral"
+                >53.6% Complete</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">On Track Goals</span>
+              <span class="stat-card__value">4</span>
+              <span class="stat-card__delta stat-card__delta--positive"
+                >100% On Schedule</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">At Risk Goals</span>
+              <span class="stat-card__value">1</span>
+              <span class="stat-card__delta stat-card__delta--negative"
+                >Needs Attention</span
+              >
+            </div>
+          </div>
+
+          <!-- Add Goal Form (Hidden by Default) -->
+          <div
+            id="add-goal-form"
+            class="report-section-grid"
+            style="display: none"
+          >
+            <div class="card">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Create New Savings Goal</h3>
+              </div>
+              <div style="padding: var(--space-lg)">
+                <div class="form-group">
+                  <label class="form-label" for="goal-name">Goal Name</label>
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="goal-name"
+                    placeholder="e.g., Vacation Fund"
+                  />
+                </div>
+                <div
+                  class="grid grid-cols-2"
+                  style="gap: var(--space-md); margin-top: var(--space-md)"
+                >
+                  <div class="form-group">
+                    <label class="form-label" for="goal-target"
+                      >Target Amount</label
+                    >
+                    <input
+                      type="number"
+                      class="form-input"
+                      id="goal-target"
+                      placeholder="5000.00"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="goal-deadline"
+                      >Target Date</label
+                    >
+                    <input type="date" class="form-input" id="goal-deadline" />
+                  </div>
+                </div>
+                <div class="form-group" style="margin-top: var(--space-md)">
+                  <label class="form-label" for="goal-category">Category</label>
+                  <select class="form-input" id="goal-category">
+                    <option value="">Select a category...</option>
+                    <option value="travel">Travel</option>
+                    <option value="home">Home Improvement</option>
+                    <option value="emergency">Emergency Fund</option>
+                    <option value="vehicle">Vehicle</option>
+                    <option value="education">Education</option>
+                    <option value="investment">Investment</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    gap: var(--space-md);
+                    margin-top: var(--space-lg);
+                  "
+                >
+                  <button class="btn btn-primary">Create Goal</button>
+                  <button
+                    class="btn btn-outline"
+                    onclick="
+                      document.getElementById('add-goal-form').style.display =
+                        'none'
+                    "
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Goals -->
+          <div class="grid grid-cols-1 report-section-grid">
+            <h3
+              class="text-section-title"
+              style="margin-bottom: var(--space-md)"
+            >
+              Active Goals
+            </h3>
+          </div>
+
+          <div
+            class="grid grid-cols-12"
+            style="margin-bottom: var(--space-lg); gap: var(--space-lg)"
+          >
+            <!-- Goal 1: Emergency Fund -->
+            <div class="card col-span-6">
+              <div
+                class="card-header"
+                style="
+                  padding: var(--space-lg);
+                  border-bottom: 1px solid var(--border-subtle);
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: start;
+                "
+              >
+                <div>
+                  <h4 class="text-card-title">🛡️ Emergency Fund</h4>
+                  <p class="text-caption text-secondary">
+                    Target: $10,000 • Due: Dec 31, 2026
+                  </p>
+                </div>
+                <button
+                  class="btn btn-icon"
+                  style="width: auto; padding: var(--space-xs) var(--space-sm)"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="1"></circle>
+                    <circle cx="19" cy="12" r="1"></circle>
+                    <circle cx="5" cy="12" r="1"></circle>
+                  </svg>
+                </button>
+              </div>
+              <div style="padding: var(--space-lg)">
+                <div style="margin-bottom: var(--space-md)">
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      margin-bottom: var(--space-xs);
+                    "
+                  >
+                    <span class="text-secondary"
+                      >Progress: $8,500 / $10,000</span
+                    >
+                    <span class="text-body" style="font-weight: 600">85%</span>
+                  </div>
+                  <div
+                    style="
+                      height: 8px;
+                      background-color: var(--bg-elevated);
+                      border-radius: 4px;
+                      overflow: hidden;
+                    "
+                  >
+                    <div
+                      style="
+                        height: 100%;
+                        width: 85%;
+                        background-color: var(--accent-blue);
+                        border-radius: 4px;
+                      "
+                    ></div>
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: var(--space-md);
+                    margin-top: var(--space-md);
+                    padding-top: var(--space-md);
+                    border-top: 1px solid var(--border-subtle);
+                  "
+                >
+                  <div>
+                    <span class="text-caption text-secondary"
+                      >Monthly Contribution</span
+                    >
+                    <p
+                      class="text-body"
+                      style="font-weight: 600; margin-top: 4px"
+                    >
+                      $500
+                    </p>
+                  </div>
+                  <div>
+                    <span class="text-caption text-secondary"
+                      >Remaining Time</span
+                    >
+                    <p
+                      class="text-body"
+                      style="font-weight: 600; margin-top: 4px"
+                    >
+                      9 months
+                    </p>
+                  </div>
+                </div>
+                <div style="margin-top: var(--space-md)">
+                  <span class="text-caption text-positive"
+                    >✓ On track to complete by target date</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Goal 2: Vacation Fund -->
+            <div class="card col-span-6">
+              <div
+                class="card-header"
+                style="
+                  padding: var(--space-lg);
+                  border-bottom: 1px solid var(--border-subtle);
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: start;
+                "
+              >
+                <div>
+                  <h4 class="text-card-title">✈️ Vacation Fund</h4>
+                  <p class="text-caption text-secondary">
+                    Target: $5,000 • Due: Aug 1, 2026
+                  </p>
+                </div>
+                <button
+                  class="btn btn-icon"
+                  style="width: auto; padding: var(--space-xs) var(--space-sm)"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="1"></circle>
+                    <circle cx="19" cy="12" r="1"></circle>
+                    <circle cx="5" cy="12" r="1"></circle>
+                  </svg>
+                </button>
+              </div>
+              <div style="padding: var(--space-lg)">
+                <div style="margin-bottom: var(--space-md)">
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      margin-bottom: var(--space-xs);
+                    "
+                  >
+                    <span class="text-secondary"
+                      >Progress: $4,200 / $5,000</span
+                    >
+                    <span class="text-body" style="font-weight: 600">84%</span>
+                  </div>
+                  <div
+                    style="
+                      height: 8px;
+                      background-color: var(--bg-elevated);
+                      border-radius: 4px;
+                      overflow: hidden;
+                    "
+                  >
+                    <div
+                      style="
+                        height: 100%;
+                        width: 84%;
+                        background-color: var(--accent-gold);
+                        border-radius: 4px;
+                      "
+                    ></div>
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: var(--space-md);
+                    margin-top: var(--space-md);
+                    padding-top: var(--space-md);
+                    border-top: 1px solid var(--border-subtle);
+                  "
+                >
+                  <div>
+                    <span class="text-caption text-secondary"
+                      >Monthly Contribution</span
+                    >
+                    <p
+                      class="text-body"
+                      style="font-weight: 600; margin-top: 4px"
+                    >
+                      $1,000
+                    </p>
+                  </div>
+                  <div>
+                    <span class="text-caption text-secondary"
+                      >Remaining Time</span
+                    >
+                    <p
+                      class="text-body"
+                      style="font-weight: 600; margin-top: 4px"
+                    >
+                      5 months
+                    </p>
+                  </div>
+                </div>
+                <div style="margin-top: var(--space-md)">
+                  <span class="text-caption text-positive"
+                    >✓ On track to complete by target date</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="grid grid-cols-12"
+            style="margin-bottom: var(--space-lg); gap: var(--space-lg)"
+          >
+            <!-- Goal 3: Home Renovation -->
+            <div class="card col-span-6">
+              <div
+                class="card-header"
+                style="
+                  padding: var(--space-lg);
+                  border-bottom: 1px solid var(--border-subtle);
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: start;
+                "
+              >
+                <div>
+                  <h4 class="text-card-title">🏠 Home Renovation</h4>
+                  <p class="text-caption text-secondary">
+                    Target: $15,000 • Due: Jun 1, 2027
+                  </p>
+                </div>
+                <button
+                  class="btn btn-icon"
+                  style="width: auto; padding: var(--space-xs) var(--space-sm)"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="1"></circle>
+                    <circle cx="19" cy="12" r="1"></circle>
+                    <circle cx="5" cy="12" r="1"></circle>
+                  </svg>
+                </button>
+              </div>
+              <div style="padding: var(--space-lg)">
+                <div style="margin-bottom: var(--space-md)">
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      margin-bottom: var(--space-xs);
+                    "
+                  >
+                    <span class="text-secondary"
+                      >Progress: $3,800 / $15,000</span
+                    >
+                    <span class="text-body" style="font-weight: 600"
+                      >25.3%</span
+                    >
+                  </div>
+                  <div
+                    style="
+                      height: 8px;
+                      background-color: var(--bg-elevated);
+                      border-radius: 4px;
+                      overflow: hidden;
+                    "
+                  >
+                    <div
+                      style="
+                        height: 100%;
+                        width: 25.3%;
+                        background-color: var(--positive);
+                        border-radius: 4px;
+                      "
+                    ></div>
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: var(--space-md);
+                    margin-top: var(--space-md);
+                    padding-top: var(--space-md);
+                    border-top: 1px solid var(--border-subtle);
+                  "
+                >
+                  <div>
+                    <span class="text-caption text-secondary"
+                      >Monthly Contribution</span
+                    >
+                    <p
+                      class="text-body"
+                      style="font-weight: 600; margin-top: 4px"
+                    >
+                      $600
+                    </p>
+                  </div>
+                  <div>
+                    <span class="text-caption text-secondary"
+                      >Remaining Time</span
+                    >
+                    <p
+                      class="text-body"
+                      style="font-weight: 600; margin-top: 4px"
+                    >
+                      15 months
+                    </p>
+                  </div>
+                </div>
+                <div style="margin-top: var(--space-md)">
+                  <span class="text-caption text-positive"
+                    >✓ On track to complete by target date</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Goal 4: New Vehicle (At Risk) -->
+            <div class="card col-span-6">
+              <div
+                class="card-header"
+                style="
+                  padding: var(--space-lg);
+                  border-bottom: 1px solid var(--border-subtle);
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: start;
+                "
+              >
+                <div>
+                  <h4 class="text-card-title">🚙 New Vehicle</h4>
+                  <p class="text-caption text-secondary">
+                    Target: $25,000 • Due: Dec 1, 2026
+                  </p>
+                </div>
+                <button
+                  class="btn btn-icon"
+                  style="width: auto; padding: var(--space-xs) var(--space-sm)"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="1"></circle>
+                    <circle cx="19" cy="12" r="1"></circle>
+                    <circle cx="5" cy="12" r="1"></circle>
+                  </svg>
+                </button>
+              </div>
+              <div style="padding: var(--space-lg)">
+                <div style="margin-bottom: var(--space-md)">
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      margin-bottom: var(--space-xs);
+                    "
+                  >
+                    <span class="text-secondary"
+                      >Progress: $1,750 / $25,000</span
+                    >
+                    <span class="text-body" style="font-weight: 600">7%</span>
+                  </div>
+                  <div
+                    style="
+                      height: 8px;
+                      background-color: var(--bg-elevated);
+                      border-radius: 4px;
+                      overflow: hidden;
+                    "
+                  >
+                    <div
+                      style="
+                        height: 100%;
+                        width: 7%;
+                        background-color: var(--negative);
+                        border-radius: 4px;
+                      "
+                    ></div>
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: var(--space-md);
+                    margin-top: var(--space-md);
+                    padding-top: var(--space-md);
+                    border-top: 1px solid var(--border-subtle);
+                  "
+                >
+                  <div>
+                    <span class="text-caption text-secondary"
+                      >Monthly Contribution</span
+                    >
+                    <p
+                      class="text-body"
+                      style="font-weight: 600; margin-top: 4px"
+                    >
+                      $250
+                    </p>
+                  </div>
+                  <div>
+                    <span class="text-caption text-secondary"
+                      >Remaining Time</span
+                    >
+                    <p
+                      class="text-body"
+                      style="font-weight: 600; margin-top: 4px"
+                    >
+                      8 months
+                    </p>
+                  </div>
+                </div>
+                <div style="margin-top: var(--space-md)">
+                  <span class="text-caption text-negative"
+                    >⚠ Behind schedule • Need $2,469/month to catch up</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Goal Projection Chart -->
+          <div class="grid grid-cols-1 report-section-grid">
+            <div class="card">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Goal Progress Projection</h3>
+                <span class="text-caption text-secondary">Next 12 months</span>
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 380px; width: 100%"
+              >
+                <canvas id="goalProgressChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Completed Goals -->
+          <div class="grid grid-cols-1" style="margin-bottom: var(--space-md)">
+            <h3 class="text-section-title">Completed Goals (2024)</h3>
+          </div>
+
+          <div class="grid grid-cols-12" style="gap: var(--space-lg)">
+            <!-- Completed Goal 1 -->
+            <div class="card col-span-6" style="opacity: 0.7">
+              <div
+                class="card-header"
+                style="
+                  padding: var(--space-lg);
+                  border-bottom: 1px solid var(--border-subtle);
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: start;
+                "
+              >
+                <div>
+                  <h4 class="text-card-title">📱 New Phone</h4>
+                  <p class="text-caption text-secondary">
+                    Target: $1,500 • Completed: Mar 15, 2024
+                  </p>
+                </div>
+              </div>
+              <div style="padding: var(--space-lg)">
+                <div style="margin-bottom: var(--space-md)">
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      margin-bottom: var(--space-xs);
+                    "
+                  >
+                    <span class="text-secondary"
+                      >Progress: $1,500 / $1,500</span
+                    >
+                    <span class="text-body" style="font-weight: 600">100%</span>
+                  </div>
+                  <div
+                    style="
+                      height: 8px;
+                      background-color: var(--bg-elevated);
+                      border-radius: 4px;
+                      overflow: hidden;
+                    "
+                  >
+                    <div
+                      style="
+                        height: 100%;
+                        width: 100%;
+                        background-color: var(--positive);
+                        border-radius: 4px;
+                      "
+                    ></div>
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: var(--space-md);
+                    margin-top: var(--space-md);
+                    padding-top: var(--space-md);
+                    border-top: 1px solid var(--border-subtle);
+                  "
+                >
+                  <div>
+                    <span class="text-caption text-secondary"
+                      >Time to Complete</span
+                    >
+                    <p
+                      class="text-body"
+                      style="font-weight: 600; margin-top: 4px"
+                    >
+                      4 months
+                    </p>
+                  </div>
+                  <div>
+                    <span class="text-caption text-secondary"
+                      >Avg. Monthly</span
+                    >
+                    <p
+                      class="text-body"
+                      style="font-weight: 600; margin-top: 4px"
+                    >
+                      $375
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Completed Goal 2 -->
+            <div class="card col-span-6" style="opacity: 0.7">
+              <div
+                class="card-header"
+                style="
+                  padding: var(--space-lg);
+                  border-bottom: 1px solid var(--border-subtle);
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: start;
+                "
+              >
+                <div>
+                  <h4 class="text-card-title">💻 Laptop Upgrade</h4>
+                  <p class="text-caption text-secondary">
+                    Target: $2,000 • Completed: Aug 22, 2024
+                  </p>
+                </div>
+              </div>
+              <div style="padding: var(--space-lg)">
+                <div style="margin-bottom: var(--space-md)">
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      margin-bottom: var(--space-xs);
+                    "
+                  >
+                    <span class="text-secondary"
+                      >Progress: $2,000 / $2,000</span
+                    >
+                    <span class="text-body" style="font-weight: 600">100%</span>
+                  </div>
+                  <div
+                    style="
+                      height: 8px;
+                      background-color: var(--bg-elevated);
+                      border-radius: 4px;
+                      overflow: hidden;
+                    "
+                  >
+                    <div
+                      style="
+                        height: 100%;
+                        width: 100%;
+                        background-color: var(--positive);
+                        border-radius: 4px;
+                      "
+                    ></div>
+                  </div>
+                </div>
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: var(--space-md);
+                    margin-top: var(--space-md);
+                    padding-top: var(--space-md);
+                    border-top: 1px solid var(--border-subtle);
+                  "
+                >
+                  <div>
+                    <span class="text-caption text-secondary"
+                      >Time to Complete</span
+                    >
+                    <p
+                      class="text-body"
+                      style="font-weight: 600; margin-top: 4px"
+                    >
+                      6 months
+                    </p>
+                  </div>
+                  <div>
+                    <span class="text-caption text-secondary"
+                      >Avg. Monthly</span
+                    >
+                    <p
+                      class="text-body"
+                      style="font-weight: 600; margin-top: 4px"
+                    >
+                      $333
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/reports.js"></script>
+    <script>
+      // Toggle "Add Goal" form
+      document
+        .querySelector(".btn-primary")
+        .addEventListener("click", function () {
+          const form = document.getElementById("add-goal-form");
+          form.style.display = form.style.display === "none" ? "block" : "none";
+        });
+    </script>
+  </body>
+</html>

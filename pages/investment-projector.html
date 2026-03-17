@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME — Retirement and Investment Projector. Forecast long-term portfolio growth."
+    />
+
+    <title>Investment Projector — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/planning.css" />
+  </head>
+
+  <body class="planning-page">
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <button
+            class="btn btn-ghost btn-icon"
+            id="mobile-menu-btn"
+            aria-label="Open menu"
+            style="display: none; margin-bottom: var(--space-md)"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <section class="planning-hero reveal-up">
+            <div class="planning-hero__content">
+              <span class="planning-hero__label">
+                <span class="planning-hero__dot"></span>
+                Planning and Forecasting
+              </span>
+              <h1 class="planning-hero__title">
+                Retirement and Investment Projector
+              </h1>
+              <p class="planning-hero__subtitle">
+                Model long-term wealth growth with contribution discipline,
+                expected return, and inflation drag. Use this as a strategic
+                baseline for retirement readiness and capital planning.
+              </p>
+
+              <div class="planning-hero__rail" aria-hidden="true">
+                <span class="planning-hero__rail-item">Inputs</span>
+                <span class="planning-hero__rail-item">Assumptions</span>
+                <span class="planning-hero__rail-item is-active"
+                  >Projection</span
+                >
+                <span class="planning-hero__rail-item">Milestones</span>
+                <span class="planning-hero__rail-item">Gap</span>
+                <span class="planning-hero__rail-item">Adjust</span>
+                <span class="planning-hero__rail-item">Commit</span>
+              </div>
+
+              <nav class="planning-nav" aria-label="Planning pages">
+                <a class="planning-nav__link" href="bills.html"
+                  >Bill Calendar</a
+                >
+                <a class="planning-nav__link" href="forecast.html"
+                  >Cash Flow Forecast</a
+                >
+                <a class="planning-nav__link" href="debt-payoff.html"
+                  >Debt Payoff</a
+                >
+                <a
+                  class="planning-nav__link is-active"
+                  href="investment-projector.html"
+                  >Investment Projector</a
+                >
+              </nav>
+            </div>
+          </section>
+
+          <section class="projector-grid reveal-up delay-1">
+            <article class="planning-card">
+              <header class="planning-card__header">
+                <h2 class="planning-card__title">Projection inputs</h2>
+                <span class="planning-card__hint">Adjust assumptions live</span>
+              </header>
+
+              <form
+                id="investment-form"
+                class="projector-form"
+                autocomplete="off"
+              >
+                <div class="form-group" style="margin: 0">
+                  <label class="form-label" for="principal"
+                    >Current portfolio value</label
+                  >
+                  <input
+                    class="form-input"
+                    id="principal"
+                    type="number"
+                    min="0"
+                    step="100"
+                    value="25000"
+                  />
+                </div>
+
+                <div class="form-group" style="margin: 0">
+                  <label class="form-label" for="monthly-contribution"
+                    >Monthly contribution</label
+                  >
+                  <input
+                    class="form-input"
+                    id="monthly-contribution"
+                    type="number"
+                    min="0"
+                    step="10"
+                    value="650"
+                  />
+                </div>
+
+                <div
+                  class="planning-grid-12"
+                  style="
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    gap: var(--space-md);
+                  "
+                >
+                  <div class="form-group" style="margin: 0">
+                    <label class="form-label" for="annual-return"
+                      >Annual return (%)</label
+                    >
+                    <input
+                      class="form-input"
+                      id="annual-return"
+                      type="number"
+                      min="0"
+                      max="20"
+                      step="0.1"
+                      value="7.2"
+                    />
+                  </div>
+
+                  <div class="form-group" style="margin: 0">
+                    <label class="form-label" for="investment-years"
+                      >Investment horizon (years)</label
+                    >
+                    <input
+                      class="form-input"
+                      id="investment-years"
+                      type="number"
+                      min="1"
+                      max="50"
+                      step="1"
+                      value="25"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin: 0">
+                  <label class="form-label" for="inflation-rate"
+                    >Inflation rate (%)</label
+                  >
+                  <input
+                    class="form-input"
+                    id="inflation-rate"
+                    type="number"
+                    min="0"
+                    max="10"
+                    step="0.1"
+                    value="2.8"
+                  />
+                </div>
+              </form>
+            </article>
+
+            <article class="projector-output">
+              <div class="projector-output__label">
+                Projected portfolio value
+              </div>
+              <div class="projector-output__value" id="projected-future-value">
+                $0.00
+              </div>
+              <div class="projector-output__sub" id="projected-real-value">
+                $0.00 in today's dollars
+              </div>
+
+              <div
+                class="projector-curve"
+                role="img"
+                aria-label="Projected growth curve"
+              >
+                <svg id="projector-curve-svg" aria-hidden="true"></svg>
+              </div>
+
+              <div id="projector-milestones" class="milestones"></div>
+            </article>
+          </section>
+
+          <section class="planning-grid-12 reveal-up delay-2">
+            <article class="planning-card col-span-6">
+              <header class="planning-card__header">
+                <h2 class="planning-card__title">Assumption guardrails</h2>
+              </header>
+              <ul style="display: grid; gap: var(--space-sm)">
+                <li class="text-body">
+                  Keep expected return assumptions conservative and review
+                  annually.
+                </li>
+                <li class="text-body">
+                  Inflate contribution targets after salary increases to
+                  preserve real savings rate.
+                </li>
+                <li class="text-body">
+                  Stress-test with a lower return scenario before committing.
+                </li>
+              </ul>
+            </article>
+
+            <article class="planning-card col-span-6">
+              <header class="planning-card__header">
+                <h2 class="planning-card__title">Planning reference</h2>
+              </header>
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Scenario</th>
+                    <th>Return Assumption</th>
+                    <th class="col-amount">Use Case</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Defensive</td>
+                    <td class="data-figure-sm">4.5%</td>
+                    <td class="col-amount data-figure-sm">
+                      Capital protection
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Baseline</td>
+                    <td class="data-figure-sm">6.0%</td>
+                    <td class="col-amount data-figure-sm">Balanced planning</td>
+                  </tr>
+                  <tr>
+                    <td>Growth</td>
+                    <td class="data-figure-sm">7.5%</td>
+                    <td class="col-amount data-figure-sm">Long horizon</td>
+                  </tr>
+                </tbody>
+              </table>
+            </article>
+          </section>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <script>
+      window.ACTIVE_PAGE = "investment-projector";
+      window.USER_NAME = "James";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/planning.js"></script>
+  </body>
+</html>

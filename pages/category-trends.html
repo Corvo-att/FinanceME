@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FinanceME — Category Trends Report" />
+
+    <title>Category Trends — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <!-- ========== CSS ========== -->
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/reports.css" />
+
+    <!-- Chart.js for rendering graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body class="report-detail-page">
+    <div class="app-container">
+      <!-- Sidebar -->
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <!-- Main content -->
+      <div class="main-content">
+        <!-- Header -->
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <!-- Page Header -->
+          <div class="page-header">
+            <div>
+              <h1 class="text-page-title">Category Trends</h1>
+              <p class="text-secondary" style="margin-top: var(--space-xs)">
+                Track spending patterns and trends across your expense
+                categories over time.
+              </p>
+            </div>
+            <div class="header-actions">
+              <select
+                class="form-input"
+                id="trend-timeframe"
+                style="width: auto"
+              >
+                <option value="3-months">Last 3 Months</option>
+                <option value="6-months">Last 6 Months</option>
+                <option value="this-year" selected>This Year</option>
+                <option value="2-years">Last 2 Years</option>
+              </select>
+              <button class="btn btn-outline">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Export
+              </button>
+            </div>
+          </div>
+
+          <!-- Category Selection Filter -->
+          <!-- Secondary Navigation / Tabs -->
+          <div class="tabs-container reports-tabs report-subtabs">
+            <a href="reports.html" class="tab-link">Overview</a>
+            <a href="spending-analysis.html" class="tab-link"
+              >Spending Analysis</a
+            >
+            <a href="cash-flow-report.html" class="tab-link">Cash Flow</a>
+            <a href="net-worth-trends.html" class="tab-link">Net Worth</a>
+            <a href="tax-summary.html" class="tab-link">Tax Summary</a>
+          </div>
+
+          <!-- Category Selection Filter -->
+          <div class="report-toolbar">
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                cursor: pointer;
+              "
+            >
+              <input type="checkbox" id="select-all-categories" checked />
+              <span class="text-secondary">All Categories</span>
+            </label>
+            <span style="color: var(--border-subtle)">|</span>
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                cursor: pointer;
+              "
+            >
+              <input type="checkbox" id="cat-groceries" checked />
+              <span class="text-secondary">🛒 Groceries</span>
+            </label>
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                cursor: pointer;
+              "
+            >
+              <input type="checkbox" id="cat-dining" checked />
+              <span class="text-secondary">🍔 Dining</span>
+            </label>
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                cursor: pointer;
+              "
+            >
+              <input type="checkbox" id="cat-transport" checked />
+              <span class="text-secondary">🚗 Transportation</span>
+            </label>
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                cursor: pointer;
+              "
+            >
+              <input type="checkbox" id="cat-utilities" checked />
+              <span class="text-secondary">⚡ Utilities</span>
+            </label>
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                cursor: pointer;
+              "
+            >
+              <input type="checkbox" id="cat-entertainment" />
+              <span class="text-secondary">🎬 Entertainment</span>
+            </label>
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                cursor: pointer;
+              "
+            >
+              <input type="checkbox" id="cat-healthcare" />
+              <span class="text-secondary">💊 Healthcare</span>
+            </label>
+          </div>
+
+          <!-- Trend Summary Cards -->
+          <div class="grid grid-cols-4 report-kpi-grid">
+            <div class="stat-card">
+              <span class="stat-card__label">Highest Growth</span>
+              <span class="stat-card__value" style="font-size: 14px"
+                >Utilities</span
+              >
+              <span class="stat-card__delta stat-card__delta--negative"
+                >↑ +24.3%</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Fastest Decline</span>
+              <span class="stat-card__value" style="font-size: 14px"
+                >Dining</span
+              >
+              <span class="stat-card__delta stat-card__delta--positive"
+                >↓ −18.7%</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Most Stable</span>
+              <span class="stat-card__value" style="font-size: 14px"
+                >Groceries</span
+              >
+              <span class="stat-card__delta stat-card__delta--neutral"
+                >±5.2% Variance</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Most Volatile</span>
+              <span class="stat-card__value" style="font-size: 14px"
+                >Entertainment</span
+              >
+              <span class="stat-card__delta stat-card__delta--neutral"
+                >±34.8% Variance</span
+              >
+            </div>
+          </div>
+
+          <!-- Category Trend Lines Chart -->
+          <div class="grid grid-cols-1 report-section-grid">
+            <div class="card">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">
+                  Monthly Spending Trends by Category
+                </h3>
+                <span class="text-caption text-secondary">Last 12 Months</span>
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 380px; width: 100%"
+              >
+                <canvas id="categoryTrendChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Growth Rate Comparison -->
+          <div class="grid grid-cols-12 report-section-grid">
+            <!-- YoY Growth Bar Chart -->
+            <div class="card col-span-6">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Year-over-Year Growth</h3>
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 340px; width: 100%"
+              >
+                <canvas id="growthRateChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Volatility/Variance Chart -->
+            <div class="card col-span-6">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Spending Volatility</h3>
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 340px; width: 100%"
+              >
+                <canvas id="volatilityChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category Statistics Table -->
+          <div class="grid grid-cols-1">
+            <div class="card">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Category Statistics (YTD)</h3>
+              </div>
+              <table
+                class="data-table"
+                style="width: 100%; margin-top: var(--space-sm)"
+              >
+                <thead>
+                  <tr>
+                    <th style="text-align: left">Category</th>
+                    <th style="text-align: right">Current Month</th>
+                    <th style="text-align: right">Prior Month</th>
+                    <th style="text-align: right">MoM Change</th>
+                    <th style="text-align: right">YTD Average</th>
+                    <th style="text-align: right">YoY Growth</th>
+                    <th style="text-align: right">Trend</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="text-body">🛒 Groceries</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $580.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $575.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      +0.9%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $486.67
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      −2.3%
+                    </td>
+                    <td style="text-align: center">
+                      <span style="font-size: 16px">→</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">🚗 Transportation</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $350.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $385.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      −9.1%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $350.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      +4.5%
+                    </td>
+                    <td style="text-align: center">
+                      <span style="font-size: 16px">↘</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">⚡ Utilities</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $820.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $720.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      +13.9%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $616.67
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      +24.3%
+                    </td>
+                    <td style="text-align: center">
+                      <span style="font-size: 16px">↗</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">🍔 Dining</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $213.33
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $280.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      −23.8%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $320.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      −18.7%
+                    </td>
+                    <td style="text-align: center">
+                      <span style="font-size: 16px">↘</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">🎬 Entertainment</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $202.50
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $85.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      +138.2%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $135.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      +49.8%
+                    </td>
+                    <td style="text-align: center">
+                      <span style="font-size: 16px">↗</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">💊 Healthcare</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $248.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $210.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      +18.1%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $206.67
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      +19.8%
+                    </td>
+                    <td style="text-align: center">
+                      <span style="font-size: 16px">↗</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">🎓 Education</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $1,200.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $400.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      +200.0%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $400.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-neutral"
+                    >
+                      0.0%
+                    </td>
+                    <td style="text-align: center">
+                      <span style="font-size: 16px">↗</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/reports.js"></script>
+  </body>
+</html>

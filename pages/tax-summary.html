@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME — Tax Summary and filing readiness projections"
+    />
+
+    <title>Tax Summary — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/reports.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body class="report-detail-page">
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <div class="page-header">
+            <div>
+              <h1 class="text-page-title">Tax Summary</h1>
+              <p class="text-secondary" style="margin-top: var(--space-xs)">
+                Estimated federal tax exposure, deduction utilization, and
+                quarter-by-quarter filing readiness.
+              </p>
+            </div>
+            <div class="header-actions">
+              <select
+                class="form-input"
+                style="width: auto"
+                id="tax-year-select"
+              >
+                <option value="2024">Tax Year 2024</option>
+                <option value="2025" selected>Tax Year 2025</option>
+                <option value="2026">Tax Year 2026</option>
+              </select>
+              <button class="btn btn-outline">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Export
+              </button>
+            </div>
+          </div>
+
+          <div class="tabs-container reports-tabs report-subtabs">
+            <a href="reports.html" class="tab-link">Overview</a>
+            <a href="spending-analysis.html" class="tab-link"
+              >Spending Analysis</a
+            >
+            <a href="cash-flow-report.html" class="tab-link">Cash Flow</a>
+            <a href="net-worth-trends.html" class="tab-link">Net Worth</a>
+            <a href="tax-summary.html" class="tab-link active">Tax Summary</a>
+          </div>
+
+          <div class="grid grid-cols-4 report-kpi-grid">
+            <div class="stat-card">
+              <span class="stat-card__label">Estimated Taxable Income</span>
+              <span class="stat-card__value">$96,800.00</span>
+              <span class="stat-card__delta stat-card__delta--positive"
+                >+8.7% YoY</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Projected Total Tax</span>
+              <span class="stat-card__value" style="color: var(--negative)"
+                >$22,640.00</span
+              >
+              <span class="stat-card__delta stat-card__delta--negative"
+                >+4.1% YoY</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Effective Tax Rate</span>
+              <span class="stat-card__value">23.4%</span>
+              <span class="stat-card__delta stat-card__delta--positive"
+                >−0.9 pts</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Potential Deductions Left</span>
+              <span class="stat-card__value" style="color: var(--accent-blue)"
+                >$6,450.00</span
+              >
+              <span class="stat-card__delta stat-card__delta--neutral"
+                >Q4 Opportunity</span
+              >
+            </div>
+          </div>
+
+          <div class="grid grid-cols-12 report-section-grid">
+            <div class="card col-span-8">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Quarterly Tax Projection</h3>
+                <span class="text-caption text-secondary"
+                  >Tax due vs withholding</span
+                >
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 360px; width: 100%"
+              >
+                <canvas id="taxQuarterlyProjectionChart"></canvas>
+              </div>
+            </div>
+
+            <div class="card col-span-4">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Tax Liability Mix</h3>
+              </div>
+              <div
+                class="chart-container"
+                style="
+                  position: relative;
+                  height: 300px;
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                "
+              >
+                <canvas id="taxLiabilityMixChart"></canvas>
+              </div>
+              <div
+                class="reports-mini-summary"
+                style="margin-top: var(--space-md)"
+              >
+                <div class="reports-mini-summary__row">
+                  <span class="text-secondary">Federal Income Tax</span>
+                  <span class="data-figure-sm">$17,940.00</span>
+                </div>
+                <div class="reports-mini-summary__row">
+                  <span class="text-secondary">Payroll Taxes</span>
+                  <span class="data-figure-sm">$3,420.00</span>
+                </div>
+                <div class="reports-mini-summary__row">
+                  <span class="text-secondary">Capital Gains Tax</span>
+                  <span class="data-figure-sm">$1,280.00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-12 report-section-grid">
+            <div class="card col-span-6">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Deductions by Category</h3>
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 320px; width: 100%"
+              >
+                <canvas id="taxDeductionCategoryChart"></canvas>
+              </div>
+            </div>
+
+            <div class="card col-span-6">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Effective Rate Trend</h3>
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 320px; width: 100%"
+              >
+                <canvas id="taxEffectiveRateTrendChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 report-section-grid">
+            <div class="card">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Estimated Payments and Status</h3>
+              </div>
+              <table
+                class="data-table"
+                style="width: 100%; margin-top: var(--space-sm)"
+              >
+                <thead>
+                  <tr>
+                    <th style="text-align: left">Quarter</th>
+                    <th style="text-align: right">Taxable Income</th>
+                    <th style="text-align: right">Projected Tax</th>
+                    <th style="text-align: right">Withholding</th>
+                    <th style="text-align: right">Estimated Payment</th>
+                    <th style="text-align: right">Quarter Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="text-body">Q1</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $22,100.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $5,180.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $4,940.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      $240.00
+                    </td>
+                    <td style="text-align: right">
+                      <span class="text-caption text-positive">Filed</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">Q2</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $24,350.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $5,760.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $5,410.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      $350.00
+                    </td>
+                    <td style="text-align: right">
+                      <span class="text-caption text-positive">Filed</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">Q3</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $25,040.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $5,920.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $5,920.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      $0.00
+                    </td>
+                    <td style="text-align: right">
+                      <span class="text-caption text-warning">Review</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">Q4 (Forecast)</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $25,310.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $5,780.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $5,120.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      $660.00
+                    </td>
+                    <td style="text-align: right">
+                      <span class="text-caption text-negative"
+                        >Payment due</span
+                      >
+                    </td>
+                  </tr>
+                  <tr style="border-top: 1px solid var(--border-strong)">
+                    <td>
+                      <span class="text-body" style="font-weight: 600"
+                        >Total</span
+                      >
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $96,800.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $22,640.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $21,390.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      $1,250.00
+                    </td>
+                    <td style="text-align: right">
+                      <span class="text-caption text-warning">Finalize Q4</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/reports.js"></script>
+  </body>
+</html>

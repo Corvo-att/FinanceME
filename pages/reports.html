@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FinanceME — Reports & Analytics" />
+
+    <title>Reports & Analytics — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <!-- ========== CSS ========== -->
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/reports.css" />
+
+    <!-- Chart.js for rendering graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body class="reports-page">
+    <div class="app-container">
+      <!-- Sidebar -->
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <!-- Main content -->
+      <div class="main-content">
+        <!-- Header -->
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <!-- Page Header -->
+          <div class="page-header reports-hero">
+            <div>
+              <h1 class="text-page-title">Reports & Analytics</h1>
+              <p class="text-secondary reports-hero__copy">
+                Comprehensive insights into your financial health, spending
+                patterns, and cash flow.
+              </p>
+            </div>
+            <div class="header-actions">
+              <select
+                class="form-input"
+                id="report-timeframe"
+                style="width: auto"
+              >
+                <option value="this-month">This Month</option>
+                <option value="last-month">Last Month</option>
+                <option value="this-year" selected>This Year</option>
+                <option value="all-time">All Time</option>
+              </select>
+              <button class="btn btn-outline">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Export
+              </button>
+            </div>
+          </div>
+
+          <!-- Secondary Navigation / Tabs -->
+          <div class="tabs-container reports-tabs">
+            <a href="reports.html" class="tab-link active" data-page="overview"
+              >Overview</a
+            >
+            <a href="spending-analysis.html" class="tab-link"
+              >Spending Analysis</a
+            >
+            <a href="cash-flow-report.html" class="tab-link">Cash Flow</a>
+            <a href="net-worth-trends.html" class="tab-link">Net Worth</a>
+            <a href="tax-summary.html" class="tab-link">Tax Summary</a>
+          </div>
+
+          <!-- ---- Reports Grid ---- -->
+
+          <section id="overview" class="page-section">
+            <h2 class="text-section-title reports-section-heading">
+              Financial Highlights
+            </h2>
+
+            <!-- KPI Stat Cards Row -->
+            <div class="grid grid-cols-4 reports-kpi-grid">
+              <div class="stat-card">
+                <span class="stat-card__label">Total Income</span>
+                <span class="stat-card__value" style="color: var(--positive)"
+                  >+$52,400.00</span
+                >
+                <span class="stat-card__delta stat-card__delta--positive"
+                  >YTD</span
+                >
+              </div>
+              <div class="stat-card">
+                <span class="stat-card__label">Total Expenses</span>
+                <span class="stat-card__value" style="color: var(--negative)"
+                  >−$34,120.00</span
+                >
+                <span class="stat-card__delta stat-card__delta--negative"
+                  >YTD</span
+                >
+              </div>
+              <div class="stat-card">
+                <span class="stat-card__label">Net Savings</span>
+                <span class="stat-card__value">$18,280.00</span>
+                <span class="stat-card__delta stat-card__delta--positive"
+                  >34.8% Rate</span
+                >
+              </div>
+              <div class="stat-card">
+                <span class="stat-card__label">Current Net Worth</span>
+                <span class="stat-card__value">$142,500.00</span>
+                <span class="stat-card__delta stat-card__delta--positive"
+                  >↑ +12.4%</span
+                >
+              </div>
+            </div>
+
+            <!-- Main Charts Row -->
+            <div class="grid grid-cols-12 reports-main-grid">
+              <!-- Income vs Expenses (Bar Chart) -->
+              <div class="card col-span-8 reports-panel">
+                <div class="card-header card-header-divider">
+                  <h3 class="text-card-title">Income vs. Expenses</h3>
+                </div>
+                <div
+                  class="chart-container reports-chart reports-chart--feature"
+                >
+                  <canvas id="incomeExpenseChart"></canvas>
+                </div>
+              </div>
+
+              <!-- Spending by Category (Donut Chart) -->
+              <div class="card col-span-4 reports-panel">
+                <div class="card-header card-header-divider">
+                  <h3 class="text-card-title">Spending Breakdown</h3>
+                </div>
+                <div
+                  class="chart-container reports-chart reports-chart--feature reports-chart--donut"
+                >
+                  <canvas id="spendingDonutChart"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Net Worth Trend (Line Chart) full width -->
+            <div class="grid grid-cols-1">
+              <div class="card reports-panel">
+                <div class="card-header card-header-divider">
+                  <h3 class="text-card-title">Net Worth Over Time</h3>
+                  <span class="text-caption text-secondary"
+                    >Last 12 Months</span
+                  >
+                </div>
+                <div class="chart-container reports-chart reports-chart--tall">
+                  <canvas id="netWorthChart"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Extra Reports row -->
+            <div class="grid grid-cols-12 reports-detail-grid">
+              <!-- Cash Flow Report (Table/List) -->
+              <div class="card col-span-6 reports-panel">
+                <div class="card-header card-header-divider">
+                  <h3 class="text-card-title">Cash Flow Statement</h3>
+                  <a href="#" class="btn btn-ghost btn-sm">Full Report →</a>
+                </div>
+                <table
+                  class="data-table"
+                  style="width: 100%; margin-top: var(--space-sm)"
+                >
+                  <tbody>
+                    <tr>
+                      <td><span class="text-body">Starting Balance</span></td>
+                      <td class="col-amount data-figure-sm">$124,220.00</td>
+                    </tr>
+                    <tr>
+                      <td style="padding-left: var(--space-lg)">
+                        <span class="text-secondary">Cash In</span>
+                      </td>
+                      <td class="col-amount data-figure-sm amount-positive">
+                        +$52,400.00
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding-left: var(--space-lg)">
+                        <span class="text-secondary">Cash Out</span>
+                      </td>
+                      <td class="col-amount data-figure-sm amount-negative">
+                        −$34,120.00
+                      </td>
+                    </tr>
+                    <tr style="border-top: 1px solid var(--border-strong)">
+                      <td>
+                        <span class="text-body" style="font-weight: 600"
+                          >Net Cash Flow</span
+                        >
+                      </td>
+                      <td class="col-amount data-figure-sm amount-positive">
+                        +$18,280.00
+                      </td>
+                    </tr>
+                    <tr style="border-top: 1px solid var(--border-subtle)">
+                      <td><span class="text-body">Ending Balance</span></td>
+                      <td class="col-amount data-figure-sm">$142,500.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Tax Summary (Mini view) -->
+              <div class="card col-span-6 reports-panel">
+                <div class="card-header card-header-divider">
+                  <h3 class="text-card-title">Tax Year Summary (Est.)</h3>
+                  <a href="tax-summary.html" class="btn btn-ghost btn-sm"
+                    >Details →</a
+                  >
+                </div>
+                <div class="reports-mini-summary">
+                  <div class="reports-mini-summary__row">
+                    <span class="text-secondary">Est. Taxable Income</span>
+                    <span class="data-figure-sm">$48,000.00</span>
+                  </div>
+                  <div class="reports-mini-summary__row">
+                    <span class="text-secondary">Deductible Expenses</span>
+                    <span class="data-figure-sm amount-negative"
+                      >−$4,500.00</span
+                    >
+                  </div>
+                  <div class="reports-mini-summary__row">
+                    <span class="text-secondary">Capital Gains (Short)</span>
+                    <span class="data-figure-sm amount-positive"
+                      >+$1,200.00</span
+                    >
+                  </div>
+                  <div class="reports-mini-summary__row">
+                    <span class="text-secondary">Capital Gains (Long)</span>
+                    <span class="data-figure-sm amount-positive"
+                      >+$3,400.00</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/reports.js"></script>
+  </body>
+</html>

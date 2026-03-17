@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FinanceME — Income vs Expenses Report" />
+
+    <title>Income vs. Expenses — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <!-- ========== CSS ========== -->
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/reports.css" />
+
+    <!-- Chart.js for rendering graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body class="report-detail-page">
+    <div class="app-container">
+      <!-- Sidebar -->
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <!-- Main content -->
+      <div class="main-content">
+        <!-- Header -->
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <!-- Page Header -->
+          <div class="page-header">
+            <div>
+              <h1 class="text-page-title">Income vs. Expenses</h1>
+              <p class="text-secondary" style="margin-top: var(--space-xs)">
+                Monthly and yearly comparison of your income and expenses.
+              </p>
+            </div>
+            <div class="header-actions">
+              <select
+                class="form-input"
+                id="period-timeframe"
+                style="width: auto"
+              >
+                <option value="monthly">Monthly View</option>
+                <option value="yearly" selected>Yearly View</option>
+                <option value="quarterly">Quarterly View</option>
+              </select>
+              <button class="btn btn-outline">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Export
+              </button>
+            </div>
+          </div>
+
+          <!-- Comparison Toggle -->
+          <!-- Secondary Navigation / Tabs -->
+          <div class="tabs-container reports-tabs report-subtabs">
+            <a href="reports.html" class="tab-link">Overview</a>
+            <a href="spending-analysis.html" class="tab-link"
+              >Spending Analysis</a
+            >
+            <a href="cash-flow-report.html" class="tab-link">Cash Flow</a>
+            <a href="net-worth-trends.html" class="tab-link">Net Worth</a>
+            <a href="tax-summary.html" class="tab-link">Tax Summary</a>
+          </div>
+
+          <!-- Comparison Toggle -->
+          <div class="report-toolbar">
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                cursor: pointer;
+              "
+            >
+              <input type="checkbox" id="toggle-period-comparison" />
+              <span class="text-secondary">Compare with Prior Period</span>
+            </label>
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                cursor: pointer;
+              "
+            >
+              <input type="checkbox" id="show-cumulative" />
+              <span class="text-secondary">Show Cumulative View</span>
+            </label>
+          </div>
+
+          <!-- KPI Summary Cards -->
+          <div class="grid grid-cols-4 report-kpi-grid">
+            <div class="stat-card">
+              <span class="stat-card__label">Total Income</span>
+              <span class="stat-card__value" style="color: var(--positive)"
+                >+$52,400.00</span
+              >
+              <span class="stat-card__delta stat-card__delta--positive"
+                >YTD</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Total Expenses</span>
+              <span class="stat-card__value" style="color: var(--negative)"
+                >−$34,120.00</span
+              >
+              <span class="stat-card__delta stat-card__delta--negative"
+                >YTD</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Net Surplus</span>
+              <span class="stat-card__value">$18,280.00</span>
+              <span class="stat-card__delta stat-card__delta--positive"
+                >+34.9%</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Savings Rate</span>
+              <span class="stat-card__value">34.8%</span>
+              <span class="stat-card__delta stat-card__delta--positive"
+                >↑ +2.3%</span
+              >
+            </div>
+          </div>
+
+          <!-- Main Comparison Chart (Bar + Line Combo) -->
+          <div class="grid grid-cols-1 report-section-grid">
+            <div class="card">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Monthly Income vs. Expenses</h3>
+                <span class="text-caption text-secondary">Last 12 Months</span>
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 380px; width: 100%"
+              >
+                <canvas id="incomeExpenseComboChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Income Trend (Stacked Area Chart) -->
+          <div class="grid grid-cols-12 report-section-grid">
+            <div class="card col-span-6">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Income Breakdown</h3>
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 320px; width: 100%"
+              >
+                <canvas id="incomeStackedChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Expense Trend (Stacked Area Chart) -->
+            <div class="card col-span-6">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Expense Categories</h3>
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 320px; width: 100%"
+              >
+                <canvas id="expenseStackedChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary Table -->
+          <div class="grid grid-cols-1">
+            <div class="card">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Period Comparison</h3>
+              </div>
+              <table
+                class="data-table"
+                style="width: 100%; margin-top: var(--space-sm)"
+              >
+                <thead>
+                  <tr>
+                    <th style="text-align: left">Period</th>
+                    <th style="text-align: right">Income</th>
+                    <th style="text-align: right">Change</th>
+                    <th style="text-align: right">Expenses</th>
+                    <th style="text-align: right">Change</th>
+                    <th style="text-align: right">Net Surplus</th>
+                    <th style="text-align: right">Rate</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="text-body">Jan 2024</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $4,200.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-neutral"
+                    >
+                      —
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $3,100.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-neutral"
+                    >
+                      —
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      $1,100.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      26.2%
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">Feb 2024</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $4,500.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      +7.1%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $2,950.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      −4.8%
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      $1,550.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      34.4%
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">Mar 2024</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $5,100.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      +13.3%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $3,200.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      +8.5%
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      $1,900.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      37.3%
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">Apr 2024</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $4,800.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      −5.9%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $3,050.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      +4.7%
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      $1,750.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      36.5%
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">May 2024</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $5,200.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      +8.3%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $3,400.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      +11.5%
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      $1,800.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      34.6%
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">Jun 2024</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $4,600.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      −11.5%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $2,420.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      −28.8%
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      $2,180.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      47.4%
+                    </td>
+                  </tr>
+                  <tr style="border-top: 1px solid var(--border-strong)">
+                    <td>
+                      <span class="text-body" style="font-weight: 600"
+                        >6-Month Total</span
+                      >
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm"
+                      style="font-weight: 600"
+                    >
+                      $28,400.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-neutral"
+                    >
+                      —
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm"
+                      style="font-weight: 600"
+                    >
+                      $18,120.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-neutral"
+                    >
+                      —
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                      style="font-weight: 600"
+                    >
+                      $10,280.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm"
+                      style="font-weight: 600"
+                    >
+                      36.2%
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/reports.js"></script>
+  </body>
+</html>

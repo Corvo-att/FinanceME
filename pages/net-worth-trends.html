@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FinanceME — Net Worth Trends Report" />
+
+    <title>Net Worth Trends — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <!-- ========== CSS ========== -->
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/reports.css" />
+
+    <!-- Chart.js for rendering graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body class="report-detail-page">
+    <div class="app-container">
+      <!-- Sidebar -->
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <!-- Main content -->
+      <div class="main-content">
+        <!-- Header -->
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <!-- Page Header -->
+          <div class="page-header">
+            <div>
+              <h1 class="text-page-title">Net Worth Trends</h1>
+              <p class="text-secondary" style="margin-top: var(--space-xs)">
+                Historical analysis of your total assets minus liabilities over
+                time.
+              </p>
+            </div>
+            <div class="header-actions">
+              <select class="form-input" id="nw-timeframe" style="width: auto">
+                <option value="1-year">Last 12 Months</option>
+                <option value="5-years">Last 5 Years</option>
+                <option value="all-time" selected>All Time</option>
+              </select>
+              <button class="btn btn-outline">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Export
+              </button>
+            </div>
+          </div>
+
+          <!-- Secondary Navigation / Tabs -->
+          <div class="tabs-container reports-tabs report-subtabs">
+            <a href="reports.html" class="tab-link">Overview</a>
+            <a href="spending-analysis.html" class="tab-link"
+              >Spending Analysis</a
+            >
+            <a href="cash-flow-report.html" class="tab-link">Cash Flow</a>
+            <a href="net-worth-trends.html" class="tab-link active"
+              >Net Worth</a
+            >
+            <a href="tax-summary.html" class="tab-link">Tax Summary</a>
+          </div>
+
+          <!-- View Toggles -->
+          <div class="report-toolbar">
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                cursor: pointer;
+              "
+            >
+              <input type="checkbox" id="show-breakdown" checked />
+              <span class="text-secondary"
+                >Show Assets/Liabilities Breakdown</span
+              >
+            </label>
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                cursor: pointer;
+              "
+            >
+              <input type="checkbox" id="show-growth-rate" />
+              <span class="text-secondary">Show Growth Rate</span>
+            </label>
+          </div>
+
+          <!-- KPI Summary Cards -->
+          <div class="grid grid-cols-4 report-kpi-grid">
+            <div class="stat-card">
+              <span class="stat-card__label">Current Net Worth</span>
+              <span class="stat-card__value">$142,500.00</span>
+              <span class="stat-card__delta stat-card__delta--positive"
+                >↑ +12.4% YTD</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Total Assets</span>
+              <span class="stat-card__value" style="color: var(--positive)"
+                >$287,400.00</span
+              >
+              <span class="stat-card__delta stat-card__delta--positive"
+                >+$28,900</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Total Liabilities</span>
+              <span class="stat-card__value" style="color: var(--negative)"
+                >−$144,900.00</span
+              >
+              <span class="stat-card__delta stat-card__delta--positive"
+                >↓ −8.2%</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Annual Growth</span>
+              <span class="stat-card__value">+$18,280.00</span>
+              <span class="stat-card__delta stat-card__delta--positive"
+                >~12.8% CAGR</span
+              >
+            </div>
+          </div>
+
+          <!-- Main Net Worth Trend Chart -->
+          <div class="grid grid-cols-1 report-section-grid">
+            <div class="card">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Net Worth Over Time</h3>
+                <span class="text-caption text-secondary"
+                  >All Time Historical Data</span
+                >
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 400px; width: 100%"
+              >
+                <canvas id="netWorthAreaChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Assets vs Liabilities Charts -->
+          <div class="grid grid-cols-12 report-section-grid">
+            <!-- Assets Composition -->
+            <div class="card col-span-6">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Assets Breakdown</h3>
+              </div>
+              <div
+                class="chart-container"
+                style="
+                  position: relative;
+                  height: 340px;
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                "
+              >
+                <canvas id="assetsDonutChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Liabilities Composition -->
+            <div class="card col-span-6">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Liabilities Breakdown</h3>
+              </div>
+              <div
+                class="chart-container"
+                style="
+                  position: relative;
+                  height: 340px;
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                "
+              >
+                <canvas id="liabilitiesDonutChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Assets & Liabilities Detail Tables -->
+          <div class="grid grid-cols-12 report-section-grid">
+            <!-- Assets Table -->
+            <div class="card col-span-6">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Assets</h3>
+              </div>
+              <table
+                class="data-table"
+                style="width: 100%; margin-top: var(--space-sm)"
+              >
+                <thead>
+                  <tr>
+                    <th style="text-align: left">Asset Type</th>
+                    <th style="text-align: right">Current Value</th>
+                    <th style="text-align: right">Prior Month</th>
+                    <th style="text-align: right">Change</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="text-body">🏦 Bank Accounts</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $28,400.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $26,200.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      +$2,200.00
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">📊 Investments</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $147,200.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $132,500.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      +$14,700.00
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">🏠 Real Estate</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $95,000.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $95,000.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-neutral"
+                    >
+                      —
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">🚗 Vehicles</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $12,800.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $13,000.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      −$200.00
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">💎 Other Assets</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $4,000.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $4,000.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-neutral"
+                    >
+                      —
+                    </td>
+                  </tr>
+                  <tr style="border-top: 1px solid var(--border-strong)">
+                    <td>
+                      <span class="text-body" style="font-weight: 600"
+                        >Total Assets</span
+                      >
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm"
+                      style="font-weight: 600"
+                    >
+                      $287,400.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $270,700.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      +$16,700.00
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Liabilities Table -->
+            <div class="card col-span-6">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Liabilities</h3>
+              </div>
+              <table
+                class="data-table"
+                style="width: 100%; margin-top: var(--space-sm)"
+              >
+                <thead>
+                  <tr>
+                    <th style="text-align: left">Liability Type</th>
+                    <th style="text-align: right">Current Balance</th>
+                    <th style="text-align: right">Prior Month</th>
+                    <th style="text-align: right">Change</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="text-body">💳 Credit Cards</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $8,200.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $7,800.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      +$400.00
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">🏠 Mortgage</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $98,500.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $99,200.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      −$700.00
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">🚗 Auto Loan</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $24,500.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $25,100.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      −$600.00
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">👤 Personal Loans</span></td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $13,700.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $14,500.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      −$800.00
+                    </td>
+                  </tr>
+                  <tr style="border-top: 1px solid var(--border-strong)">
+                    <td>
+                      <span class="text-body" style="font-weight: 600"
+                        >Total Liabilities</span
+                      >
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm"
+                      style="font-weight: 600"
+                    >
+                      $144,900.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $146,600.00
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      −$1,700.00
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Summary Section -->
+          <div class="grid grid-cols-1">
+            <div class="card">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Key Metrics</h3>
+              </div>
+              <div
+                style="
+                  margin-top: var(--space-md);
+                  display: grid;
+                  grid-template-columns: repeat(4, 1fr);
+                  gap: var(--space-lg);
+                "
+              >
+                <div>
+                  <span
+                    class="text-secondary"
+                    style="
+                      font-size: 12px;
+                      text-transform: uppercase;
+                      letter-spacing: 0.6px;
+                    "
+                    >Assets to Liabilities Ratio</span
+                  >
+                  <div style="margin-top: var(--space-sm)">
+                    <span class="data-figure-sm">1.98x</span>
+                  </div>
+                  <span class="text-secondary" style="font-size: 11px"
+                    >Healthy</span
+                  >
+                </div>
+                <div>
+                  <span
+                    class="text-secondary"
+                    style="
+                      font-size: 12px;
+                      text-transform: uppercase;
+                      letter-spacing: 0.6px;
+                    "
+                    >Debt to Asset Ratio</span
+                  >
+                  <div style="margin-top: var(--space-sm)">
+                    <span class="data-figure-sm">50.4%</span>
+                  </div>
+                  <span class="text-secondary" style="font-size: 11px"
+                    >Moderate</span
+                  >
+                </div>
+                <div>
+                  <span
+                    class="text-secondary"
+                    style="
+                      font-size: 12px;
+                      text-transform: uppercase;
+                      letter-spacing: 0.6px;
+                    "
+                    >Month-over-Month Growth</span
+                  >
+                  <div style="margin-top: var(--space-sm)">
+                    <span class="data-figure-sm amount-positive"
+                      >+1,820.00</span
+                    >
+                  </div>
+                  <span class="text-secondary" style="font-size: 11px"
+                    >1.3%</span
+                  >
+                </div>
+                <div>
+                  <span
+                    class="text-secondary"
+                    style="
+                      font-size: 12px;
+                      text-transform: uppercase;
+                      letter-spacing: 0.6px;
+                    "
+                    >Year-to-Date Growth</span
+                  >
+                  <div style="margin-top: var(--space-sm)">
+                    <span class="data-figure-sm amount-positive"
+                      >+$17,600.00</span
+                    >
+                  </div>
+                  <span class="text-secondary" style="font-size: 11px"
+                    >12.4%</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/reports.js"></script>
+  </body>
+</html>

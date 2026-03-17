@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FinanceME — Spending Analysis Report" />
+
+    <title>Spending Analysis — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <!-- ========== CSS ========== -->
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/reports.css" />
+
+    <!-- Chart.js for rendering graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body class="report-detail-page">
+    <div class="app-container">
+      <!-- Sidebar -->
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <!-- Main content -->
+      <div class="main-content">
+        <!-- Header -->
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <!-- Page Header -->
+          <div class="page-header">
+            <div>
+              <h1 class="text-page-title">Spending Analysis</h1>
+              <p class="text-secondary" style="margin-top: var(--space-xs)">
+                Detailed breakdown of your expenses by category, merchant, and
+                time period.
+              </p>
+            </div>
+            <div class="header-actions">
+              <select
+                class="form-input"
+                id="analysis-timeframe"
+                style="width: auto"
+              >
+                <option value="this-month">This Month</option>
+                <option value="last-month">Last Month</option>
+                <option value="last-3-months">Last 3 Months</option>
+                <option value="this-year" selected>This Year</option>
+              </select>
+              <button class="btn btn-outline">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Export
+              </button>
+            </div>
+          </div>
+
+          <!-- Secondary Navigation / Tabs -->
+          <div class="tabs-container reports-tabs report-subtabs">
+            <a href="reports.html" class="tab-link">Overview</a>
+            <a href="spending-analysis.html" class="tab-link active"
+              >Spending Analysis</a
+            >
+            <a href="cash-flow-report.html" class="tab-link">Cash Flow</a>
+            <a href="net-worth-trends.html" class="tab-link">Net Worth</a>
+            <a href="tax-summary.html" class="tab-link">Tax Summary</a>
+          </div>
+
+          <!-- Filters Row -->
+          <div class="filters-row report-toolbar">
+            <input
+              type="text"
+              class="form-input"
+              placeholder="Search categories..."
+              style="flex: 1; max-width: 300px"
+              id="category-search"
+            />
+            <select class="form-input" id="sort-by" style="width: auto">
+              <option value="amount-high">Highest Amount</option>
+              <option value="amount-low">Lowest Amount</option>
+              <option value="frequency">Most Frequent</option>
+            </select>
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: var(--space-sm);
+                cursor: pointer;
+              "
+            >
+              <input type="checkbox" id="toggle-comparison" />
+              <span class="text-secondary">Compare with Prior Period</span>
+            </label>
+          </div>
+
+          <!-- KPI Summary Row -->
+          <div class="grid grid-cols-4 report-kpi-grid">
+            <div class="stat-card">
+              <span class="stat-card__label">Total Spending</span>
+              <span class="stat-card__value" style="color: var(--negative)"
+                >−$34,120.00</span
+              >
+              <span class="stat-card__delta stat-card__delta--positive"
+                >↓ −5.2% vs prior</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Avg. Daily Spend</span>
+              <span class="stat-card__value">$1,137.33</span>
+              <span class="stat-card__delta stat-card__delta--neutral"
+                >Monthly avg</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Top Category</span>
+              <span class="stat-card__value" style="font-size: 14px"
+                >Groceries</span
+              >
+              <span class="stat-card__delta stat-card__delta--negative"
+                >$5,840.00</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Largest Transaction</span>
+              <span class="stat-card__value" style="font-size: 14px"
+                >Utilities</span
+              >
+              <span class="stat-card__delta stat-card__delta--neutral"
+                >$820.00</span
+              >
+            </div>
+          </div>
+
+          <!-- Main Charts Row -->
+          <div class="grid grid-cols-12 report-section-grid">
+            <!-- Category Donut Chart -->
+            <div class="card col-span-6">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Spending by Category</h3>
+              </div>
+              <div
+                class="chart-container"
+                style="
+                  position: relative;
+                  height: 360px;
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                "
+              >
+                <canvas id="categoryDonutChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Merchant Breakdown (Bar Chart) -->
+            <div class="card col-span-6">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Top Merchants</h3>
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 360px; width: 100%"
+              >
+                <canvas id="merchantBarChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Time Series Trend (Line Chart) -->
+          <div class="grid grid-cols-1 report-section-grid">
+            <div class="card">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Daily Spending Trend</h3>
+                <span class="text-caption text-secondary"
+                  >7-day rolling average</span
+                >
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 320px; width: 100%"
+              >
+                <canvas id="trendLineChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category Detail Table -->
+          <div class="grid grid-cols-1">
+            <div class="card">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Category Breakdown</h3>
+              </div>
+              <table
+                class="data-table"
+                style="width: 100%; margin-top: var(--space-sm)"
+              >
+                <thead>
+                  <tr>
+                    <th style="text-align: left">Category</th>
+                    <th style="text-align: right">Transactions</th>
+                    <th style="text-align: right">Total Amount</th>
+                    <th style="text-align: right">% of Total</th>
+                    <th style="text-align: right">Avg. per Transaction</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="text-body">🛒 Groceries</span></td>
+                    <td style="text-align: right" class="data-figure-sm">24</td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $5,840.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      17.1%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $243.33
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">🚗 Transportation</span></td>
+                    <td style="text-align: right" class="data-figure-sm">12</td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $4,200.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      12.3%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $350.00
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">⚡ Utilities</span></td>
+                    <td style="text-align: right" class="data-figure-sm">3</td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $2,460.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      7.2%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $820.00
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">🍔 Dining</span></td>
+                    <td style="text-align: right" class="data-figure-sm">18</td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $3,840.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      11.3%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $213.33
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">🎬 Entertainment</span></td>
+                    <td style="text-align: right" class="data-figure-sm">8</td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $1,620.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      4.7%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $202.50
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">💊 Healthcare</span></td>
+                    <td style="text-align: right" class="data-figure-sm">5</td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $1,240.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      3.6%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $248.00
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="text-body">🎓 Education</span></td>
+                    <td style="text-align: right" class="data-figure-sm">2</td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $2,400.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      7.0%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $1,200.00
+                    </td>
+                  </tr>
+                  <tr style="border-top: 1px solid var(--border-strong)">
+                    <td>
+                      <span class="text-body" style="font-weight: 600"
+                        >Other</span
+                      >
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">15</td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      −$12,520.00
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      36.7%
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $834.67
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/reports.js"></script>
+  </body>
+</html>

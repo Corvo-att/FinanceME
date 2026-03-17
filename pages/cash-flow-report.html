@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FinanceME — Cash Flow Report" />
+
+    <title>Cash Flow Report — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <!-- ========== CSS ========== -->
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/reports.css" />
+
+    <!-- Chart.js for rendering graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body class="report-detail-page">
+    <div class="app-container">
+      <!-- Sidebar -->
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <!-- Main content -->
+      <div class="main-content">
+        <!-- Header -->
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <!-- Page Header -->
+          <div class="page-header">
+            <div>
+              <h1 class="text-page-title">Cash Flow Report</h1>
+              <p class="text-secondary" style="margin-top: var(--space-xs)">
+                Detailed statement of cash inflows and outflows across all
+                accounts and periods.
+              </p>
+            </div>
+            <div class="header-actions">
+              <select class="form-input" id="cf-timeframe" style="width: auto">
+                <option value="this-month">This Month</option>
+                <option value="last-month">Last Month</option>
+                <option value="this-quarter">This Quarter</option>
+                <option value="this-year" selected>This Year</option>
+              </select>
+              <button class="btn btn-outline">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Export
+              </button>
+            </div>
+          </div>
+
+          <!-- Secondary Navigation / Tabs -->
+          <div class="tabs-container reports-tabs report-subtabs">
+            <a href="reports.html" class="tab-link">Overview</a>
+            <a href="spending-analysis.html" class="tab-link"
+              >Spending Analysis</a
+            >
+            <a href="cash-flow-report.html" class="tab-link active"
+              >Cash Flow</a
+            >
+            <a href="net-worth-trends.html" class="tab-link">Net Worth</a>
+            <a href="tax-summary.html" class="tab-link">Tax Summary</a>
+          </div>
+
+          <!-- KPI Summary Cards -->
+          <div class="grid grid-cols-4 report-kpi-grid">
+            <div class="stat-card">
+              <span class="stat-card__label">Operating Cash Flow</span>
+              <span class="stat-card__value" style="color: var(--positive)"
+                >+$18,280.00</span
+              >
+              <span class="stat-card__delta stat-card__delta--positive"
+                >YTD</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Investing Cash Flow</span>
+              <span class="stat-card__value" style="color: var(--negative)"
+                >−$8,400.00</span
+              >
+              <span class="stat-card__delta stat-card__delta--negative"
+                >YTD</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Financing Cash Flow</span>
+              <span class="stat-card__value" style="color: var(--negative)"
+                >−$2,500.00</span
+              >
+              <span class="stat-card__delta stat-card__delta--negative"
+                >YTD</span
+              >
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">Net Cash Flow</span>
+              <span class="stat-card__value">$7,380.00</span>
+              <span class="stat-card__delta stat-card__delta--positive"
+                >+$7.4k</span
+              >
+            </div>
+          </div>
+
+          <!-- Cash Flow Waterfall Chart -->
+          <div class="grid grid-cols-1 report-section-grid">
+            <div class="card">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Cash Flow Waterfall</h3>
+                <span class="text-caption text-secondary">YTD Summary</span>
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 360px; width: 100%"
+              >
+                <canvas id="cashFlowWaterfallChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cash Flow Trends -->
+          <div class="grid grid-cols-12 report-section-grid">
+            <!-- Monthly Cash Flow Trend -->
+            <div class="card col-span-6">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Monthly Cash Flow Trend</h3>
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 310px; width: 100%"
+              >
+                <canvas id="monthlyCashFlowChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Cumulative Cash Flow -->
+            <div class="card col-span-6">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Cumulative Cash Position</h3>
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 310px; width: 100%"
+              >
+                <canvas id="cumulativeCashChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detailed Cash Flow Statement -->
+          <div class="grid grid-cols-1">
+            <div class="card">
+              <div class="card-header card-header-divider">
+                <h3 class="text-card-title">Cash Flow Statement (YTD)</h3>
+              </div>
+              <table
+                class="data-table"
+                style="width: 100%; margin-top: var(--space-sm)"
+              >
+                <tbody>
+                  <!-- Operating Activities -->
+                  <tr style="background-color: rgba(255, 255, 255, 0.02)">
+                    <td colspan="2">
+                      <span class="text-body" style="font-weight: 600"
+                        >Cash Flows from Operating Activities</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: var(--space-lg)">
+                      <span class="text-secondary">Net Income</span>
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      +$52,640.00
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: var(--space-lg)">
+                      <span class="text-secondary"
+                        >Depreciation & Amortization</span
+                      >
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $1,800.00
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: var(--space-lg)">
+                      <span class="text-secondary"
+                        >Changes in Working Capital</span
+                      >
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      −$36,160.00
+                    </td>
+                  </tr>
+                  <tr
+                    style="
+                      border-top: 1px solid var(--border-strong);
+                      border-bottom: 1px solid var(--border-strong);
+                    "
+                  >
+                    <td style="padding-left: var(--space-lg)">
+                      <span class="text-body" style="font-weight: 500"
+                        >Operating Cash Flow</span
+                      >
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                      style="font-weight: 600"
+                    >
+                      +$18,280.00
+                    </td>
+                  </tr>
+
+                  <!-- Investing Activities -->
+                  <tr style="background-color: rgba(255, 255, 255, 0.02)">
+                    <td colspan="2">
+                      <span class="text-body" style="font-weight: 600"
+                        >Cash Flows from Investing Activities</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: var(--space-lg)">
+                      <span class="text-secondary"
+                        >Property & Equipment Purchases</span
+                      >
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      −$5,200.00
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: var(--space-lg)">
+                      <span class="text-secondary">Investment Purchases</span>
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      −$8,400.00
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: var(--space-lg)">
+                      <span class="text-secondary">Investment Sales</span>
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                    >
+                      +$5,200.00
+                    </td>
+                  </tr>
+                  <tr
+                    style="
+                      border-top: 1px solid var(--border-strong);
+                      border-bottom: 1px solid var(--border-strong);
+                    "
+                  >
+                    <td style="padding-left: var(--space-lg)">
+                      <span class="text-body" style="font-weight: 500"
+                        >Investing Cash Flow</span
+                      >
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                      style="font-weight: 600"
+                    >
+                      −$8,400.00
+                    </td>
+                  </tr>
+
+                  <!-- Financing Activities -->
+                  <tr style="background-color: rgba(255, 255, 255, 0.02)">
+                    <td colspan="2">
+                      <span class="text-body" style="font-weight: 600"
+                        >Cash Flows from Financing Activities</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: var(--space-lg)">
+                      <span class="text-secondary">Debt Repayment</span>
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      −$2,500.00
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: var(--space-lg)">
+                      <span class="text-secondary">Dividend Payments</span>
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                    >
+                      −$0.00
+                    </td>
+                  </tr>
+                  <tr
+                    style="
+                      border-top: 1px solid var(--border-strong);
+                      border-bottom: 1px solid var(--border-strong);
+                    "
+                  >
+                    <td style="padding-left: var(--space-lg)">
+                      <span class="text-body" style="font-weight: 500"
+                        >Financing Cash Flow</span
+                      >
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-negative"
+                      style="font-weight: 600"
+                    >
+                      −$2,500.00
+                    </td>
+                  </tr>
+
+                  <!-- Summary -->
+                  <tr
+                    style="
+                      border-top: 1px solid var(--border-strong);
+                      border-bottom: 1px solid var(--border-strong);
+                      background-color: rgba(255, 255, 255, 0.03);
+                    "
+                  >
+                    <td>
+                      <span class="text-body" style="font-weight: 600"
+                        >Net Increase in Cash</span
+                      >
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm amount-positive"
+                      style="font-weight: 600"
+                    >
+                      +$7,380.00
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span class="text-secondary"
+                        >Cash and Equivalents (Beginning)</span
+                      >
+                    </td>
+                    <td style="text-align: right" class="data-figure-sm">
+                      $21,020.00
+                    </td>
+                  </tr>
+                  <tr style="border-top: 1px solid var(--border-strong)">
+                    <td>
+                      <span class="text-body" style="font-weight: 600"
+                        >Cash and Equivalents (Ending)</span
+                      >
+                    </td>
+                    <td
+                      style="text-align: right"
+                      class="data-figure-sm"
+                      style="font-weight: 600"
+                    >
+                      $28,400.00
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/reports.js"></script>
+  </body>
+</html>

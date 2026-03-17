@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME — Cash Flow Forecast. Project your balance over the next 30, 60, and 90 days."
+    />
+
+    <title>Cash Flow Forecast — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/planning.css" />
+  </head>
+
+  <body class="planning-page">
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <button
+            class="btn btn-ghost btn-icon"
+            id="mobile-menu-btn"
+            aria-label="Open menu"
+            style="display: none; margin-bottom: var(--space-md)"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <section class="planning-hero reveal-up">
+            <div class="planning-hero__content">
+              <span class="planning-hero__label">
+                <span class="planning-hero__dot"></span>
+                Planning and Forecasting
+              </span>
+              <h1 class="planning-hero__title">Cash Flow Forecast</h1>
+              <p class="planning-hero__subtitle">
+                Simulate short-term liquidity under real payment pressure. Track
+                projected balance paths, test conservative assumptions, and lock
+                in a risk-aware spending horizon.
+              </p>
+
+              <div class="planning-hero__rail" aria-hidden="true">
+                <span class="planning-hero__rail-item">Collect</span>
+                <span class="planning-hero__rail-item">Schedule</span>
+                <span class="planning-hero__rail-item is-active">Forecast</span>
+                <span class="planning-hero__rail-item">Stress-test</span>
+                <span class="planning-hero__rail-item">Adjust</span>
+                <span class="planning-hero__rail-item">Approve</span>
+                <span class="planning-hero__rail-item">Execute</span>
+              </div>
+
+              <nav class="planning-nav" aria-label="Planning pages">
+                <a class="planning-nav__link" href="bills.html"
+                  >Bill Calendar</a
+                >
+                <a class="planning-nav__link is-active" href="forecast.html"
+                  >Cash Flow Forecast</a
+                >
+                <a class="planning-nav__link" href="debt-payoff.html"
+                  >Debt Payoff</a
+                >
+                <a class="planning-nav__link" href="investment-projector.html"
+                  >Investment Projector</a
+                >
+              </nav>
+            </div>
+          </section>
+
+          <section class="planning-kpi-grid reveal-up delay-1">
+            <article class="planning-kpi">
+              <div class="planning-kpi__label">Projected ending balance</div>
+              <div class="planning-kpi__value" id="forecast-ending-balance">
+                $0.00
+              </div>
+              <div class="planning-kpi__meta">
+                Based on scheduled inflows/outflows
+              </div>
+            </article>
+
+            <article class="planning-kpi">
+              <div class="planning-kpi__label">Projected low point</div>
+              <div class="planning-kpi__value" id="forecast-low-point">
+                $0.00
+              </div>
+              <div class="planning-kpi__meta">
+                Lowest expected balance in horizon
+              </div>
+            </article>
+
+            <article class="planning-kpi">
+              <div class="planning-kpi__label">Forecast runway</div>
+              <div class="planning-kpi__value" id="forecast-runway">0 mo</div>
+              <div class="planning-kpi__meta">Current simulation window</div>
+            </article>
+
+            <article class="planning-kpi">
+              <div class="planning-kpi__label">Confidence band</div>
+              <div class="planning-kpi__value">92%</div>
+              <div class="planning-kpi__meta">Rule-based confidence score</div>
+            </article>
+          </section>
+
+          <section class="planning-grid-12 reveal-up delay-2">
+            <article class="planning-card col-span-8">
+              <header class="planning-card__header">
+                <h2 class="planning-card__title">Projected balance path</h2>
+                <span class="planning-card__hint">Dynamic scenario model</span>
+              </header>
+
+              <div class="forecast-controls">
+                <div
+                  class="segmented"
+                  role="tablist"
+                  aria-label="Forecast horizon"
+                >
+                  <button type="button" data-days="30">30d</button>
+                  <button type="button" data-days="60" class="is-active">
+                    60d
+                  </button>
+                  <button type="button" data-days="90">90d</button>
+                </div>
+
+                <label class="compare-toggle" for="compare-toggle">
+                  <input id="compare-toggle" type="checkbox" checked />
+                  Show prior period baseline
+                </label>
+              </div>
+
+              <div
+                class="forecast-chart"
+                role="img"
+                aria-label="Cash flow forecast chart"
+              >
+                <svg id="forecast-chart-svg" aria-hidden="true"></svg>
+              </div>
+
+              <div class="forecast-legend">
+                <div class="forecast-legend__item">
+                  <span class="forecast-legend__swatch"></span>
+                  Forecast
+                </div>
+                <div class="forecast-legend__item">
+                  <span class="forecast-legend__swatch is-compare"></span>
+                  Prior baseline
+                </div>
+              </div>
+
+              <div class="forecast-note" id="forecast-note"></div>
+            </article>
+
+            <article class="planning-card col-span-4">
+              <header class="planning-card__header">
+                <h2 class="planning-card__title">Known cash events</h2>
+                <span class="planning-card__hint">Next 30 days</span>
+              </header>
+
+              <div class="bill-list">
+                <div class="bill-item">
+                  <div>
+                    <div class="bill-item__name">Salary Deposit</div>
+                    <div class="bill-item__meta">Day 15</div>
+                  </div>
+                  <div class="bill-item__amount is-positive">+$1,800</div>
+                </div>
+
+                <div class="bill-item bill-item--urgent">
+                  <div>
+                    <div class="bill-item__name">Credit Card Due</div>
+                    <div class="bill-item__meta">Day 18</div>
+                  </div>
+                  <div class="bill-item__amount is-negative">-$420</div>
+                </div>
+
+                <div class="bill-item">
+                  <div>
+                    <div class="bill-item__name">Insurance Premium</div>
+                    <div class="bill-item__meta">Day 21</div>
+                  </div>
+                  <div class="bill-item__amount is-warning">-$127</div>
+                </div>
+
+                <div class="bill-item">
+                  <div>
+                    <div class="bill-item__name">Freelance Retainer</div>
+                    <div class="bill-item__meta">Day 26</div>
+                  </div>
+                  <div class="bill-item__amount is-positive">+$600</div>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="planning-grid-12 reveal-up delay-3">
+            <article class="planning-card col-span-6">
+              <header class="planning-card__header">
+                <h2 class="planning-card__title">Forecast discipline rules</h2>
+              </header>
+              <ul style="display: grid; gap: var(--space-sm)">
+                <li class="text-body">
+                  Maintain at least <strong>$1,200</strong> as non-negotiable
+                  month-end liquidity.
+                </li>
+                <li class="text-body">
+                  If projection drops below floor, defer discretionary payments
+                  by one cycle.
+                </li>
+                <li class="text-body">
+                  Treat one-time inflows as optional unless historical
+                  reliability exceeds <strong>80%</strong>.
+                </li>
+              </ul>
+            </article>
+
+            <article class="planning-card col-span-6">
+              <header class="planning-card__header">
+                <h2 class="planning-card__title">Scenario response matrix</h2>
+              </header>
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Trigger</th>
+                    <th>Action</th>
+                    <th class="col-amount">Impact</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Balance below $1,500</td>
+                    <td>Pause variable subscriptions</td>
+                    <td class="col-amount data-figure-sm is-positive">+$95</td>
+                  </tr>
+                  <tr>
+                    <td>Unexpected repair > $400</td>
+                    <td>Shift transfer to next payday</td>
+                    <td class="col-amount data-figure-sm is-positive">+$280</td>
+                  </tr>
+                  <tr>
+                    <td>Income delay > 5 days</td>
+                    <td>Activate reserve draw protocol</td>
+                    <td class="col-amount data-figure-sm is-warning">Bridge</td>
+                  </tr>
+                </tbody>
+              </table>
+            </article>
+          </section>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <script>
+      window.ACTIVE_PAGE = "forecast";
+      window.USER_NAME = "James";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/planning.js"></script>
+  </body>
+</html>

@@ -14,38 +14,12 @@
 }
 
 .planning-hero {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xl);
-  padding: var(--space-xl);
-  background:
-    radial-gradient(
-      1100px 320px at -5% -20%,
-      rgba(201, 168, 76, 0.17),
-      transparent 70%
-    ),
-    radial-gradient(
-      900px 300px at 105% 0%,
-      rgba(76, 142, 245, 0.14),
-      transparent 72%
-    ),
-    var(--bg-surface);
-}
-
-.planning-hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    -14deg,
-    rgba(255, 255, 255, 0.02) 0,
-    rgba(255, 255, 255, 0.02) 1px,
-    transparent 1px,
-    transparent 12px
-  );
-  opacity: 0.32;
-  pointer-events: none;
+  --page-banner-orb-1: 1100px 320px at -5% -20%;
+  --page-banner-orb-1-color: rgba(201, 168, 76, 0.17);
+  --page-banner-orb-1-stop: 70%;
+  --page-banner-orb-2: 900px 300px at 105% 0%;
+  --page-banner-orb-2-color: rgba(76, 142, 245, 0.14);
+  --page-banner-orb-2-stop: 72%;
 }
 
 .planning-hero__content {
@@ -837,10 +811,6 @@
 }
 
 @media (max-width: 768px) {
-  .planning-hero {
-    padding: var(--space-lg);
-  }
-
   .planning-hero__rail {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }

@@ -13,76 +13,21 @@
   margin-bottom: var(--space-xl);
 }
 
+/* Extend shared banner utility for page-specific spacing */
 .transactions-header.page-banner {
-  position: relative;
-  overflow: hidden;
-  padding: var(--space-xl);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xl);
-  background:
-    radial-gradient(
-      860px 280px at -10% -24%,
-      rgba(201, 168, 76, 0.17),
-      transparent 72%
-    ),
-    radial-gradient(
-      760px 250px at 110% 0%,
-      rgba(76, 142, 245, 0.14),
-      transparent 70%
-    ),
-    var(--bg-surface);
-}
-
-.transactions-header.page-banner::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    -14deg,
-    rgba(255, 255, 255, 0.02) 0,
-    rgba(255, 255, 255, 0.02) 1px,
-    transparent 1px,
-    transparent 12px
-  );
-  opacity: 0.32;
-  pointer-events: none;
-}
-
-.transactions-header > :first-child,
-.transactions-actions {
-  position: relative;
-  z-index: 1;
+  /* inherits .page-banner styles from layout.css */
 }
 
 .transactions-header > :first-child {
-  flex: 1 1 460px;
+  /* uses .page-banner-content positioning */
 }
 
 .transactions-subtitle {
-  color: var(--text-secondary);
-  margin-top: var(--space-sm);
-  max-width: 62ch;
+  /* uses .page-banner-subtitle styles from layout.css */
 }
 
 .transactions-actions {
-  display: flex;
-  gap: var(--space-sm);
-  flex-wrap: wrap;
-}
-
-@media (max-width: 900px) {
-  .transactions-header.page-banner {
-    padding: var(--space-lg);
-  }
-
-  .transactions-actions {
-    width: 100%;
-  }
-
-  .transactions-actions .btn {
-    flex: 1 1 180px;
-    justify-content: center;
-  }
+  /* uses .page-banner-actions styles from layout.css */
 }
 
 .filter-bar {

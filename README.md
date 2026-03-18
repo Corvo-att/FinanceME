@@ -108,6 +108,30 @@ Front_End/
 | `.col-span-6` | Span 6 of 12 columns (also: 1–12) |
 | `.page-section` | Bottom margin between page sections |
 
+### Shared Gradient Banner (layout.css)
+| Class | What it does |
+|-------|-------------|
+| `.page-banner` | Shared gradient/texture banner shell (padding, border, radius, overlay) |
+| `.page-banner-content` | Main text/content column inside banner |
+| `.page-banner-actions` | Action buttons area inside banner |
+| `.page-banner-subtitle` | Standard subtitle style for banner descriptions |
+
+Use this pattern for page hero headers instead of duplicating gradient CSS:
+
+```html
+<header class="page-header your-page-header page-banner">
+  <div class="page-banner-content">
+    <h1 class="text-page-title">Page Title</h1>
+    <p class="page-banner-subtitle">Short description.</p>
+  </div>
+  <div class="page-banner-actions">
+    <a class="btn btn-primary" href="#">Primary Action</a>
+  </div>
+</header>
+```
+
+If a page needs a slightly different gradient, override banner variables in that page CSS (example classes: `.planning-hero`, `.settings-hero`, `.reports-hero`) instead of redefining full background blocks.
+
 ### Cards
 | Class | What it does |
 |-------|-------------|

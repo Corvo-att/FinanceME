@@ -11,71 +11,25 @@
   margin-bottom: var(--space-xl);
 }
 
+/* Extend shared banner utility for page-specific spacing */
 .budgets-header.page-banner {
-  position: relative;
-  overflow: hidden;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  gap: var(--space-lg);
-  flex-wrap: wrap;
-  padding: var(--space-xl);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xl);
-  background:
-    radial-gradient(
-      860px 280px at -10% -24%,
-      rgba(201, 168, 76, 0.17),
-      transparent 72%
-    ),
-    radial-gradient(
-      760px 250px at 110% 0%,
-      rgba(76, 142, 245, 0.14),
-      transparent 70%
-    ),
-    var(--bg-surface);
-}
-
-.budgets-header.page-banner::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    -14deg,
-    rgba(255, 255, 255, 0.02) 0,
-    rgba(255, 255, 255, 0.02) 1px,
-    transparent 1px,
-    transparent 12px
-  );
-  opacity: 0.32;
-  pointer-events: none;
+  /* inherits background, texture overlay, padding from .page-banner in layout.css */
 }
 
 .budgets-header > :first-child,
 .budgets-header > .btn {
-  position: relative;
-  z-index: 1;
+  /* uses .page-banner-content / .page-banner-actions z-index positioning */
 }
 
 .budgets-header > :first-child {
-  flex: 1 1 460px;
+  /* uses .page-banner-content flex sizing */
 }
 
 .budgets-subtitle {
-  color: var(--text-secondary);
-  margin-top: var(--space-sm);
-  max-width: 62ch;
-}
-
-@media (max-width: 900px) {
-  .budgets-header.page-banner {
-    padding: var(--space-lg);
-  }
-
-  .budgets-header > .btn {
-    width: 100%;
-    justify-content: center;
-  }
+  /* uses .page-banner-subtitle styles from layout.css */
 }
 
 .metrics-grid {

@@ -556,6 +556,95 @@
 }
 
 /* ============================
+   PAGE BANNER UTILITY
+   Reusable hero/header section with gradient, texture overlay, and content positioning.
+   Apply .page-banner to any header container.
+   ============================ */
+
+.page-banner {
+  --page-banner-orb-1: 860px 280px at -10% -24%;
+  --page-banner-orb-1-color: rgba(201, 168, 76, 0.17);
+  --page-banner-orb-1-stop: 72%;
+  --page-banner-orb-2: 760px 250px at 110% 0%;
+  --page-banner-orb-2-color: rgba(76, 142, 245, 0.14);
+  --page-banner-orb-2-stop: 70%;
+  --page-banner-underlay: none;
+  --page-banner-surface: var(--bg-surface);
+  --page-banner-overlay-angle: -14deg;
+  --page-banner-overlay-line-color: rgba(255, 255, 255, 0.02);
+  --page-banner-overlay-gap: 12px;
+  --page-banner-overlay-opacity: 0.32;
+
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-xl);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(
+      var(--page-banner-orb-1),
+      var(--page-banner-orb-1-color),
+      transparent var(--page-banner-orb-1-stop)
+    ),
+    radial-gradient(
+      var(--page-banner-orb-2),
+      var(--page-banner-orb-2-color),
+      transparent var(--page-banner-orb-2-stop)
+    ),
+    var(--page-banner-underlay), var(--page-banner-surface);
+}
+
+.page-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    var(--page-banner-overlay-angle),
+    var(--page-banner-overlay-line-color) 0,
+    var(--page-banner-overlay-line-color) 1px,
+    transparent 1px,
+    transparent var(--page-banner-overlay-gap)
+  );
+  opacity: var(--page-banner-overlay-opacity);
+  pointer-events: none;
+}
+
+.page-banner-content {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 460px;
+}
+
+.page-banner-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.page-banner-subtitle {
+  color: var(--text-secondary);
+  margin-top: var(--space-sm);
+  max-width: 62ch;
+}
+
+@media (max-width: 900px) {
+  .page-banner {
+    padding: var(--space-lg);
+  }
+
+  .page-banner-actions {
+    width: 100%;
+  }
+
+  .page-banner-actions .btn {
+    flex: 1 1 180px;
+    justify-content: center;
+  }
+}
+
+/* ============================
    RESPONSIVE BREAKPOINTS
    ============================ */
 

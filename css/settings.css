@@ -9,41 +9,24 @@
 }
 
 .settings-hero {
-  position: relative;
-  overflow: hidden;
+  --page-banner-orb-1: 840px 270px at -8% -28%;
+  --page-banner-orb-1-color: rgba(201, 168, 76, 0.18);
+  --page-banner-orb-1-stop: 70%;
+  --page-banner-orb-2: 760px 260px at 108% -6%;
+  --page-banner-orb-2-color: rgba(76, 142, 245, 0.16);
+  --page-banner-orb-2-stop: 72%;
+  --page-banner-underlay: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.01),
+    rgba(255, 255, 255, 0)
+  );
+  --page-banner-overlay-angle: -20deg;
+  --page-banner-overlay-line-color: rgba(255, 255, 255, 0.03);
+  --page-banner-overlay-gap: 13px;
+  --page-banner-overlay-opacity: 0.28;
+
   display: grid;
   gap: var(--space-md);
-  padding: var(--space-xl);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xl);
-  background:
-    radial-gradient(
-      840px 270px at -8% -28%,
-      rgba(201, 168, 76, 0.18),
-      transparent 70%
-    ),
-    radial-gradient(
-      760px 260px at 108% -6%,
-      rgba(76, 142, 245, 0.16),
-      transparent 72%
-    ),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0)),
-    var(--bg-surface);
-}
-
-.settings-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.28;
-  background: repeating-linear-gradient(
-    -20deg,
-    rgba(255, 255, 255, 0.03) 0,
-    rgba(255, 255, 255, 0.03) 1px,
-    transparent 1px,
-    transparent 13px
-  );
 }
 
 .settings-hero > * {
@@ -821,10 +804,6 @@ input[type="checkbox"].settings-toggle-input:focus-visible + .settings-toggle,
 }
 
 @media (max-width: 768px) {
-  .settings-hero {
-    padding: var(--space-lg);
-  }
-
   .settings-hero-kpis,
   .settings-meta-grid,
   .settings-nav {

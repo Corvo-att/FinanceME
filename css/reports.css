@@ -160,22 +160,14 @@
 }
 
 .reports-hero {
+  --page-banner-orb-1: 850px 280px at -10% -20%;
+  --page-banner-orb-1-color: rgba(201, 168, 76, 0.16);
+  --page-banner-orb-1-stop: 72%;
+  --page-banner-orb-2: 760px 260px at 110% 5%;
+  --page-banner-orb-2-color: rgba(76, 142, 245, 0.14);
+  --page-banner-orb-2-stop: 70%;
+
   align-items: flex-end;
-  padding: var(--space-xl);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-xl);
-  background:
-    radial-gradient(
-      850px 280px at -10% -20%,
-      rgba(201, 168, 76, 0.16),
-      transparent 72%
-    ),
-    radial-gradient(
-      760px 260px at 110% 5%,
-      rgba(76, 142, 245, 0.14),
-      transparent 70%
-    ),
-    var(--bg-surface);
 }
 
 .reports-hero__copy {
@@ -289,7 +281,6 @@
 
   .reports-hero {
     align-items: stretch;
-    padding: var(--space-lg);
   }
 
   .reports-page .reports-kpi-grid {

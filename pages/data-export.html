@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME data export settings for downloading account data in CSV, JSON, and PDF formats."
+    />
+
+    <title>Data Export - FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/settings.css" />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <button
+            class="btn btn-ghost btn-icon"
+            id="mobile-menu-btn"
+            aria-label="Open menu"
+            style="display: none; margin-bottom: var(--space-md)"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <div class="settings-shell">
+            <header class="settings-hero" aria-labelledby="export-title">
+              <div class="settings-hero-top">
+                <div class="settings-hero-copy">
+                  <span class="text-label">Settings / Export</span>
+                  <h1
+                    id="export-title"
+                    class="text-display"
+                    style="font-size: 30px; margin-top: 8px"
+                  >
+                    Data Export
+                  </h1>
+                  <p class="settings-hero-subtitle">
+                    Generate complete account archives for compliance,
+                    bookkeeping, or migration to external platforms.
+                  </p>
+                </div>
+
+                <div class="settings-hero-meta">
+                  <span class="badge badge-category">Retention: 7 years</span>
+                  <span class="badge badge-positive">Export API ready</span>
+                </div>
+              </div>
+
+              <div class="settings-hero-kpis">
+                <article class="settings-hero-kpi">
+                  <span class="label">Last Export</span>
+                  <span class="value">Mar 15</span>
+                </article>
+                <article class="settings-hero-kpi">
+                  <span class="label">Formats Available</span>
+                  <span class="value">CSV / JSON / PDF</span>
+                </article>
+                <article class="settings-hero-kpi">
+                  <span class="label">Encryption</span>
+                  <span class="value">Optional</span>
+                </article>
+              </div>
+            </header>
+
+            <div class="settings-layout">
+              <aside id="settings-sidebar" class="settings-sidebar"></aside>
+
+              <main class="settings-main">
+                <section class="settings-panel glass">
+                  <div class="settings-panel-header">
+                    <div>
+                      <h2 class="settings-panel-title">
+                        Create Export Package
+                      </h2>
+                      <p class="settings-panel-description">
+                        Choose format and date range before generating a
+                        package.
+                      </p>
+                    </div>
+                  </div>
+
+                  <form id="data-export-form" class="settings-stack">
+                    <div>
+                      <label class="form-label">Export Formats</label>
+                      <div class="export-format-grid">
+                        <label class="export-format">
+                          <span class="title">CSV</span>
+                          <span class="caption"
+                            >Raw transactions for spreadsheets</span
+                          >
+                          <input
+                            type="checkbox"
+                            name="export-format"
+                            value="CSV"
+                            checked
+                          />
+                        </label>
+                        <label class="export-format">
+                          <span class="title">JSON</span>
+                          <span class="caption"
+                            >Structured API-ready package</span
+                          >
+                          <input
+                            type="checkbox"
+                            name="export-format"
+                            value="JSON"
+                            checked
+                          />
+                        </label>
+                        <label class="export-format">
+                          <span class="title">PDF</span>
+                          <span class="caption"
+                            >Human-readable summary reports</span
+                          >
+                          <input
+                            type="checkbox"
+                            name="export-format"
+                            value="PDF"
+                          />
+                        </label>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label class="form-label">Date Range</label>
+                      <div class="settings-stack">
+                        <label class="settings-row">
+                          <div class="settings-row-copy">
+                            <div class="title">All History</div>
+                            <div class="caption">
+                              Complete ledger from account creation.
+                            </div>
+                          </div>
+                          <input
+                            type="radio"
+                            name="export-range"
+                            value="all history"
+                            checked
+                          />
+                        </label>
+
+                        <label class="settings-row">
+                          <div class="settings-row-copy">
+                            <div class="title">Last 12 Months</div>
+                            <div class="caption">
+                              Current and previous fiscal year activity.
+                            </div>
+                          </div>
+                          <input
+                            type="radio"
+                            name="export-range"
+                            value="last 12 months"
+                          />
+                        </label>
+
+                        <label class="settings-row">
+                          <div class="settings-row-copy">
+                            <div class="title">Custom Range</div>
+                            <div class="caption">
+                              Use currently selected report filters.
+                            </div>
+                          </div>
+                          <input
+                            type="radio"
+                            name="export-range"
+                            value="custom range"
+                          />
+                        </label>
+                      </div>
+                    </div>
+
+                    <label class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Encrypt Export Package</div>
+                        <div class="caption">
+                          Protect output with a one-time passphrase.
+                        </div>
+                      </div>
+                      <input id="export-encrypted" type="checkbox" />
+                    </label>
+
+                    <div class="btn-row">
+                      <button type="button" class="btn btn-ghost">Clear</button>
+                      <button type="submit" class="btn btn-primary">
+                        Generate Export
+                      </button>
+                    </div>
+
+                    <div
+                      id="data-export-status"
+                      class="export-result"
+                      hidden
+                    ></div>
+                    <div
+                      id="data-export-summary"
+                      class="help-inline"
+                      hidden
+                    ></div>
+                  </form>
+                </section>
+
+                <section class="settings-panel">
+                  <div class="settings-panel-header">
+                    <div>
+                      <h2 class="settings-panel-title">
+                        Recent Export Activity
+                      </h2>
+                      <p class="settings-panel-description">
+                        Track generated packages and their delivery status.
+                      </p>
+                    </div>
+                  </div>
+
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Request ID</th>
+                        <th>Generated</th>
+                        <th>Formats</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>EXP-20260315-1414</td>
+                        <td>Mar 15, 2026 14:14</td>
+                        <td>CSV, JSON</td>
+                        <td><span class="status-pill verified">Ready</span></td>
+                      </tr>
+                      <tr>
+                        <td>EXP-20260301-0910</td>
+                        <td>Mar 01, 2026 09:10</td>
+                        <td>CSV</td>
+                        <td><span class="status-pill verified">Ready</span></td>
+                      </tr>
+                      <tr>
+                        <td>EXP-20260218-1842</td>
+                        <td>Feb 18, 2026 18:42</td>
+                        <td>JSON, PDF</td>
+                        <td>
+                          <span class="status-pill online">Delivered</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+              </main>
+            </div>
+          </div>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <script>
+      window.ACTIVE_PAGE = "settings";
+      window.SETTINGS_PAGE = "data-export";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/settings.js"></script>
+  </body>
+</html>

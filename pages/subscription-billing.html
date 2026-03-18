@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME subscription and billing controls for plan management, invoices, and payment methods."
+    />
+
+    <title>Subscription and Billing - FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/settings.css" />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <button
+            class="btn btn-ghost btn-icon"
+            id="mobile-menu-btn"
+            aria-label="Open menu"
+            style="display: none; margin-bottom: var(--space-md)"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <div class="settings-shell">
+            <header class="settings-hero" aria-labelledby="billing-title">
+              <div class="settings-hero-top">
+                <div class="settings-hero-copy">
+                  <span class="text-label">Settings / Billing</span>
+                  <h1
+                    id="billing-title"
+                    class="text-display"
+                    style="font-size: 30px; margin-top: 8px"
+                  >
+                    Subscription and Billing
+                  </h1>
+                  <p class="settings-hero-subtitle">
+                    Manage active plan, payment methods, and invoice history for
+                    your FinanceME workspace.
+                  </p>
+                </div>
+
+                <div class="settings-hero-meta">
+                  <span class="badge badge-positive">Pro Plan Active</span>
+                  <span class="badge badge-category">Next bill: Apr 01</span>
+                </div>
+              </div>
+
+              <div class="settings-hero-kpis">
+                <article class="settings-hero-kpi">
+                  <span class="label">Current Plan</span>
+                  <span class="value">Pro</span>
+                </article>
+                <article class="settings-hero-kpi">
+                  <span class="label">Monthly Spend</span>
+                  <span class="value">$49.00</span>
+                </article>
+                <article class="settings-hero-kpi">
+                  <span class="label">Invoice Health</span>
+                  <span class="value">No Issues</span>
+                </article>
+              </div>
+            </header>
+
+            <div class="settings-layout">
+              <aside id="settings-sidebar" class="settings-sidebar"></aside>
+
+              <main class="settings-main">
+                <section class="settings-panel glass">
+                  <div class="settings-panel-header">
+                    <div>
+                      <h2 class="settings-panel-title">Plan Selection</h2>
+                      <p class="settings-panel-description">
+                        Choose billing cadence and compare plan capabilities.
+                      </p>
+                    </div>
+
+                    <div
+                      class="billing-cycle-toggle"
+                      role="group"
+                      aria-label="Billing cycle"
+                    >
+                      <button
+                        type="button"
+                        class="billing-cycle-btn active"
+                        data-cycle="monthly"
+                        aria-pressed="true"
+                      >
+                        Monthly
+                      </button>
+                      <button
+                        type="button"
+                        class="billing-cycle-btn"
+                        data-cycle="annual"
+                        aria-pressed="false"
+                      >
+                        Annual
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="plan-grid">
+                    <article class="plan-card">
+                      <div class="plan-name">Starter</div>
+                      <div class="plan-price">
+                        <span data-monthly-price="19" data-annual-price="15"
+                          >$19.00</span
+                        ><small>/mo</small>
+                      </div>
+                      <p class="plan-note">
+                        For solo tracking and simple alerts.
+                      </p>
+                      <button type="button" class="btn btn-secondary btn-sm">
+                        Downgrade
+                      </button>
+                    </article>
+
+                    <article class="plan-card featured">
+                      <div class="plan-name">Pro</div>
+                      <div class="plan-price">
+                        <span data-monthly-price="49" data-annual-price="39"
+                          >$49.00</span
+                        ><small>/mo</small>
+                      </div>
+                      <p class="plan-note">
+                        Current plan with premium reports and integrations.
+                      </p>
+                      <button type="button" class="btn btn-primary btn-sm">
+                        Current Plan
+                      </button>
+                    </article>
+                  </div>
+
+                  <div
+                    class="settings-stack"
+                    style="margin-top: var(--space-md)"
+                  >
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Primary Payment Method</div>
+                        <div class="caption">
+                          Visa ending in 8451, expires 09/29.
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        id="billing-update-payment-btn"
+                        class="btn btn-secondary btn-sm"
+                      >
+                        Update Payment
+                      </button>
+                    </article>
+                  </div>
+
+                  <div
+                    id="billing-status"
+                    class="export-result"
+                    hidden
+                    style="margin-top: var(--space-md)"
+                  ></div>
+                </section>
+
+                <section class="settings-panel">
+                  <div class="settings-panel-header">
+                    <div>
+                      <h2 class="settings-panel-title">Invoice History</h2>
+                      <p class="settings-panel-description">
+                        Export or download receipts for accounting and tax
+                        filing.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="invoice-table-wrap">
+                    <table class="data-table">
+                      <thead>
+                        <tr>
+                          <th>Invoice</th>
+                          <th>Date</th>
+                          <th class="col-amount">Amount</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>INV-2026-0301</td>
+                          <td>Mar 01, 2026</td>
+                          <td class="col-amount data-figure-sm">$49.00</td>
+                          <td>
+                            <span class="status-pill verified">Paid</span>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-ghost btn-sm">
+                              Download PDF
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>INV-2026-0201</td>
+                          <td>Feb 01, 2026</td>
+                          <td class="col-amount data-figure-sm">$49.00</td>
+                          <td>
+                            <span class="status-pill verified">Paid</span>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-ghost btn-sm">
+                              Download PDF
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>INV-2026-0101</td>
+                          <td>Jan 01, 2026</td>
+                          <td class="col-amount data-figure-sm">$49.00</td>
+                          <td>
+                            <span class="status-pill verified">Paid</span>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-ghost btn-sm">
+                              Download PDF
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+              </main>
+            </div>
+          </div>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <script>
+      window.ACTIVE_PAGE = "settings";
+      window.SETTINGS_PAGE = "subscription-billing";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/settings.js"></script>
+  </body>
+</html>

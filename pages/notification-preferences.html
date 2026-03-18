@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME notification preferences for email, push, SMS, and in-app alerts."
+    />
+
+    <title>Notification Preferences - FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/settings.css" />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <button
+            class="btn btn-ghost btn-icon"
+            id="mobile-menu-btn"
+            aria-label="Open menu"
+            style="display: none; margin-bottom: var(--space-md)"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <div class="settings-shell">
+            <header
+              class="settings-hero"
+              aria-labelledby="notification-settings-title"
+            >
+              <div class="settings-hero-top">
+                <div class="settings-hero-copy">
+                  <span class="text-label">Settings / Notifications</span>
+                  <h1
+                    id="notification-settings-title"
+                    class="text-display"
+                    style="font-size: 30px; margin-top: 8px"
+                  >
+                    Notification Preferences
+                  </h1>
+                  <p class="settings-hero-subtitle">
+                    Control where and when FinanceME sends alerts for budgets,
+                    transactions, security events, and bill reminders.
+                  </p>
+                </div>
+
+                <div class="settings-hero-meta">
+                  <span
+                    class="badge badge-category"
+                    id="notification-enabled-count"
+                  >
+                    0 channels enabled
+                  </span>
+                </div>
+              </div>
+
+              <div class="settings-hero-kpis">
+                <article class="settings-hero-kpi">
+                  <span class="label">Critical Alerts</span>
+                  <span class="value">Always On</span>
+                </article>
+                <article class="settings-hero-kpi">
+                  <span class="label">Digest Frequency</span>
+                  <span class="value">Weekly</span>
+                </article>
+                <article class="settings-hero-kpi">
+                  <span class="label">Quiet Hours</span>
+                  <span class="value">22:00 - 07:00</span>
+                </article>
+              </div>
+            </header>
+
+            <div class="settings-layout">
+              <aside id="settings-sidebar" class="settings-sidebar"></aside>
+
+              <main class="settings-main">
+                <section class="settings-panel glass">
+                  <div class="settings-panel-header">
+                    <div>
+                      <h2 class="settings-panel-title">Channel Controls</h2>
+                      <p class="settings-panel-description">
+                        Toggle channels used for operational and financial
+                        notifications.
+                      </p>
+                    </div>
+                  </div>
+
+                  <form
+                    id="notification-preferences-form"
+                    class="settings-stack"
+                  >
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Global Notification Switch</div>
+                        <div class="caption">
+                          Disable only if you manage alerts externally.
+                        </div>
+                      </div>
+                      <label>
+                        <input
+                          id="notif-master-toggle"
+                          class="settings-toggle-input"
+                          type="checkbox"
+                          checked
+                        />
+                        <span class="settings-toggle"></span>
+                      </label>
+                    </article>
+
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">In-App Notifications</div>
+                        <div class="caption">
+                          Immediate banners and dashboard alerts.
+                        </div>
+                      </div>
+                      <label>
+                        <input
+                          class="settings-toggle-input notif-channel-toggle"
+                          type="checkbox"
+                          checked
+                        />
+                        <span class="settings-toggle"></span>
+                      </label>
+                    </article>
+
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Email Alerts</div>
+                        <div class="caption">
+                          Summaries plus high-risk security events.
+                        </div>
+                      </div>
+                      <label>
+                        <input
+                          class="settings-toggle-input notif-channel-toggle"
+                          type="checkbox"
+                          checked
+                        />
+                        <span class="settings-toggle"></span>
+                      </label>
+                    </article>
+
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Push Notifications</div>
+                        <div class="caption">
+                          Mobile lock-screen alerts for urgent events.
+                        </div>
+                      </div>
+                      <label>
+                        <input
+                          class="settings-toggle-input notif-channel-toggle"
+                          type="checkbox"
+                          checked
+                        />
+                        <span class="settings-toggle"></span>
+                      </label>
+                    </article>
+
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">SMS Alerts</div>
+                        <div class="caption">
+                          For account lock, suspicious login, and large
+                          transfer.
+                        </div>
+                      </div>
+                      <label>
+                        <input
+                          class="settings-toggle-input notif-channel-toggle"
+                          type="checkbox"
+                        />
+                        <span class="settings-toggle"></span>
+                      </label>
+                    </article>
+
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Weekly Financial Digest</div>
+                        <div class="caption">
+                          Monday summary with net worth and spending drift.
+                        </div>
+                      </div>
+                      <label>
+                        <input
+                          class="settings-toggle-input notif-channel-toggle"
+                          type="checkbox"
+                          checked
+                        />
+                        <span class="settings-toggle"></span>
+                      </label>
+                    </article>
+
+                    <div class="btn-row">
+                      <button type="button" class="btn btn-ghost">
+                        Cancel
+                      </button>
+                      <button type="submit" class="btn btn-primary">
+                        Save Preferences
+                      </button>
+                    </div>
+
+                    <div
+                      id="notif-save-status"
+                      class="export-result"
+                      hidden
+                    ></div>
+                  </form>
+                </section>
+
+                <section class="settings-panel">
+                  <div class="settings-panel-header">
+                    <div>
+                      <h2 class="settings-panel-title">Delivery Rules</h2>
+                      <p class="settings-panel-description">
+                        Fine-grained policy rules for timing and type-specific
+                        routing.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="settings-stack">
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Quiet Hours</div>
+                        <div class="caption">
+                          Delay non-critical alerts between 22:00 and 07:00.
+                        </div>
+                      </div>
+                      <span class="status-pill verified">Active</span>
+                    </article>
+
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Critical Security Alerts</div>
+                        <div class="caption">
+                          Bypass quiet hours and send through all channels.
+                        </div>
+                      </div>
+                      <span class="status-pill online">Locked</span>
+                    </article>
+
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Budget Threshold Warnings</div>
+                        <div class="caption">
+                          Send when category reaches 80% and 100%.
+                        </div>
+                      </div>
+                      <button type="button" class="btn btn-secondary btn-sm">
+                        Edit Rule
+                      </button>
+                    </article>
+                  </div>
+                </section>
+              </main>
+            </div>
+          </div>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <script>
+      window.ACTIVE_PAGE = "settings";
+      window.SETTINGS_PAGE = "notification-preferences";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/settings.js"></script>
+  </body>
+</html>

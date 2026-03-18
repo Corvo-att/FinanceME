@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME categories manager for creating, renaming, and organizing transaction categories."
+    />
+
+    <title>Categories Manager - FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/settings.css" />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <button
+            class="btn btn-ghost btn-icon"
+            id="mobile-menu-btn"
+            aria-label="Open menu"
+            style="display: none; margin-bottom: var(--space-md)"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <div class="settings-shell">
+            <header class="settings-hero" aria-labelledby="categories-title">
+              <div class="settings-hero-top">
+                <div class="settings-hero-copy">
+                  <span class="text-label">Settings / Categories</span>
+                  <h1
+                    id="categories-title"
+                    class="text-display"
+                    style="font-size: 30px; margin-top: 8px"
+                  >
+                    Categories Manager
+                  </h1>
+                  <p class="settings-hero-subtitle">
+                    Build a clean category taxonomy to improve budgeting,
+                    reporting quality, and auto-classification accuracy.
+                  </p>
+                </div>
+
+                <div class="settings-hero-meta">
+                  <span id="category-count" class="badge badge-category"
+                    >0 custom categories</span
+                  >
+                </div>
+              </div>
+
+              <div class="settings-hero-kpis">
+                <article class="settings-hero-kpi">
+                  <span class="label">Category Coverage</span>
+                  <span class="value">93%</span>
+                </article>
+                <article class="settings-hero-kpi">
+                  <span class="label">Auto-Match Rate</span>
+                  <span class="value">88%</span>
+                </article>
+                <article class="settings-hero-kpi">
+                  <span class="label">Pending Review</span>
+                  <span class="value">5 Rules</span>
+                </article>
+              </div>
+            </header>
+
+            <div class="settings-layout">
+              <aside id="settings-sidebar" class="settings-sidebar"></aside>
+
+              <main class="settings-main">
+                <section class="settings-panel glass">
+                  <div class="settings-panel-header">
+                    <div>
+                      <h2 class="settings-panel-title">Create New Category</h2>
+                      <p class="settings-panel-description">
+                        Add a custom bucket for recurring spend or income
+                        streams.
+                      </p>
+                    </div>
+                  </div>
+
+                  <form id="category-form" class="settings-stack">
+                    <div class="settings-form-grid">
+                      <div class="form-group">
+                        <label for="category-name" class="form-label"
+                          >Category Name</label
+                        >
+                        <input
+                          id="category-name"
+                          class="form-input"
+                          type="text"
+                          placeholder="Example: Home Maintenance"
+                          required
+                        />
+                      </div>
+
+                      <div class="form-group">
+                        <label for="category-type" class="form-label"
+                          >Type</label
+                        >
+                        <select id="category-type" class="form-input">
+                          <option>Expense</option>
+                          <option>Income</option>
+                          <option>Savings</option>
+                          <option>Transfer</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="category-color" class="form-label"
+                          >Color Tag</label
+                        >
+                        <input
+                          id="category-color"
+                          class="form-input"
+                          type="color"
+                          value="#4c8ef5"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="btn-row">
+                      <button type="reset" class="btn btn-ghost">Reset</button>
+                      <button type="submit" class="btn btn-primary">
+                        Add Category
+                      </button>
+                    </div>
+
+                    <div
+                      id="category-status"
+                      class="export-result"
+                      hidden
+                    ></div>
+                  </form>
+                </section>
+
+                <section class="settings-panel">
+                  <div class="settings-panel-header">
+                    <div>
+                      <h2 class="settings-panel-title">Category Library</h2>
+                      <p class="settings-panel-description">
+                        Rename or remove categories and keep reports normalized.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div id="category-list" class="category-list">
+                    <article
+                      class="category-item"
+                      data-category-name="Groceries"
+                    >
+                      <div class="category-left">
+                        <span
+                          class="category-dot"
+                          style="background: #2ecc8a"
+                        ></span>
+                        <div>
+                          <div class="category-name">Groceries</div>
+                          <div class="category-meta">Expense</div>
+                        </div>
+                      </div>
+                      <div class="category-actions">
+                        <button
+                          type="button"
+                          class="btn btn-ghost btn-sm category-action category-rename"
+                        >
+                          Rename
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-ghost btn-sm category-action category-delete"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </article>
+
+                    <article
+                      class="category-item"
+                      data-category-name="Transportation"
+                    >
+                      <div class="category-left">
+                        <span
+                          class="category-dot"
+                          style="background: #e8a83a"
+                        ></span>
+                        <div>
+                          <div class="category-name">Transportation</div>
+                          <div class="category-meta">Expense</div>
+                        </div>
+                      </div>
+                      <div class="category-actions">
+                        <button
+                          type="button"
+                          class="btn btn-ghost btn-sm category-action category-rename"
+                        >
+                          Rename
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-ghost btn-sm category-action category-delete"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </article>
+
+                    <article
+                      class="category-item"
+                      data-category-name="Freelance Income"
+                    >
+                      <div class="category-left">
+                        <span
+                          class="category-dot"
+                          style="background: #4c8ef5"
+                        ></span>
+                        <div>
+                          <div class="category-name">Freelance Income</div>
+                          <div class="category-meta">Income</div>
+                        </div>
+                      </div>
+                      <div class="category-actions">
+                        <button
+                          type="button"
+                          class="btn btn-ghost btn-sm category-action category-rename"
+                        >
+                          Rename
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-ghost btn-sm category-action category-delete"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </article>
+
+                    <article
+                      class="category-item"
+                      data-category-name="Emergency Fund"
+                    >
+                      <div class="category-left">
+                        <span
+                          class="category-dot"
+                          style="background: #c9a84c"
+                        ></span>
+                        <div>
+                          <div class="category-name">Emergency Fund</div>
+                          <div class="category-meta">Savings</div>
+                        </div>
+                      </div>
+                      <div class="category-actions">
+                        <button
+                          type="button"
+                          class="btn btn-ghost btn-sm category-action category-rename"
+                        >
+                          Rename
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-ghost btn-sm category-action category-delete"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </article>
+                  </div>
+                </section>
+              </main>
+            </div>
+          </div>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <script>
+      window.ACTIVE_PAGE = "settings";
+      window.SETTINGS_PAGE = "categories-manager";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/settings.js"></script>
+  </body>
+</html>

@@ -55,7 +55,7 @@
           </button>
 
           <!-- Page Header -->
-          <header class="transactions-header">
+          <header class="transactions-header page-banner">
             <div>
               <h1
                 class="text-display"
@@ -63,12 +63,7 @@
               >
                 Transactions
               </h1>
-              <p
-                style="
-                  color: var(--text-secondary);
-                  margin-top: var(--space-xs);
-                "
-              >
+              <p class="transactions-subtitle">
                 View and manage all your historical spending and income.
               </p>
             </div>
@@ -323,14 +318,12 @@
     <script src="../js/header.js"></script>
     <script src="../js/transactions.js"></script>
     <script>
+      initSidebar("transactions");
+      initHeader();
 
-        initSidebar("transactions");
-        initHeader();
-
-        if (typeof loadComponent === "function") {
-          loadComponent("../components/footer.html", "footer-container");
-        }
+      if (typeof loadComponent === "function") {
+        loadComponent("../components/footer.html", "footer-container");
+      }
     </script>
   </body>
 </html>
-

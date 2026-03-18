@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME security settings for 2FA, trusted devices, sessions, and login controls."
+    />
+
+    <title>Security Settings - FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/settings.css" />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <button
+            class="btn btn-ghost btn-icon"
+            id="mobile-menu-btn"
+            aria-label="Open menu"
+            style="display: none; margin-bottom: var(--space-md)"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <div class="settings-shell">
+            <header
+              class="settings-hero"
+              aria-labelledby="security-settings-title"
+            >
+              <div class="settings-hero-top">
+                <div class="settings-hero-copy">
+                  <span class="text-label">Settings / Security</span>
+                  <h1
+                    id="security-settings-title"
+                    class="text-display"
+                    style="font-size: 30px; margin-top: 8px"
+                  >
+                    Security Settings
+                  </h1>
+                  <p class="settings-hero-subtitle">
+                    Harden account access with layered verification, trusted
+                    device policies, and real-time session governance.
+                  </p>
+                </div>
+
+                <div class="settings-hero-meta">
+                  <span class="badge badge-positive">2FA Enabled</span>
+                  <span class="badge badge-warning">2 sessions to review</span>
+                </div>
+              </div>
+
+              <div class="settings-hero-kpis">
+                <article class="settings-hero-kpi">
+                  <span class="label">Security Posture</span>
+                  <span class="value">Strong</span>
+                </article>
+                <article class="settings-hero-kpi">
+                  <span class="label">Trusted Devices</span>
+                  <span class="value">4</span>
+                </article>
+                <article class="settings-hero-kpi">
+                  <span class="label">Alerts Last 30 Days</span>
+                  <span class="value">1</span>
+                </article>
+              </div>
+            </header>
+
+            <div class="settings-layout">
+              <aside id="settings-sidebar" class="settings-sidebar"></aside>
+
+              <main class="settings-main">
+                <section class="settings-panel glass">
+                  <div class="settings-panel-header">
+                    <div>
+                      <h2 class="settings-panel-title">Access Control Rules</h2>
+                      <p class="settings-panel-description">
+                        Configure global account protection behavior and
+                        transaction confirmation enforcement.
+                      </p>
+                    </div>
+                  </div>
+
+                  <form id="security-controls-form" class="settings-stack">
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Two-Factor Authentication</div>
+                        <div class="caption">
+                          Authenticator app and fallback recovery codes.
+                        </div>
+                      </div>
+                      <label>
+                        <input
+                          class="settings-toggle-input"
+                          type="checkbox"
+                          checked
+                        />
+                        <span class="settings-toggle"></span>
+                      </label>
+                    </article>
+
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">
+                          Require Approval for Large Transfers
+                        </div>
+                        <div class="caption">
+                          Prompt biometric confirmation above $1,000.
+                        </div>
+                      </div>
+                      <label>
+                        <input
+                          class="settings-toggle-input"
+                          type="checkbox"
+                          checked
+                        />
+                        <span class="settings-toggle"></span>
+                      </label>
+                    </article>
+
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Challenge New Device Sign-ins</div>
+                        <div class="caption">
+                          Block unknown device access until manual approval.
+                        </div>
+                      </div>
+                      <label>
+                        <input
+                          class="settings-toggle-input"
+                          type="checkbox"
+                          checked
+                        />
+                        <span class="settings-toggle"></span>
+                      </label>
+                    </article>
+
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Login History Retention</div>
+                        <div class="caption">
+                          Store geolocation, browser signature, and IP for 180
+                          days.
+                        </div>
+                      </div>
+                      <span class="status-pill verified">Active</span>
+                    </article>
+
+                    <div class="btn-row">
+                      <button type="button" class="btn btn-ghost">Reset</button>
+                      <button type="submit" class="btn btn-primary">
+                        Save Security Rules
+                      </button>
+                    </div>
+
+                    <div
+                      id="security-save-status"
+                      class="export-result"
+                      hidden
+                    ></div>
+                  </form>
+                </section>
+
+                <section class="settings-panel">
+                  <div class="settings-panel-header">
+                    <div>
+                      <h2 class="settings-panel-title">Active Sessions</h2>
+                      <p class="settings-panel-description">
+                        Revoke stale sessions and control account footprint
+                        across browsers and devices.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      id="revoke-all-sessions-btn"
+                      class="btn btn-secondary btn-sm"
+                    >
+                      Revoke All Except Current
+                    </button>
+                  </div>
+
+                  <div id="security-sessions-list" class="session-list">
+                    <article
+                      class="session-item"
+                      data-device="Current Session"
+                      data-current="true"
+                    >
+                      <div>
+                        <div class="session-device">
+                          Windows Edge - Current Session
+                        </div>
+                        <div class="session-meta">
+                          Alexandria, EG | 10 minutes ago | 192.168.0.22
+                        </div>
+                      </div>
+                      <div class="session-actions">
+                        <span class="status-pill online">Current</span>
+                      </div>
+                    </article>
+
+                    <article
+                      class="session-item"
+                      data-device="MacBook Pro Safari"
+                    >
+                      <div>
+                        <div class="session-device">
+                          MacBook Pro - Safari 18
+                        </div>
+                        <div class="session-meta">
+                          London, UK | 2 hours ago | 81.110.52.8
+                        </div>
+                      </div>
+                      <div class="session-actions">
+                        <span class="status-pill warning">Review</span>
+                        <button
+                          type="button"
+                          class="btn btn-ghost btn-sm session-revoke-btn"
+                        >
+                          Revoke
+                        </button>
+                      </div>
+                    </article>
+
+                    <article class="session-item" data-device="iPhone 16 Pro">
+                      <div>
+                        <div class="session-device">
+                          iPhone 16 Pro - iOS App
+                        </div>
+                        <div class="session-meta">
+                          Cairo, EG | Yesterday | 102.44.15.201
+                        </div>
+                      </div>
+                      <div class="session-actions">
+                        <span class="status-pill online">Trusted</span>
+                        <button
+                          type="button"
+                          class="btn btn-ghost btn-sm session-revoke-btn"
+                        >
+                          Revoke
+                        </button>
+                      </div>
+                    </article>
+
+                    <article class="session-item" data-device="Chrome Linux VM">
+                      <div>
+                        <div class="session-device">Chrome - Linux VM</div>
+                        <div class="session-meta">
+                          Unknown region | 7 days ago | 76.31.90.141
+                        </div>
+                      </div>
+                      <div class="session-actions">
+                        <span class="status-pill warning">High Risk</span>
+                        <button
+                          type="button"
+                          class="btn btn-ghost btn-sm session-revoke-btn"
+                        >
+                          Revoke
+                        </button>
+                      </div>
+                    </article>
+                  </div>
+                </section>
+              </main>
+            </div>
+          </div>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <script>
+      window.ACTIVE_PAGE = "settings";
+      window.SETTINGS_PAGE = "security-settings";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/settings.js"></script>
+  </body>
+</html>

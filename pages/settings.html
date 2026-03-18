@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME settings and configuration hub for profile, security, notifications, integrations, billing, and data controls."
+    />
+
+    <title>Settings - FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/settings.css" />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <button
+            class="btn btn-ghost btn-icon"
+            id="mobile-menu-btn"
+            aria-label="Open menu"
+            style="display: none; margin-bottom: var(--space-md)"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <div class="settings-shell">
+            <header class="settings-hero" aria-labelledby="settings-hero-title">
+              <div class="settings-hero-top">
+                <div class="settings-hero-copy">
+                  <span class="text-label">Settings and Configuration</span>
+                  <h1
+                    id="settings-hero-title"
+                    class="text-display"
+                    style="font-size: 30px; margin-top: 8px"
+                  >
+                    Control Center
+                  </h1>
+                  <p class="settings-hero-subtitle">
+                    Manage identity, security, channels, integrations, billing,
+                    and data governance from one operational rail.
+                  </p>
+                </div>
+
+                <div class="settings-hero-meta">
+                  <span class="badge badge-category">Region: US-East</span>
+                  <span class="badge badge-positive">Status: Protected</span>
+                  <a href="security-settings.html" class="btn btn-primary"
+                    >Review Security</a
+                  >
+                </div>
+              </div>
+
+              <div
+                class="settings-hero-kpis"
+                aria-label="Settings overview metrics"
+              >
+                <article class="settings-hero-kpi">
+                  <span class="label">Compliance Score</span>
+                  <span class="value">96 / 100</span>
+                </article>
+                <article class="settings-hero-kpi">
+                  <span class="label">Connected Services</span>
+                  <span class="value">6 Active</span>
+                </article>
+                <article class="settings-hero-kpi">
+                  <span class="label">Open Security Tasks</span>
+                  <span class="value">2 Pending</span>
+                </article>
+              </div>
+            </header>
+
+            <div class="settings-layout">
+              <aside id="settings-sidebar" class="settings-sidebar"></aside>
+
+              <main class="settings-main" id="settings-main-content">
+                <section class="settings-panel glass">
+                  <div class="settings-panel-header">
+                    <div>
+                      <h2 class="settings-panel-title">
+                        Configuration Modules
+                      </h2>
+                      <p class="settings-panel-description">
+                        Open a module to update preferences and run
+                        configuration workflows. Each module has validation-safe
+                        controls.
+                      </p>
+                    </div>
+                    <span class="badge badge-neutral">10 modules</span>
+                  </div>
+
+                  <div
+                    id="settings-quick-links"
+                    class="settings-nav"
+                    aria-label="Settings quick links"
+                  ></div>
+                </section>
+
+                <section class="settings-panel">
+                  <div class="settings-panel-header">
+                    <div>
+                      <h2 class="settings-panel-title">Operational Health</h2>
+                      <p class="settings-panel-description">
+                        Live indicators for identity assurance, device hygiene,
+                        and data policy posture.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="settings-meta-grid">
+                    <article class="settings-metric">
+                      <span class="label">2FA Coverage</span>
+                      <span class="value">100%</span>
+                    </article>
+                    <article class="settings-metric">
+                      <span class="label">Trusted Devices</span>
+                      <span class="value">4</span>
+                    </article>
+                    <article class="settings-metric">
+                      <span class="label">Last Export</span>
+                      <span class="value">Mar 15</span>
+                    </article>
+                  </div>
+
+                  <div
+                    class="settings-stack"
+                    style="margin-top: var(--space-md)"
+                  >
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">High-Risk Sign-in Alerts</div>
+                        <div class="caption">
+                          Critical sign-in alerts are active for all channels.
+                        </div>
+                      </div>
+                      <span class="status-pill online">Enabled</span>
+                    </article>
+
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Account Recovery Methods</div>
+                        <div class="caption">
+                          Primary email and backup authenticator are verified.
+                        </div>
+                      </div>
+                      <span class="status-pill verified">Verified</span>
+                    </article>
+
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Data Retention Policy</div>
+                        <div class="caption">
+                          7-year retention active with quarterly export checks.
+                        </div>
+                      </div>
+                      <span class="status-pill warning">Review in 12 days</span>
+                    </article>
+                  </div>
+                </section>
+              </main>
+            </div>
+          </div>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <script>
+      window.ACTIVE_PAGE = "settings";
+      window.SETTINGS_PAGE = "settings";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/settings.js"></script>
+  </body>
+</html>

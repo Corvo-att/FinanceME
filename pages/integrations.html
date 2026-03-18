@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME connected integrations settings for banks, payment apps, and external services."
+    />
+
+    <title>Connected Integrations - FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/settings.css" />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <button
+            class="btn btn-ghost btn-icon"
+            id="mobile-menu-btn"
+            aria-label="Open menu"
+            style="display: none; margin-bottom: var(--space-md)"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
+          <div class="settings-shell">
+            <header class="settings-hero" aria-labelledby="integrations-title">
+              <div class="settings-hero-top">
+                <div class="settings-hero-copy">
+                  <span class="text-label">Settings / Integrations</span>
+                  <h1
+                    id="integrations-title"
+                    class="text-display"
+                    style="font-size: 30px; margin-top: 8px"
+                  >
+                    Connected Integrations
+                  </h1>
+                  <p class="settings-hero-subtitle">
+                    Manage bank feeds, payment rails, and data-sharing
+                    permissions with external platforms.
+                  </p>
+                </div>
+
+                <div class="settings-hero-meta">
+                  <span class="badge badge-category">OAuth Tokens: 5</span>
+                  <span class="badge badge-positive">Sync healthy</span>
+                </div>
+              </div>
+
+              <div class="settings-hero-kpis">
+                <article class="settings-hero-kpi">
+                  <span class="label">Total Integrations</span>
+                  <span class="value">8</span>
+                </article>
+                <article class="settings-hero-kpi">
+                  <span class="label">Connected</span>
+                  <span class="value">6</span>
+                </article>
+                <article class="settings-hero-kpi">
+                  <span class="label">Last Full Sync</span>
+                  <span class="value">09:14 UTC</span>
+                </article>
+              </div>
+            </header>
+
+            <div class="settings-layout">
+              <aside id="settings-sidebar" class="settings-sidebar"></aside>
+
+              <main class="settings-main">
+                <section class="settings-panel glass">
+                  <div class="settings-panel-header">
+                    <div>
+                      <h2 class="settings-panel-title">Linked Services</h2>
+                      <p class="settings-panel-description">
+                        Connect, disconnect, and rotate access for data
+                        providers.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div id="integration-grid" class="integration-grid">
+                    <article class="integration-card" data-connected="true">
+                      <div class="integration-title-row">
+                        <span class="integration-title">Plaid Bank Link</span>
+                        <span class="status-pill online">Connected</span>
+                      </div>
+                      <p class="integration-caption">
+                        Live bank transaction ingestion every 30 minutes.
+                      </p>
+                      <span class="integration-meta"
+                        >Updated token 4 days ago</span
+                      >
+                      <button
+                        type="button"
+                        class="btn btn-ghost btn-sm integration-action"
+                      >
+                        Disconnect
+                      </button>
+                    </article>
+
+                    <article class="integration-card" data-connected="true">
+                      <div class="integration-title-row">
+                        <span class="integration-title">PayPal</span>
+                        <span class="status-pill online">Connected</span>
+                      </div>
+                      <p class="integration-caption">
+                        Incoming payout and subscription payment tracking.
+                      </p>
+                      <span class="integration-meta"
+                        >Last sync 12 minutes ago</span
+                      >
+                      <button
+                        type="button"
+                        class="btn btn-ghost btn-sm integration-action"
+                      >
+                        Disconnect
+                      </button>
+                    </article>
+
+                    <article class="integration-card" data-connected="false">
+                      <div class="integration-title-row">
+                        <span class="integration-title">Wise Transfer</span>
+                        <span class="status-pill offline">Disconnected</span>
+                      </div>
+                      <p class="integration-caption">
+                        Cross-border transfer ledger and FX snapshots.
+                      </p>
+                      <span class="integration-meta">No token active</span>
+                      <button
+                        type="button"
+                        class="btn btn-secondary btn-sm integration-action"
+                      >
+                        Connect
+                      </button>
+                    </article>
+
+                    <article class="integration-card" data-connected="true">
+                      <div class="integration-title-row">
+                        <span class="integration-title">Stripe Billing</span>
+                        <span class="status-pill online">Connected</span>
+                      </div>
+                      <p class="integration-caption">
+                        SaaS invoice reconciliation and payout reports.
+                      </p>
+                      <span class="integration-meta"
+                        >Webhook latency 320ms</span
+                      >
+                      <button
+                        type="button"
+                        class="btn btn-ghost btn-sm integration-action"
+                      >
+                        Disconnect
+                      </button>
+                    </article>
+
+                    <article class="integration-card" data-connected="false">
+                      <div class="integration-title-row">
+                        <span class="integration-title">Coinbase Wallet</span>
+                        <span class="status-pill offline">Disconnected</span>
+                      </div>
+                      <p class="integration-caption">
+                        Crypto balance snapshots and transfer labels.
+                      </p>
+                      <span class="integration-meta">Manual import only</span>
+                      <button
+                        type="button"
+                        class="btn btn-secondary btn-sm integration-action"
+                      >
+                        Connect
+                      </button>
+                    </article>
+
+                    <article class="integration-card" data-connected="true">
+                      <div class="integration-title-row">
+                        <span class="integration-title">Google Calendar</span>
+                        <span class="status-pill online">Connected</span>
+                      </div>
+                      <p class="integration-caption">
+                        Bill reminders and recurring finance task events.
+                      </p>
+                      <span class="integration-meta">Synced at 08:40 UTC</span>
+                      <button
+                        type="button"
+                        class="btn btn-ghost btn-sm integration-action"
+                      >
+                        Disconnect
+                      </button>
+                    </article>
+                  </div>
+
+                  <div
+                    id="integration-update-status"
+                    class="export-result"
+                    hidden
+                    style="margin-top: var(--space-md)"
+                  ></div>
+                </section>
+
+                <section class="settings-panel">
+                  <div class="settings-panel-header">
+                    <div>
+                      <h2 class="settings-panel-title">Integration Policies</h2>
+                      <p class="settings-panel-description">
+                        Fine-tune synchronization cadence and permission scope.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="settings-stack">
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Automatic Transaction Sync</div>
+                        <div class="caption">
+                          Every 30 minutes with duplicate detection enabled.
+                        </div>
+                      </div>
+                      <span class="status-pill online">Enabled</span>
+                    </article>
+
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Third-Party Data Sharing</div>
+                        <div class="caption">
+                          Only anonymized analytics are shared externally.
+                        </div>
+                      </div>
+                      <button type="button" class="btn btn-secondary btn-sm">
+                        Review Scope
+                      </button>
+                    </article>
+
+                    <article class="settings-row">
+                      <div class="settings-row-copy">
+                        <div class="title">Token Rotation Policy</div>
+                        <div class="caption">
+                          Rotate all integration tokens every 90 days.
+                        </div>
+                      </div>
+                      <span class="status-pill verified">Compliant</span>
+                    </article>
+                  </div>
+                </section>
+              </main>
+            </div>
+          </div>
+        </div>
+
+        <div id="footer-container"></div>
+      </div>
+    </div>
+
+    <script>
+      window.ACTIVE_PAGE = "settings";
+      window.SETTINGS_PAGE = "integrations";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/settings.js"></script>
+  </body>
+</html>

@@ -4,290 +4,356 @@
 
 /* --- Styles from budgets.html --- */
 
-      .page-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        margin-bottom: var(--space-xl);
-      }
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: var(--space-xl);
+}
 
-      .metrics-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: var(--space-md);
-        margin-bottom: var(--space-xl);
-      }
+.budgets-header.page-banner {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+  padding: var(--space-xl);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(
+      860px 280px at -10% -24%,
+      rgba(201, 168, 76, 0.17),
+      transparent 72%
+    ),
+    radial-gradient(
+      760px 250px at 110% 0%,
+      rgba(76, 142, 245, 0.14),
+      transparent 70%
+    ),
+    var(--bg-surface);
+}
 
-      /* Enhanced Progress Bar Styles */
-      .progress-container {
-        margin-top: var(--space-sm);
-      }
+.budgets-header.page-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -14deg,
+    rgba(255, 255, 255, 0.02) 0,
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 1px,
+    transparent 12px
+  );
+  opacity: 0.32;
+  pointer-events: none;
+}
 
-      .progress-meta {
-        display: flex;
-        justify-content: space-between;
-        font-size: 13px;
-        color: var(--text-secondary);
-        margin-bottom: 8px;
-        font-family: var(--font-mono);
-      }
+.budgets-header > :first-child,
+.budgets-header > .btn {
+  position: relative;
+  z-index: 1;
+}
 
-      .progress-track {
-        height: 8px;
-        background: var(--bg-elevated);
-        border-radius: 4px;
-        overflow: hidden;
-      }
+.budgets-header > :first-child {
+  flex: 1 1 460px;
+}
 
-      .progress-fill {
-        height: 100%;
-        border-radius: 4px;
-        transition: width 0.4s ease;
-      }
+.budgets-subtitle {
+  color: var(--text-secondary);
+  margin-top: var(--space-sm);
+  max-width: 62ch;
+}
 
-      /* Budget Specific Cards */
-      .budgets-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: var(--space-md);
-      }
+@media (max-width: 900px) {
+  .budgets-header.page-banner {
+    padding: var(--space-lg);
+  }
 
-      .budget-card {
-        padding: var(--space-lg);
-        display: flex;
-        flex-direction: column;
-        transition:
-          transform var(--transition-fast),
-          border-color var(--transition-fast);
-        text-decoration: none;
-        color: inherit;
-        display: block; /* makes the whole card clickable properly as an anchor */
-      }
+  .budgets-header > .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
 
-      .budget-card:hover {
-        transform: translateY(-2px);
-        border-color: var(--border-strong);
-      }
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
 
-      .budget-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: var(--space-md);
-      }
+/* Enhanced Progress Bar Styles */
+.progress-container {
+  margin-top: var(--space-sm);
+}
 
-      .budget-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
-        background: var(--bg-elevated);
-        color: var(--text-primary);
-      }
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+}
 
-      .budget-amount-display {
-        text-align: right;
-      }
+.progress-track {
+  height: 8px;
+  background: var(--bg-elevated);
+  border-radius: 4px;
+  overflow: hidden;
+}
 
-      .budget-amount-spent {
-        font-family: var(--font-mono);
-        font-size: 20px;
-        color: var(--text-primary);
-        font-weight: 500;
-        display: block;
-      }
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
 
-      .budget-amount-total {
-        font-family: var(--font-mono);
-        font-size: 13px;
-        color: var(--text-secondary);
-      }
+/* Budget Specific Cards */
+.budgets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-md);
+}
 
-      .budget-title {
-        font-family: var(--font-ui);
-        font-size: 16px;
-        font-weight: 500;
-        color: var(--text-primary);
-        margin-top: var(--space-sm);
-      }
+.budget-card {
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-fast);
+  text-decoration: none;
+  color: inherit;
+  display: block; /* makes the whole card clickable properly as an anchor */
+}
 
-      /* Semantic Progress Colors */
-      .fill-safe {
-        background: var(--positive);
-      }
-      .fill-warning {
-        background: var(--warning);
-      }
-      .fill-danger {
-        background: var(--negative);
-      }
+.budget-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+}
 
-      .text-safe {
-        color: var(--positive);
-      }
-      .text-warning {
-        color: var(--warning);
-      }
-      .text-danger {
-        color: var(--negative);
-      }
-    
+.budget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-md);
+}
+
+.budget-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.budget-amount-display {
+  text-align: right;
+}
+
+.budget-amount-spent {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  color: var(--text-primary);
+  font-weight: 500;
+  display: block;
+}
+
+.budget-amount-total {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.budget-title {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-top: var(--space-sm);
+}
+
+/* Semantic Progress Colors */
+.fill-safe {
+  background: var(--positive);
+}
+.fill-warning {
+  background: var(--warning);
+}
+.fill-danger {
+  background: var(--negative);
+}
+
+.text-safe {
+  color: var(--positive);
+}
+.text-warning {
+  color: var(--warning);
+}
+.text-danger {
+  color: var(--negative);
+}
+
 /* --- Styles from budget-detail.html --- */
 
-      .page-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        margin-bottom: var(--space-lg);
-      }
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: var(--space-lg);
+}
 
-      .budget-hero {
-        padding: var(--space-xl);
-        margin-bottom: var(--space-xl);
-        background:
-          radial-gradient(
-            circle at top right,
-            rgba(232, 168, 58, 0.1),
-            transparent 60%
-          ),
-          var(--bg-surface);
-        border: 1px solid var(--border-subtle);
-        border-radius: var(--radius-lg);
-      }
+.budget-hero {
+  padding: var(--space-xl);
+  margin-bottom: var(--space-xl);
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(232, 168, 58, 0.1),
+      transparent 60%
+    ),
+    var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
 
-      .hero-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: var(--space-xl);
-      }
+.hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xl);
+}
 
-      .hero-title-group {
-        display: flex;
-        align-items: center;
-        gap: var(--space-md);
-      }
+.hero-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
 
-      .budget-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        background: rgba(232, 168, 58, 0.1);
-        color: var(--warning);
-      }
+.budget-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(232, 168, 58, 0.1);
+  color: var(--warning);
+}
 
-      .budget-amount-display {
-        margin-bottom: var(--space-md);
-      }
+.budget-amount-display {
+  margin-bottom: var(--space-md);
+}
 
-      .hero-spent {
-        font-family: var(--font-mono);
-        font-size: 48px;
-        color: var(--text-primary);
-        font-weight: 500;
-        letter-spacing: -1px;
-      }
+.hero-spent {
+  font-family: var(--font-mono);
+  font-size: 48px;
+  color: var(--text-primary);
+  font-weight: 500;
+  letter-spacing: -1px;
+}
 
-      .hero-total {
-        font-family: var(--font-mono);
-        font-size: 18px;
-        color: var(--text-secondary);
-        margin-left: 8px;
-      }
+.hero-total {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-left: 8px;
+}
 
-      .progress-container {
-        margin-top: var(--space-xs);
-      }
+.progress-container {
+  margin-top: var(--space-xs);
+}
 
-      .progress-meta {
-        display: flex;
-        justify-content: space-between;
-        font-size: 13px;
-        font-family: var(--font-mono);
-        margin-bottom: 8px;
-      }
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  margin-bottom: 8px;
+}
 
-      .text-warning {
-        color: var(--warning);
-      }
+.text-warning {
+  color: var(--warning);
+}
 
-      .progress-track {
-        height: 12px;
-        background: var(--bg-elevated);
-        border-radius: 6px;
-        overflow: hidden;
-      }
+.progress-track {
+  height: 12px;
+  background: var(--bg-elevated);
+  border-radius: 6px;
+  overflow: hidden;
+}
 
-      .progress-fill {
-        height: 100%;
-        border-radius: 6px;
-        transition: width 0.4s ease;
-        background: var(--warning);
-      }
+.progress-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.4s ease;
+  background: var(--warning);
+}
 
-      .insight-box {
-        display: flex;
-        align-items: center;
-        gap: var(--space-sm);
-        margin-top: var(--space-lg);
-        padding: var(--space-sm) var(--space-md);
-        background: rgba(232, 168, 58, 0.05);
-        border-left: 2px solid var(--warning);
-        border-radius: 0 var(--radius-md) var(--radius-md) 0;
-      }
-      .insight-text {
-        font-size: 13px;
-        color: var(--text-secondary);
-      }
-      .insight-text strong {
-        color: var(--text-primary);
-        font-weight: 500;
-      }
-    
+.insight-box {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(232, 168, 58, 0.05);
+  border-left: 2px solid var(--warning);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+.insight-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.insight-text strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
 /* --- Styles from add-budget.html --- */
 
-      .form-container {
-        max-width: 600px;
-        margin: 0 auto;
-      }
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
 
-      .page-header {
-        margin-bottom: var(--space-xl);
-      }
+.page-header {
+  margin-bottom: var(--space-xl);
+}
 
-      .amount-input-wrapper {
-        position: relative;
-        display: flex;
-        align-items: center;
-      }
+.amount-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 
-      .currency-symbol {
-        position: absolute;
-        left: var(--space-md);
-        color: var(--text-secondary);
-        font-family: var(--font-mono);
-        font-size: 18px;
-        pointer-events: none;
-      }
+.currency-symbol {
+  position: absolute;
+  left: var(--space-md);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  pointer-events: none;
+}
 
-      .amount-input-wrapper input {
-        padding-left: 36px;
-        font-family: var(--font-mono);
-        font-size: 20px;
-        height: 56px;
-      }
+.amount-input-wrapper input {
+  padding-left: 36px;
+  font-family: var(--font-mono);
+  font-size: 20px;
+  height: 56px;
+}
 
-      .btn-row {
-        display: flex;
-        justify-content: flex-end;
-        gap: var(--space-md);
-        margin-top: var(--space-xl);
-        padding-top: var(--space-lg);
-        border-top: 1px solid var(--border-subtle);
-      }
-    
+.btn-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--border-subtle);
+}

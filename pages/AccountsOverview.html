@@ -29,56 +29,287 @@
 <!-- <div>
      <i class="fa-regular fa-circle-user"></i>
      </div>  -->
-     
 
-      <div class="grid grid-cols-12 page-section accounts-overview-header">
-        <h1 id="Manage-Balance" class="text-page-title col-span-6">Manage Your Payments</h1>
-        <div class="card accounts-balance-card col-span-6">
-          <div class="card-header">
-            <div class="accounts-balance-display">
-              <span class="text-label">Balance</span>
-              <span class="data-figure-lg" id="balance">0.00$</span>
-            </div>
-            <button type="button" class="btn btn-secondary">Manage</button>
+
+   <input type="checkbox" id="payment-toggle"> 
+
+      <div class="page-banner accounts-page-banner">
+        <div class="page-banner-content">
+          <div class="text-label">ACCOUNTS AND BALANCES</div>
+          <h1 class="text-hero">Accounts</h1>
+          <p class="text-label">Track all your finances in a single place across your credit cards, <br> debit cards, investments, crypto and cash</p>
+        </div>
+        <div class="page-banner-actions">
+          <div id="payment-area">
+            <label id = "add-btn" for="payment-toggle" class="btn btn-primary">
+              <span id = "btn-txt"><span id="plus">+</span> Add payment method</span>
+            </label>
           </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-4 page-section accounts-kpi-grid">
+        <div class="stat-card">
+          <div class="stat-card__label">Total Assests</div>
+          <div  class="stat-card__value">$115,751.59</div>
+          <div class="stat-card__delta stat-card__delta--positive">+2.5%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__label">Total Liabilities</div>
+          <div id = "liabilities" class="stat-card__value amount-negative">-$2,860.47</div>
+          <div class="stat-card__delta stat-card__delta--negative">+3.6%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__label">Net profit</div>
+          <div id="profit" class="stat-card__value">$112,891.12</div>
+          <div class="stat-card__delta stat-card__delta--positive">+$4,038.00 this period</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__label">Linked account</div>
+          <div class="stat-card__value">4</div>
+          <div class="badge badge-neutral badge-manual">2 manual</div>
         </div>
       </div>
 
 
 
-      <div class="Transactions page-section">
-        <h1 class="text-page-title">Transactions <span>(0)</span></h1>
 
-        <div class="card">
-          <div class="card-header">
-            <span class="text-card-title">Past transactions</span>
-          </div>
-          <div class="past-transactions-list">
+
+        <div id="account-overview" class="stat-card">
+          <div class="first section accounts-overview-header-row">
+            <header id="accounts-header" class="text-section">Accounts Overview</header>
             
-            <p class="text-caption">No past transactions yet.</p>
+            <div class="account-category-tabs-container">
+              
+              <input type="radio" id="tab-all-accounts" name="dashboard-account-tabs" class="hidden-tab-input" checked>
+              <label for="tab-all-accounts" class="visual-tab-button">All</label>
+
+              
+              <input type="radio" id="tab-credit-accounts" name="dashboard-account-tabs" class="hidden-tab-input">
+              <label for="tab-credit-accounts" class="visual-tab-button">Card</label>
+
+              
+              <input type="radio" id="tab-investment-accounts" name="dashboard-account-tabs" class="hidden-tab-input">
+              <label for="tab-investment-accounts" class="visual-tab-button">Investment</label>
+
+             
+              <input type="radio" id="tab-crypto-accounts" name="dashboard-account-tabs" class="hidden-tab-input">
+              <label for="tab-crypto-accounts" class="visual-tab-button">Crypto</label>
+
+             
+            </div>
           </div>
+          <hr class="accounts-divider">
+
+        <div class="account-columns">
+          
+          <div class="account-pic">
+          <p class="text-label" >Account</p>
+          </div>
+
+          <div class="account-type">
+          <p class="text-label" >Type</p>
+          </div>
+
+          <div class="institution">
+          <p class="text-label" >Institution</p>
+          </div>
+
+          <div class="balance">
+          <p class="text-label" >Balance</p>
+          </div>
+
+          <div class="status">
+          <p class="text-label" >Status</p>
+          </div>
+
         </div>
 
-        
-      </div>
-
- 
+      <hr class="accounts-divider">
 
 
-       <input type="checkbox" id="payment-toggle" style="display: none;"> 
+<div id="account-details">
+
+<div class="account-pic">
+  <img src="../pictures/AccountsOverview/bd-visa-platinum-card-498x280.webp" class="account-card-img" alt="Credit Card">
+</div>
+
+<div class="account-type">
+  <span class="badge badge-neutral badge-investment">INVESTMENT</span>
+</div>
+
+<div class="institution institution-text">
+  Fidelity
+</div>
+
+<div class="balance balance-container">
+  <span class="balance-amount">$63,828.98</span>
+</div>
+
+<div class="status">  
+  <span class="badge badge-positive badge-linked">LINKED</span>
+</div>
+
+</div>
+      <hr class="accounts-divider">
+
+
+<div id="account-details">
+  
+<div class="account-pic">
+  <img src="../pictures/AccountsOverview/bd-visa-platinum-card-498x280.webp" class="account-card-img" alt="Credit Card">
+</div>
+
+<div class="account-type">
+  <span class="badge badge-neutral badge-investment">INVESTMENT</span>
+</div>
+
+<div class="institution institution-text">
+  Fidelity
+</div>
+
+<div class="balance balance-container">
+  <span class="balance-amount">$63,828.98</span>
+</div>
+
+<div class="status">  
+  <span class="badge badge-positive badge-linked">LINKED</span>
+</div>
+
+</div>
+      <hr class="accounts-divider">
+
+
+<div id="account-details">
+  
+<div class="account-pic">
+  <img src="../pictures/AccountsOverview/bd-visa-platinum-card-498x280.webp" class="account-card-img" alt="Credit Card">
+</div>
+
+<div class="account-type">
+  <span class="badge badge-neutral badge-investment">INVESTMENT</span>
+</div>
+
+<div class="institution institution-text">
+  Fidelity
+</div>
+
+<div class="balance balance-container">
+  <span class="balance-amount">$63,828.98</span>
+</div>
+
+<div class="status">  
+  <span class="badge badge-positive badge-linked">LINKED</span>
+</div>
+
+</div>
+<hr class="accounts-divider">
+
+        </div>
+
+
+<div id="Recent-activity" class="stat-card">
+
+
+ <header id="recent-activity-header" class="text-section">Recent Activity</header>      
+ <p class="text-label">Latest balance impacting Transactions across all accounts<br> </p>
+<hr class="accounts-divider">
+
+
+
+     <div class="recent-activity-columns">
+          
+          <div class="ra-col">
+          <p class="text-label" >Date</p>
+          </div>
+
+          <div class="ra-col">
+          <p class="text-label" >Description</p>
+          </div>
+
+          <div class="ra-col">
+          <p class="text-label" >Account</p>
+          </div>
+
+          <div class="ra-col ra-col-right">
+          <p class="text-label" >Amount</p>
+          </div>
+     
+        </div>
+
+  <hr class="accounts-divider">
+
+
+  <div class="recent-activity-details">
+
+<div class="ra-col institution-text">
+  Mar 16, 2026
+</div>
+
+<div class="ra-col institution-text">
+  Payroll Deposit
+</div>
+
+<div class="ra-col institution-text">
+  Chase Checking
+</div>
+
+<div class="ra-col ra-col-right institution-text">
+  +$4,200.00
+</div>
+
+  </div>
+
+  <hr class="accounts-divider">
+
+    <div class="recent-activity-details">
+
+<div class="ra-col institution-text">
+  Mar 16, 2026
+</div>
+
+<div class="ra-col institution-text">
+  Payroll Deposit
+</div>
+
+<div class="ra-col institution-text">
+  Chase Checking
+</div>
+
+<div class="ra-col ra-col-right institution-text">
+  +$4,200.00
+</div>
+
+  </div>
+
+  <hr class="accounts-divider">
+
+    <div class="recent-activity-details">
+
+<div class="ra-col institution-text">
+  Mar 16, 2026
+</div>
+
+<div class="ra-col institution-text">
+  Payroll Deposit
+</div>
+
+<div class="ra-col institution-text">
+  Chase Checking
+</div>
+
+<div class="ra-col ra-col-right institution-text">
+  +$4,200.00
+</div>
+
+  </div>
+
+  <hr class="accounts-divider">
+</div>
+
+
 
        <div class="payment-background"></div>
-
-
-      <div id = "payment-area" class="payment-methods page-section">
-        <h1 class="text-page-title">Payment methods</h1>
-   <label for="payment-toggle" class="btn btn-primary payment-methods-add-btn">
-    <div id="btn-txt" class="text-label">
-     <span id = "plus">+</span> Add payment method
-    </div>
-    </label>
-      </div>
-
 
       <div id = "paymentprompt" class="card">
 
@@ -130,7 +361,7 @@
 </div>
 
 
- <input type="checkbox" id="cardchoice-toggle" style="display: none;"> 
+ <input type="checkbox" id="cardchoice-toggle"> 
 
 
 <div>

@@ -105,6 +105,35 @@ The app uses a **fixed left sidebar \+ main content area** layout on desktop, co
 
 All margin, padding, and gap values must snap to this scale.
 
+### **Shared Gradient Banner Utility (layout.css)**
+
+Use one shared utility for page hero banners instead of duplicating gradient/overlay blocks in page CSS.
+
+**Core classes**
+
+* `.page-banner` — shared gradient shell, texture overlay, padding, border, radius.  
+* `.page-banner-content` — primary text/content column.  
+* `.page-banner-actions` — actions area for CTA buttons.  
+* `.page-banner-subtitle` — consistent subtitle style and measure.
+
+**Recommended markup pattern**
+
+```html
+<header class="page-header your-page-header page-banner">
+	<div class="page-banner-content">
+		<h1 class="text-page-title">Page Title</h1>
+		<p class="page-banner-subtitle">Short description.</p>
+	</div>
+	<div class="page-banner-actions">
+		<a class="btn btn-primary" href="#">Primary Action</a>
+	</div>
+</header>
+```
+
+**Customization rule**
+
+When a page needs a distinct banner look, only override `--page-banner-*` variables in that page class (for example `.planning-hero`, `.settings-hero`, `.reports-hero`). Never copy full radial gradients and texture overlays into page-level CSS.
+
 ---
 
 ## **5\. Component Design Specifications**

@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME — Goals & Savings overview with progress tracking and contribution workflow."
+    />
+
+    <title>Goals & Savings — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/goals.css" />
+  </head>
+
+  <body class="goals-page">
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <section class="page-header page-banner goals-hero reveal-up">
+            <div class="page-banner-content">
+              <span class="goals-hero__label">
+                <span class="goals-hero__dot"></span>
+                Goals and Savings
+              </span>
+              <h1 class="goals-hero__title">
+                Build Wealth With Intentional Milestones
+              </h1>
+              <p class="goals-hero__subtitle">
+                Track every goal from first contribution to completion. Quantify
+                pace, identify risk early, and execute your savings plan with
+                precision.
+              </p>
+
+              <div class="goals-hero__milestones" aria-hidden="true">
+                <article class="goals-hero__milestone">
+                  <span class="goals-hero__milestone-label">Active Goals</span>
+                  <span
+                    class="goals-hero__milestone-value"
+                    id="hero-active-goals"
+                    >0</span
+                  >
+                </article>
+                <article class="goals-hero__milestone">
+                  <span class="goals-hero__milestone-label">On Track</span>
+                  <span class="goals-hero__milestone-value" id="hero-on-track"
+                    >0</span
+                  >
+                </article>
+                <article class="goals-hero__milestone">
+                  <span class="goals-hero__milestone-label">Saved To Date</span>
+                  <span class="goals-hero__milestone-value" id="hero-saved"
+                    >$0</span
+                  >
+                </article>
+                <article class="goals-hero__milestone">
+                  <span class="goals-hero__milestone-label"
+                    >Completion Rate</span
+                  >
+                  <span class="goals-hero__milestone-value" id="hero-completion"
+                    >0%</span
+                  >
+                </article>
+              </div>
+            </div>
+
+            <div class="page-banner-actions">
+              <a href="add-goal.html" class="btn btn-primary">Create Goal</a>
+              <a href="reports.html" class="btn btn-outline">Open Reports</a>
+            </div>
+          </section>
+
+          <section
+            class="goals-kpi-grid reveal-up delay-1"
+            aria-label="Goals key metrics"
+          >
+            <article class="goals-kpi">
+              <span class="goals-kpi__label">Total Saved</span>
+              <span class="goals-kpi__value" id="kpi-total-saved">$0.00</span>
+              <span class="goals-kpi__meta" id="kpi-monthly-delta"
+                >$0 this month</span
+              >
+            </article>
+            <article class="goals-kpi">
+              <span class="goals-kpi__label">Target Value</span>
+              <span class="goals-kpi__value" id="kpi-target">$0.00</span>
+              <span class="goals-kpi__meta" id="kpi-gap">$0 remaining</span>
+            </article>
+            <article class="goals-kpi">
+              <span class="goals-kpi__label">Projected Completion</span>
+              <span class="goals-kpi__value" id="kpi-projection">--</span>
+              <span class="goals-kpi__meta"
+                >Weighted by monthly contributions</span
+              >
+            </article>
+            <article class="goals-kpi">
+              <span class="goals-kpi__label">At-Risk Exposure</span>
+              <span class="goals-kpi__value" id="kpi-risk">$0.00</span>
+              <span class="goals-kpi__meta">Capital tied to delayed goals</span>
+            </article>
+          </section>
+
+          <section class="goals-section reveal-up delay-2">
+            <header class="goals-section__head">
+              <h2 class="goals-section__title">Active Goals</h2>
+            </header>
+
+            <div class="goal-filter-bar">
+              <input
+                id="goal-search"
+                class="form-input"
+                type="search"
+                placeholder="Search goal by name"
+                aria-label="Search goals"
+              />
+
+              <select
+                id="goal-status-filter"
+                class="form-input"
+                aria-label="Filter by status"
+              >
+                <option value="all">All status</option>
+                <option value="on-track">On track</option>
+                <option value="watch">Watch</option>
+                <option value="risk">At risk</option>
+              </select>
+
+              <select id="goal-sort" class="form-input" aria-label="Sort goals">
+                <option value="nearest-deadline">Nearest deadline</option>
+                <option value="highest-progress">Highest progress</option>
+                <option value="largest-target">Largest target</option>
+              </select>
+
+              <button
+                class="btn btn-secondary"
+                id="reset-filters"
+                type="button"
+              >
+                Reset Filters
+              </button>
+            </div>
+
+            <div class="goals-grid" id="goals-grid"></div>
+          </section>
+
+          <section class="goals-section reveal-up delay-3">
+            <header class="goals-section__head">
+              <h2 class="goals-section__title">Completed Goals</h2>
+            </header>
+
+            <div class="goals-grid" id="completed-goals-grid"></div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal-backdrop"
+      id="contribute-modal"
+      aria-hidden="true"
+      role="dialog"
+      aria-labelledby="contribute-modal-title"
+    >
+      <div class="modal goal-modal" role="document">
+        <button
+          class="modal-close"
+          id="close-contribute-modal"
+          aria-label="Close"
+        >
+          &times;
+        </button>
+        <h2 class="text-section-title" id="contribute-modal-title">
+          Contribute to Goal
+        </h2>
+        <p
+          class="text-secondary"
+          id="contribute-goal-name"
+          style="margin-top: var(--space-xs)"
+        ></p>
+
+        <div class="form-group" style="margin-top: var(--space-md)">
+          <label class="form-label" for="contribution-amount">Amount</label>
+          <input
+            id="contribution-amount"
+            class="form-input"
+            type="number"
+            min="1"
+            step="0.01"
+            placeholder="250.00"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="contribution-note">Note</label>
+          <input
+            id="contribution-note"
+            class="form-input"
+            type="text"
+            maxlength="80"
+            placeholder="Bonus transfer"
+          />
+        </div>
+
+        <div
+          style="
+            display: flex;
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+          "
+        >
+          <button class="btn btn-primary" type="button" id="save-contribution">
+            Save Contribution
+          </button>
+          <button
+            class="btn btn-outline"
+            type="button"
+            id="cancel-contribution"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.ACTIVE_PAGE = "goals";
+      window.USER_NAME = "James";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/goals.js"></script>
+  </body>
+</html>

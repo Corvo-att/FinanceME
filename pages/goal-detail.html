@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="FinanceME — Goal detail with contribution history and completion projection."
+    />
+
+    <title>Goal Detail — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/goals.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body class="goals-detail-page">
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+      <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+          <section class="page-header page-banner goals-hero reveal-up">
+            <div class="page-banner-content">
+              <span class="goals-hero__label">
+                <span class="goals-hero__dot"></span>
+                Goal Detail
+              </span>
+              <h1 class="goals-hero__title" id="goal-detail-title">
+                Goal Name
+              </h1>
+              <p class="goals-hero__subtitle" id="goal-detail-subtitle">
+                Precision tracking for milestone completion and contribution
+                velocity.
+              </p>
+            </div>
+            <div class="page-banner-actions">
+              <button
+                class="btn btn-primary"
+                id="quick-contribute-btn"
+                type="button"
+              >
+                Quick Contribute
+              </button>
+              <a
+                class="btn btn-outline"
+                id="edit-goal-link"
+                href="add-goal.html"
+                >Edit Goal</a
+              >
+              <a class="btn btn-ghost" href="goals.html">Back to Goals</a>
+            </div>
+          </section>
+
+          <section class="goal-detail-grid reveal-up delay-1">
+            <article class="card goal-detail-main">
+              <div class="card-header card-header-divider">
+                <h2 class="text-card-title">Completion Projection</h2>
+                <span class="text-caption text-secondary" id="projection-hint"
+                  >12 month horizon</span
+                >
+              </div>
+              <div class="chart-container" style="height: 340px">
+                <canvas id="goalProjectionChart"></canvas>
+              </div>
+
+              <div style="margin-top: var(--space-md)">
+                <h3
+                  class="text-card-title"
+                  style="margin-bottom: var(--space-sm)"
+                >
+                  Contribution History
+                </h3>
+                <div style="overflow-x: auto">
+                  <table class="goal-history-table" id="goal-history-table">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Channel</th>
+                        <th>Note</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody id="goal-history-body"></tbody>
+                  </table>
+                </div>
+                <p
+                  class="text-caption text-secondary"
+                  style="margin-top: var(--space-sm)"
+                >
+                  Accessibility fallback: all projection values are represented
+                  in the table below.
+                </p>
+              </div>
+            </article>
+
+            <aside class="card goal-detail-side">
+              <div class="card-header card-header-divider">
+                <h2 class="text-card-title">Goal Snapshot</h2>
+              </div>
+
+              <div class="goal-stat-stack">
+                <article class="goal-stat">
+                  <span class="goal-stat__label">Current Saved</span>
+                  <span class="goal-stat__value" id="snapshot-saved"
+                    >$0.00</span
+                  >
+                </article>
+                <article class="goal-stat">
+                  <span class="goal-stat__label">Target Amount</span>
+                  <span class="goal-stat__value" id="snapshot-target"
+                    >$0.00</span
+                  >
+                </article>
+                <article class="goal-stat">
+                  <span class="goal-stat__label">Gap Remaining</span>
+                  <span class="goal-stat__value" id="snapshot-gap">$0.00</span>
+                </article>
+                <article class="goal-stat">
+                  <span class="goal-stat__label">Monthly Contribution</span>
+                  <span class="goal-stat__value" id="snapshot-monthly"
+                    >$0.00</span
+                  >
+                </article>
+                <article class="goal-stat">
+                  <span class="goal-stat__label">Projected Completion</span>
+                  <span class="goal-stat__value" id="snapshot-completion"
+                    >--</span
+                  >
+                </article>
+              </div>
+
+              <div class="divider"></div>
+
+              <h3
+                class="text-card-title"
+                style="margin-bottom: var(--space-sm)"
+              >
+                Recent Contributions
+              </h3>
+              <div
+                class="goal-contribution-list"
+                id="recent-contribution-list"
+              ></div>
+            </aside>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal-backdrop"
+      id="detail-contribute-modal"
+      aria-hidden="true"
+      role="dialog"
+      aria-labelledby="detail-contribute-title"
+    >
+      <div class="modal goal-modal" role="document">
+        <button
+          class="modal-close"
+          id="detail-contribute-close"
+          aria-label="Close"
+        >
+          &times;
+        </button>
+        <h2 class="text-section-title" id="detail-contribute-title">
+          Add Contribution
+        </h2>
+        <p
+          class="text-secondary"
+          style="margin-top: var(--space-xs)"
+          id="detail-contribute-goal"
+        ></p>
+
+        <div class="form-group" style="margin-top: var(--space-md)">
+          <label class="form-label" for="detail-contribution-amount"
+            >Amount</label
+          >
+          <input
+            id="detail-contribution-amount"
+            class="form-input"
+            type="number"
+            min="1"
+            step="0.01"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="detail-contribution-channel"
+            >Source</label
+          >
+          <select id="detail-contribution-channel" class="form-input">
+            <option value="Manual transfer">Manual transfer</option>
+            <option value="Auto transfer">Auto transfer</option>
+            <option value="Paycheck split">Paycheck split</option>
+            <option value="Round-ups">Round-ups</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="detail-contribution-note">Note</label>
+          <input
+            id="detail-contribution-note"
+            class="form-input"
+            maxlength="80"
+            type="text"
+            placeholder="Monthly goal funding"
+          />
+        </div>
+
+        <div
+          style="
+            display: flex;
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+          "
+        >
+          <button
+            class="btn btn-primary"
+            id="detail-contribute-save"
+            type="button"
+          >
+            Save Contribution
+          </button>
+          <button
+            class="btn btn-outline"
+            id="detail-contribute-cancel"
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.ACTIVE_PAGE = "goals";
+      window.USER_NAME = "James";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/goals.js"></script>
+  </body>
+</html>

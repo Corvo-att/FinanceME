@@ -1,490 +1,571 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Accounts Overview — FinanceME</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accounts Overview — FinanceME</title>
+    <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
 
-  <!-- CSS (note the ../ since we're in pages/) -->
-  <link rel="stylesheet" href="../css/variables.css" />
-  <link rel="stylesheet" href="../css/base.css" />
-  <link rel="stylesheet" href="../css/components.css" />
-  <link rel="stylesheet" href="../css/layout.css" />
-  <link rel="stylesheet" href="../css/AccOver.css">
-<script src="https://kit.fontawesome.com/b9a020078f.js" crossorigin="anonymous"></script>
-  <!-- <link rel="stylesheet" href="../css/your-page.css" /> -->
-</head>
-<body>
+    <!-- CSS (note the ../ since we're in pages/) -->
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/AccOver.css" />
+    <script
+      src="https://kit.fontawesome.com/b9a020078f.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- <link rel="stylesheet" href="../css/your-page.css" /> -->
+  </head>
+  <body>
+    <div class="app-container">
+      <div id="sidebar-container"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-  <div class="app-container">
-    <div id="sidebar-container"></div>
-    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+      <div class="main-content">
+        <div id="header-container"></div>
 
-    <div class="main-content">
-      <div id="header-container"></div>
-
-      <div class="content-wrapper">
-
-
-<!-- <div>
+        <div class="content-wrapper">
+          <!-- <div>
      <i class="fa-regular fa-circle-user"></i>
      </div>  -->
 
-
-   <input type="checkbox" id="payment-toggle"> 
-
-      <div class="page-banner accounts-page-banner">
-        <div class="page-banner-content">
-          <div class="text-label">ACCOUNTS AND BALANCES</div>
-          <h1 class="text-hero">Accounts</h1>
-          <p class="text-label">Track all your finances in a single place across your credit cards, <br> debit cards, investments, crypto and cash</p>
-        </div>
-        <div class="page-banner-actions">
-          <div id="payment-area">
-            <label id = "add-btn" for="payment-toggle" class="btn btn-primary">
-              <span id = "btn-txt"><span id="plus">+</span> Add payment method</span>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-4 page-section accounts-kpi-grid">
-        <div class="stat-card">
-          <div class="stat-card__label">Total Assests</div>
-          <div  class="stat-card__value">$115,751.59</div>
-          <div class="stat-card__delta stat-card__delta--positive">+2.5%</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card__label">Total Liabilities</div>
-          <div id = "liabilities" class="stat-card__value amount-negative">-$2,860.47</div>
-          <div class="stat-card__delta stat-card__delta--negative">+3.6%</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card__label">Net profit</div>
-          <div id="profit" class="stat-card__value">$112,891.12</div>
-          <div class="stat-card__delta stat-card__delta--positive">+$4,038.00 this period</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card__label">Linked account</div>
-          <div class="stat-card__value">4</div>
-          <div class="badge badge-neutral badge-manual">2 manual</div>
-        </div>
-      </div>
-
-
-
-
-
-        <div id="account-overview" class="stat-card">
-          <div class="first section accounts-overview-header-row">
-            <header id="accounts-header" class="text-section">Accounts Overview</header>
-            
-            <div class="account-category-tabs-container">
-              
-              <input type="radio" id="tab-all-accounts" name="dashboard-account-tabs" class="hidden-tab-input" checked>
-              <label for="tab-all-accounts" class="visual-tab-button">All</label>
-
-              
-              <input type="radio" id="tab-credit-accounts" name="dashboard-account-tabs" class="hidden-tab-input">
-              <label for="tab-credit-accounts" class="visual-tab-button">Card</label>
-
-              
-              <input type="radio" id="tab-investment-accounts" name="dashboard-account-tabs" class="hidden-tab-input">
-              <label for="tab-investment-accounts" class="visual-tab-button">Investment</label>
-
-             
-              <input type="radio" id="tab-crypto-accounts" name="dashboard-account-tabs" class="hidden-tab-input">
-              <label for="tab-crypto-accounts" class="visual-tab-button">Crypto</label>
-
-             
+          <div class="page-banner accounts-page-banner">
+            <div class="page-banner-content">
+              <div class="text-label">ACCOUNTS & BALANCES</div>
+              <h1 class="text-hero accounts-hero-title">
+                Accounts Command Center
+              </h1>
+              <p class="accounts-hero-subtitle">
+                Track every linked and manual account in one place across bank,
+                credit, investment, crypto, and cash.
+              </p>
+            </div>
+            <div class="page-banner-actions accounts-banner-actions">
+              <div id="payment-area" class="accounts-action-group">
+                <button
+                  type="button"
+                  id="add-manual-btn"
+                  class="btn btn-secondary"
+                >
+                  Add Manual Account
+                </button>
+                <button
+                  type="button"
+                  id="payment-toggle-btn"
+                  class="btn btn-primary"
+                >
+                  <span id="btn-txt">Link Bank Account</span>
+                </button>
+              </div>
             </div>
           </div>
-          <hr class="accounts-divider">
 
-        <div class="account-columns">
-          
-          <div class="account-pic">
-          <p class="text-label" >Account</p>
+          <div class="grid grid-cols-4 page-section accounts-kpi-grid">
+            <div class="stat-card">
+              <div class="stat-card__label">Total Assets</div>
+              <div id="kpi-total-assets" class="stat-card__value">
+                $115,751.59
+              </div>
+              <div class="stat-card__delta stat-card__delta--positive">
+                +2.5%
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__label">Total Liabilities</div>
+              <div
+                class="stat-card__value amount-negative"
+                data-value="-2860.47"
+              >
+                -$2,860.47
+              </div>
+              <div class="stat-card__delta stat-card__delta--negative">
+                +3.6%
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__label">Net Position</div>
+              <div id="kpi-net-position" class="stat-card__value">
+                $112,891.12
+              </div>
+              <div class="stat-card__delta stat-card__delta--positive">
+                +$4,038.00 this period
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__label">Linked Accounts</div>
+              <div id="kpi-linked-accounts" class="stat-card__value">4</div>
+              <div class="badge badge-neutral badge-manual">2 manual</div>
+            </div>
           </div>
 
-          <div class="account-type">
-          <p class="text-label" >Type</p>
+          <div id="account-overview" class="stat-card">
+            <div class="first section accounts-overview-header-row">
+              <div class="accounts-overview-copy">
+                <header id="accounts-header" class="text-section">
+                  Accounts Overview
+                </header>
+                <p class="accounts-overview-subtitle">
+                  Live balances grouped by account type and institution.
+                </p>
+              </div>
+
+              <div class="account-category-tabs-container">
+                <input
+                  type="radio"
+                  id="tab-all-accounts"
+                  name="dashboard-account-tabs"
+                  class="hidden-tab-input"
+                  checked
+                />
+                <label for="tab-all-accounts" class="visual-tab-button"
+                  >All</label
+                >
+
+                <input
+                  type="radio"
+                  id="tab-bank-accounts"
+                  name="dashboard-account-tabs"
+                  class="hidden-tab-input"
+                />
+                <label for="tab-bank-accounts" class="visual-tab-button"
+                  >Bank</label
+                >
+
+                <input
+                  type="radio"
+                  id="tab-credit-accounts"
+                  name="dashboard-account-tabs"
+                  class="hidden-tab-input"
+                />
+                <label for="tab-credit-accounts" class="visual-tab-button"
+                  >Credit</label
+                >
+
+                <input
+                  type="radio"
+                  id="tab-investment-accounts"
+                  name="dashboard-account-tabs"
+                  class="hidden-tab-input"
+                />
+                <label for="tab-investment-accounts" class="visual-tab-button"
+                  >Investment</label
+                >
+
+                <input
+                  type="radio"
+                  id="tab-crypto-accounts"
+                  name="dashboard-account-tabs"
+                  class="hidden-tab-input"
+                />
+                <label for="tab-crypto-accounts" class="visual-tab-button"
+                  >Crypto</label
+                >
+
+                <input
+                  type="radio"
+                  id="tab-cash-accounts"
+                  name="dashboard-account-tabs"
+                  class="hidden-tab-input"
+                />
+                <label for="tab-cash-accounts" class="visual-tab-button"
+                  >Cash</label
+                >
+              </div>
+            </div>
+            <hr class="accounts-divider" />
+
+            <table class="accounts-table">
+              <thead>
+                <tr>
+                  <th class="text-label">Account</th>
+                  <th class="text-label">Type</th>
+                  <th class="text-label">Institution</th>
+                  <th class="text-label">Balance</th>
+                  <th class="text-label">30D</th>
+                  <th class="text-label">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="account-details" data-account-type="investment">
+                  <td class="account-pic">
+                    <img
+                      src="../pictures/AccountsOverview/bd-visa-platinum-card-498x280.webp"
+                      class="account-card-img"
+                      alt="Credit Card"
+                    />
+                  </td>
+                  <td class="account-type">
+                    <span class="badge badge-neutral badge-investment"
+                      >INVESTMENT</span
+                    >
+                  </td>
+                  <td class="institution institution-text">Fidelity</td>
+                  <td class="balance balance-container">
+                    <span class="balance-amount">$63,828.98</span>
+                  </td>
+                  <td class="account-trend">+4.2%</td>
+                  <td class="status">
+                    <span class="badge badge-positive badge-linked"
+                      >LINKED</span
+                    >
+                  </td>
+                </tr>
+                <tr class="account-details" data-account-type="bank">
+                  <td class="account-pic">
+                    <img
+                      src="../pictures/AccountsOverview/bd-visa-platinum-card-498x280.webp"
+                      class="account-card-img"
+                      alt="Credit Card"
+                    />
+                  </td>
+                  <td class="account-type">
+                    <span class="badge badge-neutral badge-investment"
+                      >BANK</span
+                    >
+                  </td>
+                  <td class="institution institution-text">Chase</td>
+                  <td class="balance balance-container">
+                    <span class="balance-amount">$25,920.16</span>
+                  </td>
+                  <td class="account-trend">+0.6%</td>
+                  <td class="status">
+                    <span class="badge badge-positive badge-linked"
+                      >LINKED</span
+                    >
+                  </td>
+                </tr>
+                <tr class="account-details" data-account-type="credit">
+                  <td class="account-pic">
+                    <img
+                      src="../pictures/AccountsOverview/bd-visa-platinum-card-498x280.webp"
+                      class="account-card-img"
+                      alt="Credit Card"
+                    />
+                  </td>
+                  <td class="account-type">
+                    <span class="badge badge-neutral badge-investment"
+                      >CREDIT</span
+                    >
+                  </td>
+                  <td class="institution institution-text">American Express</td>
+                  <td class="balance balance-container">
+                    <span class="balance-amount">-$2,860.47</span>
+                  </td>
+                  <td class="account-trend">-2.1%</td>
+                  <td class="status">
+                    <span class="badge badge-neutral status-manual"
+                      >MANUAL</span
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          <div class="institution">
-          <p class="text-label" >Institution</p>
+          <div class="grid grid-cols-12 page-section accounts-lower-grid">
+            <div id="Recent-activity" class="stat-card col-span-8">
+              <div class="recent-activity-header-row">
+                <div>
+                  <header id="recent-activity-header" class="text-section">
+                    Recent Account Activity
+                  </header>
+                  <p class="text-label">
+                    Latest balance-impacting transactions across all accounts.
+                  </p>
+                </div>
+                <a
+                  href="transactions.html"
+                  class="btn btn-ghost recent-activity-link"
+                  >View all transactions</a
+                >
+              </div>
+
+              <table class="recent-activity-table">
+                <thead>
+                  <tr>
+                    <th class="text-label">Date</th>
+                    <th class="text-label">Description</th>
+                    <th class="text-label">Account</th>
+                    <th class="text-label ra-col-right">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="recent-activity-details">
+                    <td class="ra-col institution-text">Mar 16, 2026</td>
+                    <td class="ra-col institution-text">Payroll Deposit</td>
+                    <td class="ra-col institution-text">Chase Checking</td>
+                    <td class="ra-col ra-col-right institution-text">
+                      +$4,200.00
+                    </td>
+                  </tr>
+                  <tr class="recent-activity-details">
+                    <td class="ra-col institution-text">Mar 16, 2026</td>
+                    <td class="ra-col institution-text">Payroll Deposit</td>
+                    <td class="ra-col institution-text">Chase Checking</td>
+                    <td class="ra-col ra-col-right institution-text">
+                      +$4,200.00
+                    </td>
+                  </tr>
+                  <tr class="recent-activity-details">
+                    <td class="ra-col institution-text">Mar 16, 2026</td>
+                    <td class="ra-col institution-text">Payroll Deposit</td>
+                    <td class="ra-col institution-text">Chase Checking</td>
+                    <td class="ra-col ra-col-right institution-text">
+                      +$4,200.00
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <aside class="stat-card quick-actions-card col-span-4">
+              <header class="text-section quick-actions-title">
+                Quick Actions
+              </header>
+
+              <div class="quick-actions-list">
+                <a href="add-transaction.html" class="quick-action-item">
+                  <span>Add Transaction</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+                <a href="import-transactions.html" class="quick-action-item">
+                  <span>Import Statements</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+                <a href="reports.html" class="quick-action-item">
+                  <span>Run Balance Report</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+                <a href="recurring-transactions.html" class="quick-action-item">
+                  <span>Review Recurring Charges</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+              </div>
+
+              <div class="quick-actions-sync card">
+                <div class="text-label">Next sync window</div>
+                <p class="quick-sync-time">Mar 25, 2026 &bull; 6:03 AM</p>
+                <p class="text-caption">
+                  Linked institutions refresh in background every 4 hours.
+                </p>
+              </div>
+            </aside>
           </div>
 
-          <div class="balance">
-          <p class="text-label" >Balance</p>
-          </div>
+          <div class="payment-background" id="link-account-backdrop"></div>
 
-          <div class="status">
-          <p class="text-label" >Status</p>
-          </div>
+          <div
+            id="paymentprompt"
+            class="card link-bank-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="link-account-title"
+          >
+            <div class="link-bank-modal__header">
+              <div>
+                <p class="text-label">Secure Connection</p>
+                <h2 id="link-account-title" class="text-section">
+                  Link Bank Account
+                </h2>
+              </div>
+              <button
+                type="button"
+                id="payment-close-btn"
+                class="close-btn"
+                aria-label="Close link account form"
+              >
+                &times;
+              </button>
+            </div>
 
+            <p class="link-bank-subtitle">
+              Connect your account to sync balances and transactions with
+              encrypted read-only access.
+            </p>
+
+            <div class="link-provider-row" aria-label="Supported providers">
+              <span class="provider-chip">Plaid</span>
+              <span class="provider-chip">Finicity</span>
+              <span class="provider-chip">MX</span>
+              <span class="provider-chip">Manual Sync</span>
+            </div>
+
+            <form id="formcard" class="link-bank-form" method="POST" action="#">
+              <div class="link-bank-grid">
+                <div class="field-group field-group--wide">
+                  <label class="form-label" for="institution-name"
+                    >Institution</label
+                  >
+                  <input
+                    type="text"
+                    id="institution-name"
+                    class="form-input"
+                    name="institution"
+                    placeholder="e.g. Chase Bank"
+                    autocomplete="organization"
+                    required
+                  />
+                </div>
+
+                <div class="field-group">
+                  <label class="form-label" for="account-type"
+                    >Account Type</label
+                  >
+                  <select
+                    id="account-type"
+                    class="form-input"
+                    name="accountType"
+                    required
+                  >
+                    <option value="" disabled selected>
+                      Select account type
+                    </option>
+                    <option value="checking">Checking</option>
+                    <option value="savings">Savings</option>
+                    <option value="credit">Credit Card</option>
+                    <option value="investment">Investment</option>
+                    <option value="crypto">Crypto Wallet</option>
+                  </select>
+                </div>
+
+                <div class="field-group">
+                  <label class="form-label" for="account-nickname"
+                    >Account Nickname</label
+                  >
+                  <input
+                    type="text"
+                    id="account-nickname"
+                    class="form-input"
+                    name="nickname"
+                    placeholder="Daily Spending"
+                    autocomplete="off"
+                  />
+                </div>
+
+                <div class="field-group">
+                  <label class="form-label" for="account-last4"
+                    >Last 4 Digits</label
+                  >
+                  <input
+                    type="text"
+                    id="account-last4"
+                    class="form-input"
+                    name="last4"
+                    placeholder="1234"
+                    inputmode="numeric"
+                    pattern="[0-9]{4}"
+                    maxlength="4"
+                    required
+                  />
+                </div>
+
+                <div class="field-group">
+                  <label class="form-label" for="opening-balance"
+                    >Opening Balance</label
+                  >
+                  <input
+                    type="number"
+                    id="opening-balance"
+                    class="form-input"
+                    name="openingBalance"
+                    placeholder="0.00"
+                    step="0.01"
+                    min="0"
+                    required
+                  />
+                </div>
+
+                <div class="field-group">
+                  <label class="form-label" for="currency-select"
+                    >Currency</label
+                  >
+                  <select
+                    id="currency-select"
+                    class="form-input"
+                    name="currency"
+                    required
+                  >
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="CAD">CAD</option>
+                    <option value="AED">AED</option>
+                    <option value="JPY">JPY</option>
+                  </select>
+                </div>
+
+                <div class="field-group field-group--wide">
+                  <label class="form-label" for="country-select">Region</label>
+                  <select
+                    name="country"
+                    id="country-select"
+                    class="form-input"
+                    required
+                  >
+                    <option value="" disabled selected>
+                      Select your country
+                    </option>
+                    <option value="us">United States</option>
+                    <option value="canada">Canada</option>
+                    <option value="mexico">Mexico</option>
+                    <option value="saudi-arabia">Saudi Arabia</option>
+                    <option value="egypt">Egypt</option>
+                    <option value="uae">UAE</option>
+                    <option value="qatar">Qatar</option>
+                    <option value="bahrain">Bahrain</option>
+                    <option value="iraq">Iraq</option>
+                    <option value="iran">Iran</option>
+                    <option value="morocco">Morocco</option>
+                    <option value="algeria">Algeria</option>
+                    <option value="germany">Germany</option>
+                    <option value="france">France</option>
+                    <option value="belgium">Belgium</option>
+                    <option value="japan">Japan</option>
+                    <option value="china">China</option>
+                    <option value="south-korea">South Korea</option>
+                  </select>
+                </div>
+              </div>
+
+              <label class="link-consent-row" for="sync-consent">
+                <input type="checkbox" id="sync-consent" required />
+                <span>
+                  I authorize read-only syncing for balances and transactions.
+                </span>
+              </label>
+
+              <div class="link-bank-actions">
+                <button
+                  type="button"
+                  id="payment-cancel-btn"
+                  class="btn btn-secondary"
+                >
+                  Cancel
+                </button>
+                <button type="submit" id="paybtn" class="btn btn-primary">
+                  Link Account
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
 
-      <hr class="accounts-divider">
-
-
-<div id="account-details">
-
-<div class="account-pic">
-  <img src="../pictures/AccountsOverview/bd-visa-platinum-card-498x280.webp" class="account-card-img" alt="Credit Card">
-</div>
-
-<div class="account-type">
-  <span class="badge badge-neutral badge-investment">INVESTMENT</span>
-</div>
-
-<div class="institution institution-text">
-  Fidelity
-</div>
-
-<div class="balance balance-container">
-  <span class="balance-amount">$63,828.98</span>
-</div>
-
-<div class="status">  
-  <span class="badge badge-positive badge-linked">LINKED</span>
-</div>
-
-</div>
-      <hr class="accounts-divider">
-
-
-<div id="account-details">
-  
-<div class="account-pic">
-  <img src="../pictures/AccountsOverview/bd-visa-platinum-card-498x280.webp" class="account-card-img" alt="Credit Card">
-</div>
-
-<div class="account-type">
-  <span class="badge badge-neutral badge-investment">INVESTMENT</span>
-</div>
-
-<div class="institution institution-text">
-  Fidelity
-</div>
-
-<div class="balance balance-container">
-  <span class="balance-amount">$63,828.98</span>
-</div>
-
-<div class="status">  
-  <span class="badge badge-positive badge-linked">LINKED</span>
-</div>
-
-</div>
-      <hr class="accounts-divider">
-
-
-<div id="account-details">
-  
-<div class="account-pic">
-  <img src="../pictures/AccountsOverview/bd-visa-platinum-card-498x280.webp" class="account-card-img" alt="Credit Card">
-</div>
-
-<div class="account-type">
-  <span class="badge badge-neutral badge-investment">INVESTMENT</span>
-</div>
-
-<div class="institution institution-text">
-  Fidelity
-</div>
-
-<div class="balance balance-container">
-  <span class="balance-amount">$63,828.98</span>
-</div>
-
-<div class="status">  
-  <span class="badge badge-positive badge-linked">LINKED</span>
-</div>
-
-</div>
-<hr class="accounts-divider">
-
-        </div>
-
-
-<div id="Recent-activity" class="stat-card">
-
-
- <header id="recent-activity-header" class="text-section">Recent Activity</header>      
- <p class="text-label">Latest balance impacting Transactions across all accounts<br> </p>
-<hr class="accounts-divider">
-
-
-
-     <div class="recent-activity-columns">
-          
-          <div class="ra-col">
-          <p class="text-label" >Date</p>
-          </div>
-
-          <div class="ra-col">
-          <p class="text-label" >Description</p>
-          </div>
-
-          <div class="ra-col">
-          <p class="text-label" >Account</p>
-          </div>
-
-          <div class="ra-col ra-col-right">
-          <p class="text-label" >Amount</p>
-          </div>
-     
-        </div>
-
-  <hr class="accounts-divider">
-
-
-  <div class="recent-activity-details">
-
-<div class="ra-col institution-text">
-  Mar 16, 2026
-</div>
-
-<div class="ra-col institution-text">
-  Payroll Deposit
-</div>
-
-<div class="ra-col institution-text">
-  Chase Checking
-</div>
-
-<div class="ra-col ra-col-right institution-text">
-  +$4,200.00
-</div>
-
-  </div>
-
-  <hr class="accounts-divider">
-
-    <div class="recent-activity-details">
-
-<div class="ra-col institution-text">
-  Mar 16, 2026
-</div>
-
-<div class="ra-col institution-text">
-  Payroll Deposit
-</div>
-
-<div class="ra-col institution-text">
-  Chase Checking
-</div>
-
-<div class="ra-col ra-col-right institution-text">
-  +$4,200.00
-</div>
-
-  </div>
-
-  <hr class="accounts-divider">
-
-    <div class="recent-activity-details">
-
-<div class="ra-col institution-text">
-  Mar 16, 2026
-</div>
-
-<div class="ra-col institution-text">
-  Payroll Deposit
-</div>
-
-<div class="ra-col institution-text">
-  Chase Checking
-</div>
-
-<div class="ra-col ra-col-right institution-text">
-  +$4,200.00
-</div>
-
-  </div>
-
-  <hr class="accounts-divider">
-</div>
-
-
-
-       <div class="payment-background"></div>
-
-      <div id = "paymentprompt" class="card">
-
-<div class="accept-cards">
-  <span class="text-label">We accept the following cards</span>
-  <div class="visa-pics">
-    <img src="../pictures/AccountsOverview/images.png" alt="Visa">
-    <img src="../pictures/AccountsOverview/vinnytsia-ukraine-september-04-2023-600nw-2357100277.webp" alt="Mastercard">
-  </div>
-</div>
-
-        <label for="payment-toggle" class="close-btn">&times;</label>
-
-        <div id="payment-content">
-
-        <div id="Regions">
-
-        <div>
-        <label class="text-label" for="country-select">For purchases in:</label>
-        </div>
-
-<select name="countries" id="country-select" class="btn btn-secondary" name = "countries">
-  <option value="" disabled selected>Select your country...</option>
- 
-  <option id = "choice" value="us">United States</option>
-  <option id = "choice" value="canada">Canada</option>
-  <option id = "choice" value="mexico">Mexico</option>
-
-  <option id = "choice" value="saudi-arabia">Saudi Arabia</option>
-  <option id = "choice" value="egypt">Egypt</option>
-  <option id = "choice" value="uae">UAE</option>
-  <option id = "choice" value="qatar">Qatar</option>
-  <option id = "choice" value="bahrain">Bahrain</option>
-  <option id = "choice" value="iraq">Iraq</option>
-  <option id = "choice" value="iran">Iran</option>
-  <option id = "choice" value="morocco">Morocco</option>
-  <option id = "choice" value="algeria">Algeria</option>
-
-  <option id = "choice" value="germany">Germany</option>
-  <option id = "choice" value="france">France</option>
-  <option id = "choice" value="belgium">Belgium</option>
-
-  <option id = "choice" value="japan">Japan</option>
-  <option id = "choice" value="china">China</option>
-  <option id = "choice" value="south-korea">South Korea</option>
- 
-  
-</select>
-</div>
-
-
- <input type="checkbox" id="cardchoice-toggle"> 
-
-
-<div>
-     <label for="cardchoice-toggle" id = "paybtn"class="btn btn-secondary">
-        Credit card or Debit card <i class="fa-regular fa-credit-card"></i>
-    </label>
-</div>
-
-
-
-
-
-<div id="cardprompt" class="card">
-  <form id="formcard">
-    <div id="firstsection">
-      <div>
-        <label for="cardholder">Cardholder name <span class="star">*</span></label>
-        <input type="text" id="cardholder" class="form-input" name="cardholder" autocomplete="cc-name" required>
-      </div>
-
-      <div>
-        <label for="cardnumber">Card number <span class="star">*</span></label>
-        <input type="text" id="cardnumber" class="form-input" name="cardnumber" inputmode="numeric" pattern="[0-9]{13,19}" autocomplete="cc-number" placeholder="1234 5678 9012 3456" required>
+        <div id="footer-container"></div>
       </div>
     </div>
 
-    <div id="secondsection">
-      <div class="exp-group">
-        <label for="expmonth">Exp. Month <span class="star">*</span></label>
-        <select id="expmonth" class="form-input" name="expmonth" autocomplete="cc-exp-month" required>
-          <option value="">MM</option>
-          <option value="01">01</option>
-          <option value="02">02</option>
-          <option value="03">03</option>
-          <option value="04">04</option>
-          <option value="05">05</option>
-          <option value="06">06</option>
-          <option value="07">07</option>
-          <option value="08">08</option>
-          <option value="09">09</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-        </select>
-      </div>
+    <!-- Mobile tab bar (copy from index.html, fix paths) -->
 
-      <div class="exp-group">
-        <label for="expyear">Exp. Year <span class="star">*</span></label>
-        <select id="expyear" class="form-input" name="expyear" autocomplete="cc-exp-year" required>
-          <option value="">YY</option>
-          <option>2024</option>
-          <option>2025</option>
-          <option>2026</option>
-          <option>2027</option>
-          <option>2028</option>
-          <option>2029</option>
-        </select>
-      </div>
-    </div>
-
-    <div id = "cvv">
-      <label for="cvv">CVV <span class="star">*</span></label>
-      <input type="password" id="cvv" class="form-input" name="cvv" inputmode="numeric" pattern="[0-9]{3,4}" autocomplete="cc-csc" maxlength="4" required>
-    </div>
-
-    <div>
-      <label for="address1">Address line 1 <span class="star">*</span></label>
-      <input type="text" id="address1" class="form-input" name="address1"  autocomplete="address-line1" required>
-    </div>
-
-    <div>
-      <label for="address2">Address line 2 (Optional)</label>
-      <input type="text" id="address2" class="form-input" name="address2" autocomplete="address-line2">
-    </div>
-
-    <div>
-      <label for="city">City <span class="star">*</span></label>
-      <input type="text" id="city" class="form-input" name="city" placeholder = "Nasr City" autocomplete="address-level2" required>
-    </div>
-
-   <div id="cardfooter">
-      <div>
-        <label for="postalcode">Postal Code <span class="star">*</span></label>
-        <input type="text" id="postalcode" class="form-input"  name="postalcode" placeholder = "82393" inputmode="numeric" autocomplete="postal-code" required>
-      </div>
-      
-      <div id="footerbtn">
-        <button type="submit" class="btn btn-secondary" >Save</button>
-
-        <label for="cardchoice-toggle" class="btn btn-secondary">
-      Back
-    </label>
-
-      </div>
-
-    </div>
-
-  </form>
-</div>
-
-      </div>
-
-</div>
-
-
-
-      </div>
-
-      <div id="footer-container"></div>
-    </div>
-  </div>
-
-  <!-- Mobile tab bar (copy from index.html, fix paths) -->
-
-  <!-- JS (note the ../) -->
-  <script src="../js/utils.js"></script>
-  <script src="../js/sidebar.js"></script>
-  <script src="../js/header.js"></script>
-  <script>
-    // Set which nav link to highlight
-    window.ACTIVE_PAGE = 'your-page-name';
-    window.USER_NAME = 'User';
-  </script>
-
-</body>
+    <!-- JS (note the ../) -->
+    <script>
+      window.ACTIVE_PAGE = "accounts";
+      window.USER_NAME = "User";
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/accounts-overview.js"></script>
+  </body>
 </html>

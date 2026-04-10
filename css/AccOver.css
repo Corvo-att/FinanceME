@@ -31,15 +31,15 @@
 
 #paymentprompt {
   position: fixed;
-  top: clamp(8px, 3.5vh, 36px);
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  width: min(640px, calc(100vw - 32px));
-  max-height: calc(100vh - clamp(8px, 3.5vh, 36px) - 12px);
+  transform: translate(-50%, -50%);
+  width: min(920px, calc(100vw - 32px));
+  max-height: calc(100vh - clamp(16px, 5vh, 48px));
   overflow-y: auto;
   z-index: var(--z-modal);
   display: none;
-  padding: 24px;
+  padding: clamp(20px, 2vw, 30px);
   border-radius: var(--radius-xl);
   border: 1px solid rgba(201, 168, 76, 0.38);
   background:
@@ -83,25 +83,47 @@
 }
 
 .link-provider-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-xs);
-  margin-top: var(--space-md);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 20px;
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
 }
 
-.provider-chip {
-  display: inline-flex;
-  align-items: center;
-  height: 28px;
-  padding: 0 12px;
-  border-radius: 999px;
-  border: 1px solid var(--border-subtle);
+.provider-tab {
+  min-width: 0;
+  height: 36px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
   color: var(--text-secondary);
   font-size: 11px;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.02);
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease;
+}
+
+.link-provider-copy {
+  margin-top: 10px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.provider-tab:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.provider-tab.active {
+  background: var(--bg-elevated);
+  color: var(--accent-gold);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .close-btn {
@@ -139,14 +161,67 @@
 .link-bank-form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
-  margin-top: var(--space-md);
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+
+.link-form-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
+  gap: 18px;
+}
+
+.link-bank-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
 }
 
 .link-bank-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-md);
+  gap: 16px 20px;
+}
+
+.dynamic-field[hidden] {
+  display: none;
+}
+
+.link-preview-card {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.02),
+    rgba(201, 168, 76, 0.06)
+  );
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.link-preview-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+
+.link-preview-type {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.link-preview-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 12px;
 }
 
 .field-group {
@@ -177,8 +252,10 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: var(--space-sm);
-  margin-top: var(--space-xs);
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-subtle);
 }
 
 #paybtn {
@@ -637,13 +714,6 @@
   }
 }
 
-@media (max-height: 800px) {
-  #paymentprompt {
-    top: 8px;
-    max-height: calc(100vh - 16px);
-  }
-}
-
 @media (max-width: 1200px) {
   .accounts-kpi-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -710,10 +780,18 @@
 @media (max-width: 768px) {
   #paymentprompt {
     width: calc(100vw - 20px);
-    top: 10px;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -50%);
     max-height: calc(100vh - 20px);
     padding: 20px;
+  }
+
+  .link-provider-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .link-form-layout {
+    grid-template-columns: 1fr;
   }
 
   .accounts-page-banner {
@@ -775,6 +853,10 @@
     padding: 0 10px;
   }
 
+  .link-provider-row {
+    grid-template-columns: 1fr;
+  }
+
   .accounts-page-banner {
     padding: 14px;
   }
@@ -795,5 +877,493 @@
   .quick-action-item {
     height: 42px;
     font-size: 12px;
+  }
+}
+
+/* 3D Flip Cards - Accounts Overview */
+
+/* Scrollable horizontal row */
+.accounts-flip-row {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 10px 4px 20px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.07) transparent;
+}
+
+.accounts-flip-row::-webkit-scrollbar {
+  height: 4px;
+}
+.accounts-flip-row::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.09);
+  border-radius: 4px;
+}
+
+/* Empty state */
+.accounts-flip-empty {
+  text-align: center;
+  padding: 24px 0;
+  font-size: 13px;
+  color: #4a4e57;
+  letter-spacing: 0.2px;
+}
+
+/* Container perspective */
+.flip-card-wrapper {
+  flex: 0 0 240px;
+  width: 240px;
+  height: 170px;
+  perspective: 1000px;
+  cursor: pointer;
+  will-change: transform;
+  /* entrance animation handled by anime.js */
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+/* Inner rotating element */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  /* CSS flip transition; anime.js overrides on click for spring feel */
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
+}
+
+.flip-card-wrapper.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Shared face base styles */
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+
+/* Front face */
+.flip-card-front {
+  justify-content: space-between;
+  /* Rich multi-layer dark background */
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.025) 0%, transparent 60%),
+    linear-gradient(
+      200deg,
+      rgba(40, 44, 56, 0.95) 0%,
+      rgba(22, 25, 32, 0.98) 100%
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 4px 24px rgba(0, 0, 0, 0.45),
+    0 1px 4px rgba(0, 0, 0, 0.3);
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Type-specific accent glow on the front */
+.flip-card-wrapper[data-account-type="investment"] .flip-card-front {
+  background:
+    radial-gradient(
+      ellipse at 85% 15%,
+      rgba(90, 184, 122, 0.12) 0%,
+      transparent 55%
+    ),
+    linear-gradient(
+      200deg,
+      rgba(40, 44, 56, 0.95) 0%,
+      rgba(22, 25, 32, 0.98) 100%
+    );
+  border-color: rgba(90, 184, 122, 0.18);
+}
+.flip-card-wrapper[data-account-type="bank"] .flip-card-front {
+  background:
+    radial-gradient(
+      ellipse at 85% 15%,
+      rgba(76, 142, 245, 0.12) 0%,
+      transparent 55%
+    ),
+    linear-gradient(
+      200deg,
+      rgba(40, 44, 56, 0.95) 0%,
+      rgba(22, 25, 32, 0.98) 100%
+    );
+  border-color: rgba(76, 142, 245, 0.18);
+}
+.flip-card-wrapper[data-account-type="credit"] .flip-card-front {
+  background:
+    radial-gradient(
+      ellipse at 85% 15%,
+      rgba(204, 96, 96, 0.1) 0%,
+      transparent 55%
+    ),
+    linear-gradient(
+      200deg,
+      rgba(40, 44, 56, 0.95) 0%,
+      rgba(22, 25, 32, 0.98) 100%
+    );
+  border-color: rgba(204, 96, 96, 0.18);
+}
+.flip-card-wrapper[data-account-type="crypto"] .flip-card-front {
+  background:
+    radial-gradient(
+      ellipse at 85% 15%,
+      rgba(201, 168, 76, 0.12) 0%,
+      transparent 55%
+    ),
+    linear-gradient(
+      200deg,
+      rgba(40, 44, 56, 0.95) 0%,
+      rgba(22, 25, 32, 0.98) 100%
+    );
+  border-color: rgba(201, 168, 76, 0.18);
+}
+
+/* Hover lift & shadow bloom */
+.flip-card-wrapper:hover .flip-card-front {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 8px 32px rgba(0, 0, 0, 0.55),
+    0 2px 8px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+/* Shimmer sweep — pseudo-element on the inner */
+.flip-card-inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.04) 40%,
+    rgba(255, 255, 255, 0.075) 50%,
+    rgba(255, 255, 255, 0.04) 60%,
+    transparent 80%
+  );
+  background-size: 200% 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 10;
+  animation: fcard-shimmer 3.5s ease infinite;
+  animation-play-state: paused;
+  backface-visibility: hidden;
+}
+
+.flip-card-wrapper:hover .flip-card-inner::after {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@keyframes fcard-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Card graphic icons */
+.fcard-graphic {
+  width: 54px;
+  height: 34px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #2e3345 0%, #3d4260 100%);
+  position: relative;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fcard-graphic svg {
+  width: 20px;
+  height: 20px;
+  opacity: 0.85;
+}
+
+/* Top row: graphic + badge */
+.fcard-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Type badges */
+.fcard-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 9px;
+  border-radius: 10px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  backdrop-filter: blur(4px);
+}
+.fcard-badge--investment {
+  background: rgba(90, 184, 122, 0.14);
+  color: #6ecf8c;
+  border-color: rgba(90, 184, 122, 0.28);
+  text-shadow: 0 0 8px rgba(90, 184, 122, 0.4);
+}
+.fcard-badge--bank {
+  background: rgba(76, 142, 245, 0.14);
+  color: #7db6ff;
+  border-color: rgba(76, 142, 245, 0.28);
+  text-shadow: 0 0 8px rgba(76, 142, 245, 0.4);
+}
+.fcard-badge--credit {
+  background: rgba(204, 96, 96, 0.14);
+  color: #e07878;
+  border-color: rgba(204, 96, 96, 0.28);
+  text-shadow: 0 0 8px rgba(204, 96, 96, 0.4);
+}
+.fcard-badge--crypto {
+  background: rgba(201, 168, 76, 0.14);
+  color: #d4ae57;
+  border-color: rgba(201, 168, 76, 0.28);
+  text-shadow: 0 0 8px rgba(201, 168, 76, 0.4);
+}
+.fcard-badge--cash {
+  background: rgba(160, 160, 160, 0.1);
+  color: #b0b3ba;
+  border-color: rgba(160, 160, 160, 0.22);
+}
+
+/* Bottom: institution + hint */
+.fcard-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fcard-institution {
+  font-size: 13px;
+  font-weight: 700;
+  color: #eef0f3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.1px;
+}
+
+.fcard-card-type {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #6b6f7a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.1px;
+}
+
+.fcard-hint {
+  font-size: 9.5px;
+  color: #3d4149;
+  letter-spacing: 0.15px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Pulsing dot before hint text */
+.fcard-hint::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.5;
+  animation: fcard-pulse 2.5s ease infinite;
+}
+
+@keyframes fcard-pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.3);
+  }
+}
+
+/* Back face */
+.flip-card-back {
+  transform: rotateY(180deg);
+  justify-content: space-between;
+  background: linear-gradient(
+    160deg,
+    rgba(30, 34, 42, 0.99) 0%,
+    rgba(20, 23, 30, 1) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 6px 28px rgba(0, 0, 0, 0.5);
+}
+
+/* Type-specific accent line at top of back */
+.flip-card-wrapper[data-account-type="investment"] .flip-card-back::before,
+.flip-card-wrapper[data-account-type="bank"] .flip-card-back::before,
+.flip-card-wrapper[data-account-type="credit"] .flip-card-back::before,
+.flip-card-wrapper[data-account-type="crypto"] .flip-card-back::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 16px;
+  right: 16px;
+  height: 1px;
+}
+.flip-card-wrapper[data-account-type="investment"] .flip-card-back::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(90, 184, 122, 0.55),
+    transparent
+  );
+}
+.flip-card-wrapper[data-account-type="bank"] .flip-card-back::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(76, 142, 245, 0.55),
+    transparent
+  );
+}
+.flip-card-wrapper[data-account-type="credit"] .flip-card-back::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(204, 96, 96, 0.55),
+    transparent
+  );
+}
+.flip-card-wrapper[data-account-type="crypto"] .flip-card-back::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(201, 168, 76, 0.55),
+    transparent
+  );
+}
+
+.fcard-back-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.fcard-back-institution {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: #4a4e57;
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.fcard-back-card-type {
+  font-size: 9px;
+  font-weight: 500;
+  color: #353840;
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+.fcard-back-balance {
+  font-family: var(--font-mono, "JetBrains Mono", "Courier New", monospace);
+  font-size: 26px;
+  font-weight: 700;
+  color: #eef0f3;
+  text-align: center;
+  letter-spacing: -1px;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
+}
+
+.fcard-back-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fcard-change {
+  font-family: var(--font-mono, "Courier New", monospace);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+.fcard-change--positive {
+  color: #6ecf8c;
+  text-shadow: 0 0 10px rgba(90, 184, 122, 0.45);
+}
+.fcard-change--negative {
+  color: #e07878;
+  text-shadow: 0 0 10px rgba(204, 96, 96, 0.45);
+}
+
+.fcard-status {
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 9px;
+  border-radius: 9px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+.fcard-status--linked {
+  background: rgba(90, 184, 122, 0.12);
+  color: #6ecf8c;
+  border-color: rgba(90, 184, 122, 0.28);
+}
+.fcard-status--manual {
+  background: rgba(76, 142, 245, 0.12);
+  color: #7db6ff;
+  border-color: rgba(76, 142, 245, 0.28);
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .flip-card-inner {
+    transition: none;
+  }
+  .flip-card-inner::after {
+    animation: none;
+  }
+  .fcard-hint::before {
+    animation: none;
   }
 }

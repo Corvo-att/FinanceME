@@ -6,7 +6,7 @@
     <title>Accounts Overview — FinanceME</title>
     <link rel="icon" type="image/png" href="../Logo/logo_transparent.png" />
 
-    <!-- CSS (note the ../ since we're in pages/) -->
+    <!-- CSS -->
     <link rel="stylesheet" href="../css/variables.css" />
     <link rel="stylesheet" href="../css/base.css" />
     <link rel="stylesheet" href="../css/components.css" />
@@ -27,10 +27,6 @@
         <div id="header-container"></div>
 
         <div class="content-wrapper">
-          <!-- <div>
-     <i class="fa-regular fa-circle-user"></i>
-     </div>  -->
-
           <div class="page-banner accounts-page-banner">
             <div class="page-banner-content">
               <div class="text-label">ACCOUNTS & BALANCES</div>
@@ -176,92 +172,14 @@
             </div>
             <hr class="accounts-divider" />
 
-            <table class="accounts-table">
-              <thead>
-                <tr>
-                  <th class="text-label">Account</th>
-                  <th class="text-label">Type</th>
-                  <th class="text-label">Institution</th>
-                  <th class="text-label">Balance</th>
-                  <th class="text-label">30D</th>
-                  <th class="text-label">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="account-details" data-account-type="investment">
-                  <td class="account-pic">
-                    <img
-                      src="../pictures/AccountsOverview/bd-visa-platinum-card-498x280.webp"
-                      class="account-card-img"
-                      alt="Credit Card"
-                    />
-                  </td>
-                  <td class="account-type">
-                    <span class="badge badge-neutral badge-investment"
-                      >INVESTMENT</span
-                    >
-                  </td>
-                  <td class="institution institution-text">Fidelity</td>
-                  <td class="balance balance-container">
-                    <span class="balance-amount">$63,828.98</span>
-                  </td>
-                  <td class="account-trend">+4.2%</td>
-                  <td class="status">
-                    <span class="badge badge-positive badge-linked"
-                      >LINKED</span
-                    >
-                  </td>
-                </tr>
-                <tr class="account-details" data-account-type="bank">
-                  <td class="account-pic">
-                    <img
-                      src="../pictures/AccountsOverview/bd-visa-platinum-card-498x280.webp"
-                      class="account-card-img"
-                      alt="Credit Card"
-                    />
-                  </td>
-                  <td class="account-type">
-                    <span class="badge badge-neutral badge-investment"
-                      >BANK</span
-                    >
-                  </td>
-                  <td class="institution institution-text">Chase</td>
-                  <td class="balance balance-container">
-                    <span class="balance-amount">$25,920.16</span>
-                  </td>
-                  <td class="account-trend">+0.6%</td>
-                  <td class="status">
-                    <span class="badge badge-positive badge-linked"
-                      >LINKED</span
-                    >
-                  </td>
-                </tr>
-                <tr class="account-details" data-account-type="credit">
-                  <td class="account-pic">
-                    <img
-                      src="../pictures/AccountsOverview/bd-visa-platinum-card-498x280.webp"
-                      class="account-card-img"
-                      alt="Credit Card"
-                    />
-                  </td>
-                  <td class="account-type">
-                    <span class="badge badge-neutral badge-investment"
-                      >CREDIT</span
-                    >
-                  </td>
-                  <td class="institution institution-text">American Express</td>
-                  <td class="balance balance-container">
-                    <span class="balance-amount">-$2,860.47</span>
-                  </td>
-                  <td class="account-trend">-2.1%</td>
-                  <td class="status">
-                    <span class="badge badge-neutral status-manual"
-                      >MANUAL</span
-                    >
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div id="accounts-flip-row" class="accounts-flip-row"></div>
+            <p
+              id="accounts-flip-empty"
+              class="accounts-flip-empty"
+              style="display: none"
+            >
+              No accounts in this category yet.
+            </p>
           </div>
 
           <div class="grid grid-cols-12 page-section accounts-lower-grid">
@@ -291,7 +209,7 @@
                     <th class="text-label ra-col-right">Amount</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="recent-activity-tbody">
                   <tr class="recent-activity-details">
                     <td class="ra-col institution-text">Mar 16, 2026</td>
                     <td class="ra-col institution-text">Payroll Deposit</td>
@@ -381,158 +299,252 @@
             </div>
 
             <p class="link-bank-subtitle">
-              Connect your account to sync balances and transactions with
-              encrypted read-only access.
+              Connect an account to keep balances, activity, and account health
+              in sync with your new Accounts Overview.
             </p>
 
-            <div class="link-provider-row" aria-label="Supported providers">
-              <span class="provider-chip">Plaid</span>
-              <span class="provider-chip">Finicity</span>
-              <span class="provider-chip">MX</span>
-              <span class="provider-chip">Manual Sync</span>
+            <div
+              class="link-provider-row"
+              aria-label="Supported providers"
+              role="group"
+            >
+              <button
+                type="button"
+                class="provider-tab active"
+                data-provider="plaid"
+              >
+                Plaid
+              </button>
+              <button
+                type="button"
+                class="provider-tab"
+                data-provider="finicity"
+              >
+                Finicity
+              </button>
+              <button type="button" class="provider-tab" data-provider="mx">
+                MX
+              </button>
+              <button type="button" class="provider-tab" data-provider="manual">
+                Manual Sync
+              </button>
+            </div>
+
+            <div
+              class="link-provider-copy"
+              id="link-provider-copy"
+              aria-live="polite"
+            >
+              A secure redirect opens in a new window for sign in.
             </div>
 
             <form id="formcard" class="link-bank-form" method="POST" action="#">
-              <div class="link-bank-grid">
-                <div class="field-group field-group--wide">
-                  <label class="form-label" for="institution-name"
-                    >Institution</label
-                  >
-                  <input
-                    type="text"
-                    id="institution-name"
-                    class="form-input"
-                    name="institution"
-                    placeholder="e.g. Chase Bank"
-                    autocomplete="organization"
-                    required
-                  />
-                </div>
+              <input
+                type="hidden"
+                id="link-provider-input"
+                name="provider"
+                value="plaid"
+              />
 
-                <div class="field-group">
-                  <label class="form-label" for="account-type"
-                    >Account Type</label
-                  >
-                  <select
-                    id="account-type"
-                    class="form-input"
-                    name="accountType"
-                    required
-                  >
-                    <option value="" disabled selected>
-                      Select account type
-                    </option>
-                    <option value="checking">Checking</option>
-                    <option value="savings">Savings</option>
-                    <option value="credit">Credit Card</option>
-                    <option value="investment">Investment</option>
-                    <option value="crypto">Crypto Wallet</option>
-                  </select>
-                </div>
+              <div class="link-form-layout">
+                <fieldset class="link-bank-fieldset">
+                  <legend class="sr-only">Account Details</legend>
+                  <div class="link-bank-grid">
+                    <div class="field-group field-group--wide">
+                      <label class="form-label" for="institution-name"
+                        >Institution Name</label
+                      >
+                      <input
+                        type="text"
+                        id="institution-name"
+                        class="form-input"
+                        name="institution"
+                        placeholder="e.g. Chase Bank"
+                        autocomplete="organization"
+                        required
+                      />
+                    </div>
 
-                <div class="field-group">
-                  <label class="form-label" for="account-nickname"
-                    >Account Nickname</label
-                  >
-                  <input
-                    type="text"
-                    id="account-nickname"
-                    class="form-input"
-                    name="nickname"
-                    placeholder="Daily Spending"
-                    autocomplete="off"
-                  />
-                </div>
+                    <div class="field-group">
+                      <label class="form-label" for="account-type"
+                        >Account Type</label
+                      >
+                      <select
+                        id="account-type"
+                        class="form-input"
+                        name="accountType"
+                        required
+                      >
+                        <option value="" disabled selected>
+                          Select account type
+                        </option>
+                        <option value="checking">Checking</option>
+                        <option value="savings">Savings</option>
+                        <option value="credit">Credit Card</option>
+                        <option value="investment">Investment</option>
+                        <option value="crypto">Crypto Wallet</option>
+                        <option value="cash">Cash / Other</option>
+                      </select>
+                    </div>
 
-                <div class="field-group">
-                  <label class="form-label" for="account-last4"
-                    >Last 4 Digits</label
-                  >
-                  <input
-                    type="text"
-                    id="account-last4"
-                    class="form-input"
-                    name="last4"
-                    placeholder="1234"
-                    inputmode="numeric"
-                    pattern="[0-9]{4}"
-                    maxlength="4"
-                    required
-                  />
-                </div>
+                    <div class="field-group">
+                      <label class="form-label" for="account-nickname"
+                        >Account Nickname</label
+                      >
+                      <input
+                        type="text"
+                        id="account-nickname"
+                        class="form-input"
+                        name="nickname"
+                        placeholder="Daily Spending"
+                        autocomplete="off"
+                      />
+                    </div>
 
-                <div class="field-group">
-                  <label class="form-label" for="opening-balance"
-                    >Opening Balance</label
-                  >
-                  <input
-                    type="number"
-                    id="opening-balance"
-                    class="form-input"
-                    name="openingBalance"
-                    placeholder="0.00"
-                    step="0.01"
-                    min="0"
-                    required
-                  />
-                </div>
+                    <div class="field-group">
+                      <label class="form-label" for="account-last4"
+                        >Last 4 Digits</label
+                      >
+                      <input
+                        type="text"
+                        id="account-last4"
+                        class="form-input"
+                        name="last4"
+                        placeholder="1234"
+                        inputmode="numeric"
+                        pattern="[0-9]{4}"
+                        maxlength="4"
+                        required
+                      />
+                    </div>
 
-                <div class="field-group">
-                  <label class="form-label" for="currency-select"
-                    >Currency</label
-                  >
-                  <select
-                    id="currency-select"
-                    class="form-input"
-                    name="currency"
-                    required
-                  >
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="GBP">GBP</option>
-                    <option value="CAD">CAD</option>
-                    <option value="AED">AED</option>
-                    <option value="JPY">JPY</option>
-                  </select>
-                </div>
+                    <div class="field-group">
+                      <label class="form-label" for="opening-balance"
+                        >Opening Balance</label
+                      >
+                      <input
+                        type="number"
+                        id="opening-balance"
+                        class="form-input"
+                        name="openingBalance"
+                        placeholder="0.00"
+                        step="0.01"
+                        min="0"
+                        required
+                      />
+                    </div>
 
-                <div class="field-group field-group--wide">
-                  <label class="form-label" for="country-select">Region</label>
-                  <select
-                    name="country"
-                    id="country-select"
-                    class="form-input"
-                    required
-                  >
-                    <option value="" disabled selected>
-                      Select your country
-                    </option>
-                    <option value="us">United States</option>
-                    <option value="canada">Canada</option>
-                    <option value="mexico">Mexico</option>
-                    <option value="saudi-arabia">Saudi Arabia</option>
-                    <option value="egypt">Egypt</option>
-                    <option value="uae">UAE</option>
-                    <option value="qatar">Qatar</option>
-                    <option value="bahrain">Bahrain</option>
-                    <option value="iraq">Iraq</option>
-                    <option value="iran">Iran</option>
-                    <option value="morocco">Morocco</option>
-                    <option value="algeria">Algeria</option>
-                    <option value="germany">Germany</option>
-                    <option value="france">France</option>
-                    <option value="belgium">Belgium</option>
-                    <option value="japan">Japan</option>
-                    <option value="china">China</option>
-                    <option value="south-korea">South Korea</option>
-                  </select>
-                </div>
+                    <div class="field-group">
+                      <label class="form-label" for="currency-select"
+                        >Currency</label
+                      >
+                      <select
+                        id="currency-select"
+                        class="form-input"
+                        name="currency"
+                        required
+                      >
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="CAD">CAD</option>
+                      </select>
+                    </div>
+
+                    <div
+                      class="field-group dynamic-field"
+                      data-account-types="checking savings"
+                      hidden
+                    >
+                      <label class="form-label" for="routing-number"
+                        >Routing Number</label
+                      >
+                      <input
+                        type="text"
+                        id="routing-number"
+                        class="form-input"
+                        name="routingNumber"
+                        placeholder="9-digit routing number"
+                        inputmode="numeric"
+                        pattern="[0-9]{9}"
+                        maxlength="9"
+                        disabled
+                      />
+                    </div>
+
+                    <div
+                      class="field-group dynamic-field"
+                      data-account-types="credit"
+                      hidden
+                    >
+                      <label class="form-label" for="credit-limit"
+                        >Credit Limit</label
+                      >
+                      <input
+                        type="number"
+                        id="credit-limit"
+                        class="form-input"
+                        name="creditLimit"
+                        placeholder="0.00"
+                        min="0"
+                        step="0.01"
+                        disabled
+                      />
+                    </div>
+
+                    <div
+                      class="field-group field-group--wide dynamic-field"
+                      data-account-types="investment crypto"
+                      hidden
+                    >
+                      <label class="form-label" for="portfolio-source"
+                        >Portfolio Source</label
+                      >
+                      <input
+                        type="text"
+                        id="portfolio-source"
+                        class="form-input"
+                        name="portfolioSource"
+                        placeholder="Broker, wallet provider, or exchange"
+                        disabled
+                      />
+                    </div>
+                  </div>
+                </fieldset>
+
+                <aside
+                  class="link-preview-card"
+                  aria-label="Live account preview"
+                >
+                  <p class="text-label">Preview</p>
+                  <h3 class="link-preview-title" id="preview-name">
+                    New Institution
+                  </h3>
+                  <p class="link-preview-type" id="preview-type">
+                    Select account type
+                  </p>
+
+                  <div class="link-preview-row">
+                    <span class="text-caption">Ending</span>
+                    <strong id="preview-last4">••••</strong>
+                  </div>
+
+                  <div class="link-preview-row">
+                    <span class="text-caption">Starting Balance</span>
+                    <strong id="preview-balance">$0.00</strong>
+                  </div>
+
+                  <div class="link-preview-row">
+                    <span class="text-caption">Provider</span>
+                    <strong id="preview-provider">Plaid</strong>
+                  </div>
+                </aside>
               </div>
 
               <label class="link-consent-row" for="sync-consent">
                 <input type="checkbox" id="sync-consent" required />
                 <span>
-                  I authorize read-only syncing for balances and transactions.
+                  I authorize read-only sync for balances and transactions.
                 </span>
               </label>
 
@@ -556,9 +568,9 @@
       </div>
     </div>
 
-    <!-- Mobile tab bar (copy from index.html, fix paths) -->
+    <!-- Mobile tab bar placeholder -->
 
-    <!-- JS (note the ../) -->
+    <!-- Scripts -->
     <script>
       window.ACTIVE_PAGE = "accounts";
       window.USER_NAME = "User";
@@ -566,6 +578,8 @@
     <script src="../js/utils.js"></script>
     <script src="../js/sidebar.js"></script>
     <script src="../js/header.js"></script>
+    <!-- Anime.js core -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
     <script src="../js/accounts-overview.js"></script>
   </body>
 </html>

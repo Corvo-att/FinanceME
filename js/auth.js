@@ -286,6 +286,13 @@ function initDemoFormFlow() {
       statusNode.classList.add("success");
       statusNode.textContent =
         successMessage || "Step complete. Continue with the next action.";
+
+      const redirectUrl = form.getAttribute("data-redirect");
+      if (redirectUrl) {
+        setTimeout(() => {
+          window.location.href = redirectUrl;
+        }, 1000);
+      }
     });
   });
 }

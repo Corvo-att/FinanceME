@@ -213,7 +213,7 @@ function formatScopeLabel(scope, threshold, type) {
     return `Inactivity above ${threshold} days`;
   }
 
-  return `${scopeLabel} above $${threshold}`;
+  return `${scopeLabel} above EGP ${threshold}`;
 }
 
 function applyRowHandlers(row, formElements) {

@@ -36,7 +36,7 @@ function initAuthBackdropSymbols() {
   for (let i = 0; i < count; i += 1) {
     const symbol = document.createElement("span");
     symbol.className = "auth-floater";
-    symbol.textContent = "$";
+    symbol.textContent = "EGP";
     symbol.style.left = `${8 + Math.random() * 84}%`;
     symbol.style.top = `${6 + Math.random() * 86}%`;
     symbol.style.fontSize = `${10 + Math.random() * 7}px`;

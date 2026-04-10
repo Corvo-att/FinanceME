@@ -54,21 +54,21 @@ async function loadComponent(url, targetId, callback) {
  * Always uses monospace-friendly formatting.
  * 
  * @param {number} amount - the amount to format
- * @param {string} [currency='USD'] - currency code (USD, EGP, EUR, etc.)
+ * @param {string} [currency='EGP'] - currency code (EGP, EUR, GBP, etc.)
  * @param {boolean} [showSign=false] - if true, adds + for positive amounts
  * @returns {string} formatted currency string
  * 
  * EXAMPLES:
- *   formatCurrency(1500)           → "$1,500.00"
- *   formatCurrency(-320.5)         → "−$320.50"
- *   formatCurrency(1500, 'USD', true) → "+$1,500.00"
+ *   formatCurrency(1500)           → "E£1,500.00"
+ *   formatCurrency(-320.5)         → "−E£320.50"
+ *   formatCurrency(1500, 'EGP', true) → "+E£1,500.00"
  */
-function formatCurrency(amount, currency = 'USD', showSign = false) {
+function formatCurrency(amount, currency = 'EGP', showSign = false) {
   const isNegative = amount < 0;
   const absAmount = Math.abs(amount);
 
   // Format with locale and currency
-  const formatted = new Intl.NumberFormat('en-US', {
+  const formatted = new Intl.NumberFormat('en-EG', {
     style: 'currency',
     currency: currency,
     minimumFractionDigits: 2,
@@ -176,13 +176,13 @@ function getGreeting(name = 'User') {
  * @param {HTMLElement} element - the element to put the number in
  * @param {number} target - the final number to count to
  * @param {number} [duration=600] - animation duration in ms
- * @param {string} [prefix='$'] - prefix (e.g. "$" or "€")
+ * @param {string} [prefix='EGP '] - prefix (e.g. "EGP " or "€")
  * @param {number} [decimals=2] - decimal places
  * 
  * USAGE:
  *   animateCounter(document.getElementById('net-worth'), 125430.50);
  */
-function animateCounter(element, target, duration = 600, prefix = '$', decimals = 2) {
+function animateCounter(element, target, duration = 600, prefix = 'EGP ', decimals = 2) {
   // Get the starting value from whatever is currently displayed
   const startText = element.textContent.replace(/[^0-9.\-]/g, '');
   const start = parseFloat(startText) || 0;

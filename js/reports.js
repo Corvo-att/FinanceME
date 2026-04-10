@@ -51,10 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
           label += ': ';
         }
         if (context.parsed.y !== null) {
-          label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+            label += new Intl.NumberFormat('en-EG', { style: 'currency', currency: 'EGP' }).format(context.parsed.y);
         } else if (context.parsed !== null) {
           // For pie charts
-          label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed);
+            label += new Intl.NumberFormat('en-EG', { style: 'currency', currency: 'EGP' }).format(context.parsed);
         }
         return label;
       }
@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
           
           ctx.font = "400 " + (fontSize * 0.7) + "em " + fonts.mono;
           ctx.fillStyle = colors.textSecondary;
-          var text2 = "$5,100",
+            var text2 = "EGP 5,100",
               text2X = Math.round((width - ctx.measureText(text2).width) / 2),
               text2Y = height / 2 + 15;
               

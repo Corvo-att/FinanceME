@@ -10,7 +10,7 @@
 (function () {
   "use strict";
 
-  const DEFAULT_CURRENCY = "USD";
+  const DEFAULT_CURRENCY = "EGP";
 
   const BILL_EVENTS = [
     { day: 2, name: "Rent", amount: 1850, status: "due", autopay: true },
@@ -568,7 +568,7 @@
       const realValue = futureValue / inflationFactor;
 
       if (resultValue) resultValue.textContent = formatCurrency(futureValue);
-      if (resultReal) resultReal.textContent = `${formatCurrency(realValue)} in today's dollars`;
+      if (resultReal) resultReal.textContent = `${formatCurrency(realValue)} in today's pounds`;
 
       if (curveSvg) drawInvestmentCurve(curveSvg, timeline);
       if (milestonesContainer) renderMilestones(milestonesContainer, timeline, years);
@@ -726,7 +726,7 @@
       return window.formatCurrency(value, DEFAULT_CURRENCY, false);
     }
 
-    return new Intl.NumberFormat("en-US", {
+    return new Intl.NumberFormat("en-EG", {
       style: "currency",
       currency: DEFAULT_CURRENCY,
       minimumFractionDigits: 2,
@@ -738,9 +738,9 @@
     const abs = Math.abs(value);
     const sign = value < 0 ? "-" : "";
 
-    if (abs >= 1000000) return `${sign}$${(abs / 1000000).toFixed(1)}M`;
-    if (abs >= 1000) return `${sign}$${(abs / 1000).toFixed(1)}k`;
-    return `${sign}$${abs.toFixed(0)}`;
+    if (abs >= 1000000) return `${sign}EGP ${(abs / 1000000).toFixed(1)}M`;
+    if (abs >= 1000) return `${sign}EGP ${(abs / 1000).toFixed(1)}k`;
+    return `${sign}EGP ${abs.toFixed(0)}`;
   }
 
   function roundToTwo(value) {

@@ -362,7 +362,7 @@
 
     function formatPreviewBalance() {
       var amount = Number(openingBalanceInput && openingBalanceInput.value ? openingBalanceInput.value : 0);
-      var currencyCode = currencySelect && currencySelect.value ? currencySelect.value : "USD";
+      var currencyCode = currencySelect && currencySelect.value ? currencySelect.value : "EGP";
 
       try {
         return amount.toLocaleString(undefined, { style: "currency", currency: currencyCode });
@@ -598,7 +598,7 @@
     if (!el) return;
     var finalValue = forceNegative ? -Math.abs(value) : value;
     if (animate && typeof animateCounter === "function") {
-      animateCounter(el, finalValue, 700, "$", 2);
+      animateCounter(el, finalValue, 700, "E£", 2);
       return;
     }
     el.textContent = currency ? formatCurrencyFromNumber(finalValue) : String(finalValue);
@@ -618,7 +618,7 @@
 
   function formatCurrencyFromNumber(value) {
     var abs = Math.abs(value);
-    var formatted = "$" + abs.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    var formatted = "E£" + abs.toLocaleString("en-EG", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     return value < 0 ? "-" + formatted : formatted;
   }
 

@@ -7,7 +7,7 @@ const dashboardData = {
   signals: [
     { label: "Liquidity Buffer", value: "41 days", tone: "good" },
     { label: "Debt Utilization", value: "18%", tone: "watch" },
-    { label: "Subscriptions", value: "$112 / month", tone: "risk" },
+    { label: "Subscriptions", value: "EGP 112 / month", tone: "risk" },
     { label: "Autopay Coverage", value: "92%", tone: "good" },
   ],
   kpis: {
@@ -19,7 +19,7 @@ const dashboardData = {
     },
     cashOnHand: {
       value: 44551.04,
-      delta: "+$2,250 this week",
+      delta: "+EGP 2,250 this week",
       spark: [39800, 40550, 41000, 41900, 42150, 42500, 42900, 43340, 43700, 44010, 44300, 44551],
       color: "#4C8EF5",
     },
@@ -504,13 +504,13 @@ function formatMoney(value) {
     return formatCurrency(value);
   }
 
-  const abs = Math.abs(value).toLocaleString("en-US", {
+  const abs = Math.abs(value).toLocaleString("en-EG", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
 
-  if (value < 0) return `-$${abs}`;
-  return `$${abs}`;
+  if (value < 0) return `-EGP ${abs}`;
+  return `EGP ${abs}`;
 }
 
 function formatDateSafe(date, style) {

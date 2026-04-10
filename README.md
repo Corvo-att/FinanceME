@@ -192,8 +192,8 @@ If a page needs a slightly different gradient, override banner variables in that
 loadComponent('components/sidebar.html', 'sidebar-container', callback);
 
 // Format money — always outputs monospace-friendly text
-formatCurrency(1500);              // "$1,500.00"
-formatCurrency(-320, 'USD', true); // "−$320.00"
+formatCurrency(1500);              // "EGP 1,500.00"
+formatCurrency(-320, 'EGP', true); // "−EGP 320.00"
 
 // Format dates
 formatDate(new Date(), 'full');     // "Friday, March 7, 2026"

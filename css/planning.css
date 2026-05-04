@@ -323,18 +323,60 @@
 }
 
 .bill-item {
-  display: flex;
-  justify-content: space-between;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-md);
   align-items: center;
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border-subtle);
-  background: var(--bg-elevated);
+  background:
+    linear-gradient(135deg, rgba(201, 168, 76, 0.08), transparent 42%),
+    var(--bg-elevated);
+  overflow: hidden;
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.bill-item::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: linear-gradient(
+    180deg,
+    var(--accent-gold),
+    rgba(76, 142, 245, 0.9)
+  );
+}
+
+.bill-item:hover {
+  transform: translateY(-1px);
+  border-color: rgba(201, 168, 76, 0.35);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
 }
 
 .bill-item--urgent {
   border-color: rgba(224, 92, 92, 0.5);
   box-shadow: inset 2px 0 0 var(--negative);
+}
+
+.bill-item--urgent::before {
+  background: linear-gradient(
+    180deg,
+    var(--negative),
+    rgba(232, 168, 58, 0.85)
+  );
+}
+
+.bill-item__name,
+.bill-item__meta,
+.bill-item__amount {
+  position: relative;
+  z-index: 1;
 }
 
 .bill-item__name {
@@ -349,14 +391,122 @@
   color: var(--text-secondary);
 }
 
+.bill-list-empty {
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.bill-list-empty__title {
+  font-size: var(--text-body);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.bill-list-empty__copy {
+  margin-top: var(--space-xs);
+  color: var(--text-secondary);
+  font-size: var(--text-caption);
+  line-height: 1.5;
+}
+
+.bill-card__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.bill-card__count {
+  font-size: var(--text-caption);
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.bill-entry-panel {
+  margin-bottom: 0;
+  padding: 0 var(--space-lg);
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  background: transparent;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition:
+    max-height 320ms ease,
+    opacity 220ms ease,
+    transform 220ms ease,
+    padding 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease;
+}
+
+.bill-entry-panel.is-open {
+  margin-bottom: var(--space-md);
+  padding: var(--space-md);
+  border-color: var(--border-subtle);
+  background: var(--bg-elevated);
+  max-height: 720px;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.bill-entry-panel__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-xs);
+  font-size: 11px;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+}
+
+.bill-entry-panel__copy {
+  margin: 0 0 var(--space-md);
+  color: var(--text-secondary);
+  font-size: var(--text-caption);
+  line-height: 1.5;
+}
+
+.bill-entry-form {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.bill-entry-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
+.bill-entry-panel__actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
 .bill-item__amount {
   text-align: right;
   font-family: var(--font-mono);
   font-size: var(--text-data-sm);
+  display: grid;
+  justify-items: end;
+  gap: 2px;
 }
 
 .bill-item__amount strong {
   color: var(--text-primary);
+}
+
+.bill-item__amount .btn {
+  margin-top: var(--space-xs);
 }
 
 .bill-item__status {
@@ -376,6 +526,10 @@
 
 .bill-item__status.is-scheduled {
   color: var(--accent-blue);
+}
+
+.bill-entry-toggle {
+  min-width: 132px;
 }
 
 /* ----------------------------

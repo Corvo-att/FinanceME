@@ -11,16 +11,39 @@
   "use strict";
 
   const DEFAULT_CURRENCY = "EGP";
+  const STORAGE_KEYS = {
+    bills: "financeme.planning.bills",
+    forecast: "financeme.planning.forecast",
+    debts: "financeme.planning.debts",
+    investment: "financeme.planning.investment"
+  };
 
-  const BILL_EVENTS = [
-    { day: 2, name: "Rent", amount: 1850, status: "due", autopay: true },
-    { day: 5, name: "Streaming Bundle", amount: 31.99, status: "upcoming", autopay: true },
-    { day: 9, name: "Car Insurance", amount: 127.5, status: "upcoming", autopay: false },
-    { day: 14, name: "Internet", amount: 64, status: "scheduled", autopay: true },
-    { day: 18, name: "Credit Card", amount: 420, status: "due", autopay: false },
-    { day: 22, name: "Phone", amount: 78, status: "scheduled", autopay: true },
-    { day: 27, name: "Gym", amount: 45, status: "scheduled", autopay: true }
-  ];
+  function readJsonStorage(key, fallback) {
+    if (!window.localStorage) return fallback;
+
+    try {
+      const raw = window.localStorage.getItem(key);
+      if (!raw) return fallback;
+
+      return JSON.parse(raw);
+    } catch (error) {
+      return fallback;
+    }
+  }
+
+  function writeJsonStorage(key, value) {
+    if (!window.localStorage) return;
+
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      // Ignore storage quota and privacy mode failures.
+    }
+  }
+
+  function createId(prefix) {
+    return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  }
 
   document.addEventListener("DOMContentLoaded", function () {
     initBillCalendarPage();
@@ -41,7 +64,18 @@
     const summaryDue = document.getElementById("bill-summary-due");
     const summaryAutopay = document.getElementById("bill-summary-autopay");
     const summaryCount = document.getElementById("bill-summary-count");
+    const summaryCountInline = document.getElementById("bill-summary-count-inline");
     const billList = document.getElementById("bill-list");
+    const billForm = document.getElementById("bill-form");
+    const billFormPanel = document.getElementById("bill-form-panel");
+    const billFormToggle = document.getElementById("bill-form-toggle");
+    const billNameInput = document.getElementById("bill-name");
+    const billDayInput = document.getElementById("bill-day");
+    const billAmountInput = document.getElementById("bill-amount");
+    const billStatusInput = document.getElementById("bill-status");
+    const billAutopayInput = document.getElementById("bill-autopay");
+
+    let billEvents = normalizeBillEvents(readJsonStorage(STORAGE_KEYS.bills, []));
 
     const now = new Date();
     const year = now.getFullYear();
@@ -51,15 +85,77 @@
       monthLabel.textContent = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(now);
     }
 
-    renderCalendarMonth(calendarGrid, year, month, BILL_EVENTS);
-    renderBillList(billList, BILL_EVENTS);
+    function setBillFormOpen(isOpen) {
+      if (billFormPanel) billFormPanel.classList.toggle("is-open", isOpen);
+      if (billFormToggle) billFormToggle.setAttribute("aria-expanded", String(isOpen));
+    }
 
-    const totalDue = BILL_EVENTS.reduce((sum, event) => sum + event.amount, 0);
-    const autoPayCount = BILL_EVENTS.filter((event) => event.autopay).length;
+    function renderBillCalendar() {
+      renderCalendarMonth(calendarGrid, year, month, billEvents);
+      renderBillList(billList, billEvents, function (id) {
+        billEvents = billEvents.filter((event) => event.id !== id);
+        persistBillEvents();
+        renderBillCalendar();
+      });
 
-    if (summaryDue) summaryDue.textContent = formatCurrency(totalDue);
-    if (summaryAutopay) summaryAutopay.textContent = `${autoPayCount}/${BILL_EVENTS.length}`;
-    if (summaryCount) summaryCount.textContent = String(BILL_EVENTS.length);
+      const totalDue = billEvents.reduce((sum, event) => sum + event.amount, 0);
+      const autoPayCount = billEvents.filter((event) => event.autopay).length;
+
+      if (summaryDue) summaryDue.textContent = formatCurrency(totalDue);
+      if (summaryAutopay) summaryAutopay.textContent = `${autoPayCount}/${billEvents.length}`;
+      if (summaryCount) summaryCount.textContent = String(billEvents.length);
+      if (summaryCountInline) {
+        summaryCountInline.textContent = `${billEvents.length} item${billEvents.length === 1 ? "" : "s"}`;
+      }
+    }
+
+    function persistBillEvents() {
+      writeJsonStorage(STORAGE_KEYS.bills, billEvents);
+    }
+
+    if (billForm) {
+      billForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const name = billNameInput ? billNameInput.value.trim() : "";
+        const day = clampInteger(billDayInput ? billDayInput.value : "", 1, 31, 1);
+        const amount = parseMoney(billAmountInput ? billAmountInput.value : "0");
+        const status = normalizeBillStatus(billStatusInput ? billStatusInput.value : "scheduled");
+        const autopay = billAutopayInput ? billAutopayInput.value === "true" : false;
+
+        if (!name || amount <= 0) return;
+
+        billEvents = billEvents.concat([
+          {
+            id: createId("bill"),
+            name,
+            day,
+            amount,
+            status,
+            autopay
+          }
+        ]);
+
+        persistBillEvents();
+        renderBillCalendar();
+        billForm.reset();
+
+        if (billStatusInput) billStatusInput.value = "scheduled";
+        if (billAutopayInput) billAutopayInput.value = "false";
+        if (billNameInput) billNameInput.focus();
+        setBillFormOpen(true);
+      });
+    }
+
+    if (billFormToggle) {
+      billFormToggle.addEventListener("click", function () {
+        const isOpen = billFormPanel ? billFormPanel.classList.contains("is-open") : false;
+        setBillFormOpen(!isOpen);
+      });
+    }
+
+    renderBillCalendar();
+    setBillFormOpen(false);
   }
 
   function renderCalendarMonth(container, year, month, events) {
@@ -138,7 +234,7 @@
     }
   }
 
-  function renderBillList(container, events) {
+  function renderBillList(container, events, onRemove) {
     if (!container) return;
 
     const priority = { due: 0, upcoming: 1, scheduled: 2 };
@@ -150,6 +246,17 @@
     });
 
     container.innerHTML = "";
+
+    if (!sorted.length) {
+      const empty = document.createElement("div");
+      empty.className = "bill-list-empty";
+      empty.innerHTML = `
+        <div class="bill-list-empty__title">No upcoming payments yet</div>
+        <div class="bill-list-empty__copy">Use the entry panel above to add bills, transfers, or any custom recurring payment.</div>
+      `;
+      container.appendChild(empty);
+      return;
+    }
 
     sorted.forEach((event) => {
       const row = document.createElement("div");
@@ -168,16 +275,132 @@
         <div class="bill-item__status ${statusClass(event.status)}">${event.status}</div>
       `;
 
+      if (typeof onRemove === "function") {
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "btn btn-ghost btn-sm";
+        removeButton.style.marginTop = "var(--space-xs)";
+        removeButton.textContent = "Remove";
+        removeButton.addEventListener("click", function () {
+          onRemove(event.id);
+        });
+        right.appendChild(removeButton);
+      }
+
       row.appendChild(left);
       row.appendChild(right);
       container.appendChild(row);
     });
   }
 
+  function normalizeBillEvents(events) {
+    if (!Array.isArray(events)) return [];
+
+    return events
+      .map((event) => ({
+        id: event && event.id ? String(event.id) : createId("bill"),
+        name: String((event && event.name) || "").trim(),
+        day: clampInteger(event && event.day, 1, 31, 1),
+        amount: parseMoney(event && event.amount),
+        status: normalizeBillStatus(event && event.status),
+        autopay: Boolean(event && event.autopay)
+      }))
+      .filter((event) => event.name && event.amount > 0);
+  }
+
+  function normalizeBillStatus(status) {
+    if (status === "due" || status === "upcoming" || status === "scheduled") return status;
+    return "scheduled";
+  }
+
   function statusClass(status) {
     if (status === "due") return "is-due";
     if (status === "upcoming") return "is-upcoming";
     return "is-scheduled";
+  }
+
+  function renderForecastEventList(container, events, onRemove) {
+    if (!container) return;
+
+    const sorted = [...(Array.isArray(events) ? events : [])].sort((a, b) => a.day - b.day);
+    container.innerHTML = "";
+
+    if (!sorted.length) {
+      const empty = document.createElement("div");
+      empty.className = "text-caption";
+      empty.style.color = "var(--text-secondary)";
+      empty.textContent = "Add cash events to drive the forecast.";
+      container.appendChild(empty);
+      return;
+    }
+
+    sorted.forEach((event) => {
+      const row = document.createElement("div");
+      row.className = `bill-item${event.amount < 0 ? " bill-item--urgent" : ""}`;
+
+      const left = document.createElement("div");
+      left.innerHTML = `
+        <div class="bill-item__name">${escapeHtml(event.label)}</div>
+        <div class="bill-item__meta">Day ${event.day}</div>
+      `;
+
+      const right = document.createElement("div");
+      right.className = "bill-item__amount";
+      right.innerHTML = `
+        <strong class="${event.amount >= 0 ? "is-positive" : "is-negative"}">${formatCurrency(Math.abs(event.amount))}</strong>
+        <div class="bill-item__status ${event.amount >= 0 ? "is-upcoming" : "is-due"}">${event.amount >= 0 ? "inflow" : "outflow"}</div>
+      `;
+
+      if (typeof onRemove === "function") {
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "btn btn-ghost btn-sm";
+        removeButton.style.marginTop = "var(--space-xs)";
+        removeButton.textContent = "Remove";
+        removeButton.addEventListener("click", function () {
+          onRemove(event.id);
+        });
+        right.appendChild(removeButton);
+      }
+
+      row.appendChild(left);
+      row.appendChild(right);
+      container.appendChild(row);
+    });
+  }
+
+  function normalizeForecastState(state) {
+    const fallback = {
+      balance: 0,
+      horizon: 60,
+      compare: true,
+      events: []
+    };
+
+    if (!state || typeof state !== "object") return fallback;
+
+    return {
+      balance: parseMoney(state.balance),
+      horizon: clampInteger(state.horizon, 1, 365, 60),
+      compare: state.compare !== false,
+      events: Array.isArray(state.events) ? state.events.map(normalizeForecastEvent).filter(Boolean) : []
+    };
+  }
+
+  function normalizeForecastEvent(event) {
+    if (!event || typeof event !== "object") return null;
+
+    const label = String(event.label || event.name || "").trim();
+    const amount = parseMoney(event.amount);
+
+    if (!label || amount === 0) return null;
+
+    return {
+      id: event.id ? String(event.id) : createId("forecast"),
+      day: clampInteger(event.day, 1, 365, 1),
+      label,
+      amount
+    };
   }
 
   /* ---------------------------------------------------------
@@ -190,48 +413,148 @@
 
     const segmentedButtons = Array.from(document.querySelectorAll(".segmented button[data-days]"));
     const compareToggle = document.getElementById("compare-toggle");
+    const balanceInput = document.getElementById("forecast-balance");
+    const horizonInput = document.getElementById("forecast-horizon");
+    const eventForm = document.getElementById("forecast-event-form");
+    const eventDayInput = document.getElementById("forecast-event-day");
+    const eventLabelInput = document.getElementById("forecast-event-label");
+    const eventAmountInput = document.getElementById("forecast-event-amount");
+    const eventTypeInput = document.getElementById("forecast-event-type");
+    const eventList = document.getElementById("forecast-event-list");
 
     const statEnding = document.getElementById("forecast-ending-balance");
     const statLow = document.getElementById("forecast-low-point");
     const statRunway = document.getElementById("forecast-runway");
     const noteEl = document.getElementById("forecast-note");
 
-    let horizonDays = 60;
-    let compareEnabled = true;
+    let forecastState = normalizeForecastState(readJsonStorage(STORAGE_KEYS.forecast, null));
+
+    function persistForecastState() {
+      writeJsonStorage(STORAGE_KEYS.forecast, forecastState);
+    }
+
+    function syncForecastControls() {
+      if (balanceInput) balanceInput.value = forecastState.balance ? String(forecastState.balance) : "";
+      if (horizonInput) horizonInput.value = String(forecastState.horizon);
+      if (compareToggle) compareToggle.checked = forecastState.compare;
+
+      if (eventTypeInput) eventTypeInput.value = "outflow";
+      if (eventDayInput) eventDayInput.value = "";
+      if (eventLabelInput) eventLabelInput.value = "";
+      if (eventAmountInput) eventAmountInput.value = "";
+    }
+
+    function activeHorizon() {
+      return clampInteger(horizonInput ? horizonInput.value : forecastState.horizon, 1, 365, forecastState.horizon);
+    }
+
+    function updatePresetButtons() {
+      const horizon = activeHorizon();
+      segmentedButtons.forEach((button) => {
+        button.classList.toggle("is-active", Number(button.dataset.days || "0") === horizon);
+      });
+    }
+
+    function renderForecastEvents() {
+      renderForecastEventList(eventList, forecastState.events, function (id) {
+        forecastState.events = forecastState.events.filter((event) => event.id !== id);
+        persistForecastState();
+        recompute();
+      });
+    }
 
     function recompute() {
-      const projection = buildProjection(horizonDays);
-      const compare = buildProjection(horizonDays, 0.93);
+      forecastState.balance = parseMoney(balanceInput ? balanceInput.value : forecastState.balance);
+      forecastState.horizon = activeHorizon();
+      forecastState.compare = compareToggle ? compareToggle.checked : forecastState.compare;
 
-      drawProjection(chartSvg, projection, compareEnabled ? compare : null);
+      persistForecastState();
 
-      const ending = projection[projection.length - 1];
-      const lowPoint = projection.reduce((min, value) => (value < min ? value : min), Number.POSITIVE_INFINITY);
+      const projection = buildProjection(forecastState.horizon, forecastState.balance, forecastState.events);
+      const compare = buildProjection(
+        forecastState.horizon,
+        forecastState.balance * 0.93,
+        forecastState.events,
+        0.93
+      );
+
+      drawProjection(chartSvg, projection, forecastState.compare ? compare : null);
+
+      const ending = projection.length ? projection[projection.length - 1] : forecastState.balance;
+      const lowPoint = projection.length
+        ? projection.reduce((min, value) => (value < min ? value : min), Number.POSITIVE_INFINITY)
+        : forecastState.balance;
 
       if (statEnding) statEnding.textContent = formatCurrency(ending);
       if (statLow) statLow.textContent = formatCurrency(lowPoint);
-      if (statRunway) statRunway.textContent = `${Math.round(horizonDays / 30)} mo`;
+      if (statRunway) statRunway.textContent = `${Math.max(1, Math.ceil(forecastState.horizon / 30))} mo`;
 
       if (noteEl) {
-        const riskText = lowPoint < 1000
-          ? "Risk: projected buffer drops below safety floor."
-          : "Healthy: projected buffer remains above safety floor.";
-        noteEl.textContent = `${riskText} Consider moving one discretionary payment window to improve stability.`;
+        const riskText = lowPoint < forecastState.balance * 0.7
+          ? "Risk: projected buffer falls sharply against your starting balance."
+          : "Healthy: projected buffer stays within your chosen horizon.";
+        noteEl.textContent = `${riskText} Add or remove cash events to model a different payment path.`;
       }
+
+      updatePresetButtons();
+      renderForecastEvents();
+    }
+
+    syncForecastControls();
+
+    if (balanceInput) {
+      balanceInput.addEventListener("input", function () {
+        forecastState.balance = parseMoney(balanceInput.value);
+        recompute();
+      });
+    }
+
+    if (horizonInput) {
+      horizonInput.addEventListener("input", function () {
+        forecastState.horizon = activeHorizon();
+        recompute();
+      });
+    }
+
+    if (eventForm) {
+      eventForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const label = eventLabelInput ? eventLabelInput.value.trim() : "";
+        const day = clampInteger(eventDayInput ? eventDayInput.value : "", 1, 365, 1);
+        const amount = parseMoney(eventAmountInput ? eventAmountInput.value : "0");
+        const type = eventTypeInput ? eventTypeInput.value : "outflow";
+
+        if (!label || amount <= 0) return;
+
+        forecastState.events = forecastState.events.concat([
+          normalizeForecastEvent({
+            id: createId("forecast"),
+            day,
+            label,
+            amount: type === "inflow" ? amount : -amount
+          })
+        ]);
+
+        persistForecastState();
+        syncForecastControls();
+        recompute();
+      });
     }
 
     segmentedButtons.forEach((button) => {
       button.addEventListener("click", function () {
         segmentedButtons.forEach((btn) => btn.classList.remove("is-active"));
         button.classList.add("is-active");
-        horizonDays = Number(button.dataset.days || "60");
+        forecastState.horizon = Number(button.dataset.days || forecastState.horizon);
+        if (horizonInput) horizonInput.value = String(forecastState.horizon);
         recompute();
       });
     });
 
     if (compareToggle) {
       compareToggle.addEventListener("change", function () {
-        compareEnabled = compareToggle.checked;
+        forecastState.compare = compareToggle.checked;
         recompute();
       });
     }
@@ -239,20 +562,26 @@
     recompute();
   }
 
-  function buildProjection(days, incomeFactor) {
-    const factor = typeof incomeFactor === "number" ? incomeFactor : 1;
+  function buildProjection(days, startingBalance, events, compareFactor) {
+    const factor = typeof compareFactor === "number" ? compareFactor : 1;
 
-    let balance = 6850;
+    const eventMap = new Map();
+    (Array.isArray(events) ? events : []).forEach((event) => {
+      const day = clampInteger(event.day, 1, 365, 1);
+      const dayEvents = eventMap.get(day) || [];
+      dayEvents.push(event);
+      eventMap.set(day, dayEvents);
+    });
+
+    let balance = parseMoney(startingBalance);
     const values = [];
 
     for (let day = 1; day <= days; day += 1) {
-      const baseExpense = 74 + (day % 6) * 8;
-      const recurringExpense = day % 14 === 0 ? 210 : 0;
-      const payday = day % 15 === 0 ? 1800 * factor : 0;
-
-      balance += payday;
-      balance -= baseExpense;
-      balance -= recurringExpense;
+      const dayEvents = eventMap.get(day) || [];
+      dayEvents.forEach((event) => {
+        const amount = event.amount >= 0 ? event.amount * factor : event.amount / factor;
+        balance += amount;
+      });
 
       values.push(roundToTwo(balance));
     }
@@ -277,11 +606,11 @@
     const yMax = Math.ceil((max + 400) / 100) * 100;
 
     function xScale(index) {
-      return padding.left + (index / (series.length - 1)) * (width - padding.left - padding.right);
+      return padding.left + (index / (series.length - 1 || 1)) * (width - padding.left - padding.right);
     }
 
     function yScale(value) {
-      return padding.top + ((yMax - value) / (yMax - yMin)) * (height - padding.top - padding.bottom);
+      return padding.top + ((yMax - value) / (yMax - yMin || 1)) * (height - padding.top - padding.bottom);
     }
 
     for (let i = 0; i < 5; i += 1) {
@@ -350,18 +679,25 @@
     const payoffPlan = document.getElementById("payoff-plan");
 
     let payoffMethod = "snowball";
+    const storedDebts = normalizeDebtRows(readJsonStorage(STORAGE_KEYS.debts, []));
 
-    const seedDebts = [
-      { name: "Visa", balance: 4200, apr: 24.9, minPayment: 120 },
-      { name: "Car Loan", balance: 9500, apr: 6.2, minPayment: 220 },
-      { name: "Student Loan", balance: 13800, apr: 4.8, minPayment: 165 }
-    ];
+    if (storedDebts.length) {
+      storedDebts.forEach((debt) => appendDebtRow(tableBody, debt, persistDebtRows));
+    } else {
+      appendDebtRow(tableBody, { name: "", balance: "", apr: "", minPayment: "" }, persistDebtRows);
+    }
 
-    seedDebts.forEach((debt) => appendDebtRow(tableBody, debt));
+    function persistDebtRows() {
+      writeJsonStorage(STORAGE_KEYS.debts, readDebtRows(tableBody));
+    }
+
+    tableBody.addEventListener("input", persistDebtRows);
+    tableBody.addEventListener("change", persistDebtRows);
 
     if (addButton) {
       addButton.addEventListener("click", function () {
-        appendDebtRow(tableBody, { name: "", balance: 0, apr: 0, minPayment: 0 });
+        appendDebtRow(tableBody, { name: "", balance: "", apr: "", minPayment: "" }, persistDebtRows);
+        persistDebtRows();
       });
     }
 
@@ -387,6 +723,7 @@
         if (metricFinish) metricFinish.textContent = result.finishDate;
 
         renderPayoffPlan(payoffPlan, result.sequence, result.months);
+        persistDebtRows();
       });
     }
 
@@ -394,13 +731,13 @@
     if (calcButton) calcButton.click();
   }
 
-  function appendDebtRow(container, debt) {
+  function appendDebtRow(container, debt, onRemove) {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td><input type="text" value="${escapeHtml(debt.name)}" placeholder="Debt name" /></td>
-      <td><input type="number" min="0" step="0.01" value="${debt.balance}" /></td>
-      <td><input type="number" min="0" step="0.01" value="${debt.apr}" /></td>
-      <td><input type="number" min="0" step="0.01" value="${debt.minPayment}" /></td>
+      <td><input type="text" value="${escapeHtml(debt.name || "")}" placeholder="Debt name" /></td>
+      <td><input type="number" min="0" step="0.01" value="${debt.balance ?? ""}" /></td>
+      <td><input type="number" min="0" step="0.01" value="${debt.apr ?? ""}" /></td>
+      <td><input type="number" min="0" step="0.01" value="${debt.minPayment ?? ""}" /></td>
       <td>
         <button class="btn btn-ghost btn-sm" type="button" aria-label="Remove debt">Remove</button>
       </td>
@@ -410,6 +747,7 @@
     if (removeBtn) {
       removeBtn.addEventListener("click", function () {
         row.remove();
+        if (typeof onRemove === "function") onRemove();
       });
     }
 
@@ -430,6 +768,45 @@
         };
       })
       .filter((debt) => debt.balance > 0 && debt.minPayment > 0);
+  }
+
+  function normalizeDebtRows(debts) {
+    if (!Array.isArray(debts)) return [];
+
+    return debts
+      .map((debt) => ({
+        name: String((debt && debt.name) || "").trim(),
+        balance: parseMoney(debt && debt.balance),
+        apr: parseMoney(debt && debt.apr),
+        minPayment: parseMoney(debt && debt.minPayment)
+      }))
+      .filter((debt) => debt.name && debt.balance > 0 && debt.minPayment > 0);
+  }
+
+  function normalizeInvestmentState(state) {
+    if (!state || typeof state !== "object") {
+      return {
+        principal: 0,
+        monthlyContribution: 0,
+        annualReturn: 0,
+        investmentYears: 1,
+        inflationRate: 0
+      };
+    }
+
+    return {
+      principal: parseMoney(state.principal),
+      monthlyContribution: parseMoney(state.monthlyContribution),
+      annualReturn: parseMoney(state.annualReturn),
+      investmentYears: clampInteger(state.investmentYears, 1, 50, 1),
+      inflationRate: parseMoney(state.inflationRate)
+    };
+  }
+
+  function clampInteger(value, min, max, fallback) {
+    const num = Math.floor(parseMoney(value));
+    if (!Number.isFinite(num)) return fallback;
+    return Math.min(max, Math.max(min, num || fallback));
   }
 
   function simulatePayoff(debts, extraPayment, method) {
@@ -549,16 +926,43 @@
     const form = document.getElementById("investment-form");
     if (!form) return;
 
+    const principalInput = document.getElementById("principal");
+    const monthlyInput = document.getElementById("monthly-contribution");
+    const returnInput = document.getElementById("annual-return");
+    const yearsInput = document.getElementById("investment-years");
+    const inflationInput = document.getElementById("inflation-rate");
     const resultValue = document.getElementById("projected-future-value");
     const resultReal = document.getElementById("projected-real-value");
     const curveSvg = document.getElementById("projector-curve-svg");
     const milestonesContainer = document.getElementById("projector-milestones");
 
+    const storedInvestment = normalizeInvestmentState(readJsonStorage(STORAGE_KEYS.investment, null));
+
+    function syncInvestmentInputs() {
+      if (principalInput) principalInput.value = storedInvestment.principal > 0 ? String(storedInvestment.principal) : "";
+      if (monthlyInput) monthlyInput.value = storedInvestment.monthlyContribution > 0 ? String(storedInvestment.monthlyContribution) : "";
+      if (returnInput) returnInput.value = storedInvestment.annualReturn > 0 ? String(storedInvestment.annualReturn) : "";
+      if (yearsInput) yearsInput.value = storedInvestment.investmentYears > 0 ? String(storedInvestment.investmentYears) : "";
+      if (inflationInput) inflationInput.value = storedInvestment.inflationRate > 0 ? String(storedInvestment.inflationRate) : "";
+    }
+
+    function persistInvestmentState() {
+      writeJsonStorage(STORAGE_KEYS.investment, {
+        principal: parseMoney(principalInput ? principalInput.value : "0"),
+        monthlyContribution: parseMoney(monthlyInput ? monthlyInput.value : "0"),
+        annualReturn: parseMoney(returnInput ? returnInput.value : "0"),
+        investmentYears: clampInteger(yearsInput ? yearsInput.value : "", 1, 50, 1),
+        inflationRate: parseMoney(inflationInput ? inflationInput.value : "0")
+      });
+    }
+
+    syncInvestmentInputs();
+
     function computeProjection() {
       const principal = parseMoney(getInputValue("principal"));
       const monthly = parseMoney(getInputValue("monthly-contribution"));
       const annualReturn = parseMoney(getInputValue("annual-return"));
-      const years = Math.max(1, Math.floor(parseMoney(getInputValue("investment-years"))));
+      const years = clampInteger(getInputValue("investment-years"), 1, 50, 1);
       const inflation = Math.max(0, parseMoney(getInputValue("inflation-rate")));
 
       const timeline = buildInvestmentTimeline(principal, monthly, annualReturn, years);
@@ -572,6 +976,8 @@
 
       if (curveSvg) drawInvestmentCurve(curveSvg, timeline);
       if (milestonesContainer) renderMilestones(milestonesContainer, timeline, years);
+
+      persistInvestmentState();
     }
 
     form.addEventListener("input", computeProjection);

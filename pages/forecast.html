@@ -173,43 +173,132 @@
 
             <article class="planning-card col-span-4">
               <header class="planning-card__header">
-                <h2 class="planning-card__title">Known cash events</h2>
-                <span class="planning-card__hint">Next 30 days</span>
+                <h2 class="planning-card__title">Cash events</h2>
+                <span class="planning-card__hint">Enter your own schedule</span>
               </header>
 
-              <div class="bill-list">
-                <div class="bill-item">
-                  <div>
-                    <div class="bill-item__name">Salary Deposit</div>
-                    <div class="bill-item__meta">Day 15</div>
+              <form
+                id="forecast-event-form"
+                class="projector-form"
+                autocomplete="off"
+              >
+                <div
+                  class="planning-grid-12"
+                  style="
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    gap: var(--space-sm);
+                  "
+                >
+                  <div class="form-group" style="margin: 0">
+                    <label class="form-label" for="forecast-balance"
+                      >Starting balance</label
+                    >
+                    <input
+                      class="form-input"
+                      id="forecast-balance"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      placeholder="0.00"
+                    />
                   </div>
-                  <div class="bill-item__amount is-positive">+EGP 1,800</div>
+
+                  <div class="form-group" style="margin: 0">
+                    <label class="form-label" for="forecast-horizon"
+                      >Forecast horizon (days)</label
+                    >
+                    <input
+                      class="form-input"
+                      id="forecast-horizon"
+                      type="number"
+                      min="1"
+                      max="365"
+                      step="1"
+                      placeholder="60"
+                    />
+                  </div>
                 </div>
 
-                <div class="bill-item bill-item--urgent">
-                  <div>
-                    <div class="bill-item__name">Credit Card Due</div>
-                    <div class="bill-item__meta">Day 18</div>
+                <div
+                  class="planning-grid-12"
+                  style="
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    gap: var(--space-sm);
+                  "
+                >
+                  <div class="form-group" style="margin: 0">
+                    <label class="form-label" for="forecast-event-day"
+                      >Event day</label
+                    >
+                    <input
+                      class="form-input"
+                      id="forecast-event-day"
+                      type="number"
+                      min="1"
+                      max="365"
+                      step="1"
+                      placeholder="1"
+                    />
                   </div>
-                  <div class="bill-item__amount is-negative">-EGP 420</div>
+
+                  <div class="form-group" style="margin: 0">
+                    <label class="form-label" for="forecast-event-label"
+                      >Label</label
+                    >
+                    <input
+                      class="form-input"
+                      id="forecast-event-label"
+                      type="text"
+                      placeholder="Salary, rent, transfer"
+                    />
+                  </div>
                 </div>
 
-                <div class="bill-item">
-                  <div>
-                    <div class="bill-item__name">Insurance Premium</div>
-                    <div class="bill-item__meta">Day 21</div>
+                <div
+                  class="planning-grid-12"
+                  style="
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    gap: var(--space-sm);
+                  "
+                >
+                  <div class="form-group" style="margin: 0">
+                    <label class="form-label" for="forecast-event-amount"
+                      >Amount</label
+                    >
+                    <input
+                      class="form-input"
+                      id="forecast-event-amount"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      placeholder="0.00"
+                    />
                   </div>
-                  <div class="bill-item__amount is-warning">-EGP 127</div>
+
+                  <div class="form-group" style="margin: 0">
+                    <label class="form-label" for="forecast-event-type"
+                      >Type</label
+                    >
+                    <select class="form-input" id="forecast-event-type">
+                      <option value="outflow">Outflow</option>
+                      <option value="inflow">Inflow</option>
+                    </select>
+                  </div>
                 </div>
 
-                <div class="bill-item">
-                  <div>
-                    <div class="bill-item__name">Freelance Retainer</div>
-                    <div class="bill-item__meta">Day 26</div>
-                  </div>
-                  <div class="bill-item__amount is-positive">+EGP 600</div>
+                <div
+                  style="display: flex; gap: var(--space-sm); flex-wrap: wrap"
+                >
+                  <button class="btn btn-primary btn-sm" type="submit">
+                    Add cash event
+                  </button>
+                  <button class="btn btn-secondary btn-sm" type="reset">
+                    Clear
+                  </button>
                 </div>
-              </div>
+              </form>
+
+              <div id="forecast-event-list" class="bill-list"></div>
             </article>
           </section>
 
@@ -250,12 +339,16 @@
                   <tr>
                     <td>Balance below EGP 1,500</td>
                     <td>Pause variable subscriptions</td>
-                    <td class="col-amount data-figure-sm is-positive">+EGP 95</td>
+                    <td class="col-amount data-figure-sm is-positive">
+                      +EGP 95
+                    </td>
                   </tr>
                   <tr>
                     <td>Unexpected repair > EGP 400</td>
                     <td>Shift transfer to next payday</td>
-                    <td class="col-amount data-figure-sm is-positive">+EGP 280</td>
+                    <td class="col-amount data-figure-sm is-positive">
+                      +EGP 280
+                    </td>
                   </tr>
                   <tr>
                     <td>Income delay > 5 days</td>
